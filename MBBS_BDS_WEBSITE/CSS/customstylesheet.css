@@ -1,0 +1,36 @@
+﻿.golden-text {
+    color: gold !important;
+}
+
+.small{
+    font-size:13px;
+}
+
+.boxshadow{
+    box-shadow: 0px 0px 12px grey;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.custom-textbox:valid {
+    box-shadow: 5px 5px 10px green;
+    
+}
+
+.custom-textbox:user-invalid{
+    box-shadow:5px 5px 10px red;
+}
+
+.custom-textbox:focus{
+    box-shadow:none;
+}
+
+.error-shadow {
+    box-shadow: 5px 5px 10px red;
+}
+

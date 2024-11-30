@@ -1,0 +1,195 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MBBSBDS.master.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.MBBSBDS" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <script>
+    function openAndPrint(url) {
+        // Open the page in a new tab
+        var newWindow = window.open(url, '_blank');
+
+        // Wait for the new page to load before triggering the print
+        newWindow.onload = function() {
+            newWindow.print();
+        };
+    }
+</script>
+    <style>
+    .disabled {
+        pointer-events: none; /* Prevents clicks and interactions */
+        opacity: 0.5; /* Makes it look faded or less prominent */
+        color: gray; /* Change the text color to indicate it's disabled */
+    }
+</style>
+
+
+         <%-- Meta tag for responsiveness --%>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+
+<%-- CSS --%>
+
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="fontawesome/css/all.css" rel="stylesheet" />
+<link href="CSS/customstylesheet.css" rel="stylesheet" />
+<link href="CSS/customstylesheet.css?v=1.1" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+<%-- JS --%>
+
+<script src="bootstrap/js/jquery-3.7.1.min.js"></script>
+<script src="bootstrap/js/popper.min.js"></script>
+ <script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="fontawesome/js/all.js"></script>
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+        <nav class="d-flex justify-content-between pt-1 pb-1" style="background-color: #496c8e; position: sticky; top: 0; left: 0; right: 0;">
+
+            <a href="#">
+                <img src="pictures/logo.png" class="ms-2" /></a>
+
+
+            <div style="text-align: center; color: white" class="ms-4">
+                <b>GOVERNMENT OF TAMIL NADU </b>
+                <br />
+                <b>SELECTION COMMITTEE, DIRECTORATE OF MEDICAL EDUCATION </b>
+                <br />
+                <b>ADMISSION TO TAMILNADU MBBS/BDS </b>
+                <br />
+                <b>APPLICATION FORM FOR GOVT. QUOTA SEATS IN GOVT. COLLEGES AND </b>
+                <br />
+                <b>GOVT. QUOTA SEATS IN SELF-FINANCING COLLEGES FOR 2025-2026 SESSION </b>
+
+            </div>
+
+
+            <div class="d-flex justify-content-between align-items-center me-3">
+
+                <h6 class="text-white me-2 pt-2" id="headname" runat="server">USERNAME</h6>
+                &nbsp;
+               
+                <div class="bg-warning" style="border-radius: 5px">
+                    <b style="padding:7px">
+                        <asp:LinkButton ID="btnLogout" runat="server" CssClass="text-black text-decoration-none" OnClick="btnLogout_Click">
+                          Logout
+                        </asp:LinkButton>
+                    </b>
+                </div>
+
+
+            </div>
+
+        </nav>
+
+
+        <!-- CENTER CONTENT -->
+
+        <div class="container-fluid " style="padding: 0; margin: 0;">
+
+
+            <div class="row" style="margin: 0;">
+                <!-- Set row margin to 0 -->
+                <div class="col-3" style="padding: 0; position: fixed;">
+                    <!-- Set padding to 0 for column -->
+
+                    <div style="background-color: #405f7d; color: white; height: 100vh;" class="ps-4 pt-3">
+    <ul class="navbar-nav mx-auto">
+        <li class="nav-item active" style="font-weight: 600; font-size: large">
+            <h6 id="lbPersonalInformation" runat="server" class="nav-link text-white" style="cursor: pointer;"  onclick="location.href='pinfo.aspx';">
+                <i class="fa fa-user"></i>&nbsp; Personal Information
+                <i id="personalInfoCheck" runat="server" class="fa fa-check ps-5" style="color: #ffbf35; font-size: 1.5em;" aria-hidden="true" visible="false"></i>
+            </h6>
+        </li>
+
+        <li class="nav-item active" style="font-weight: 600; font-size: large">
+            <h6 id="lbSpecialReservation" runat="server" class="nav-link text-white disabled" style="cursor: pointer;" onclick="location.href='splres.aspx';">
+                <i class="fa fa-superpower"></i>&nbsp; Special Reservation
+                <i id="specialResCheck"  runat="server" class="fa fa-check ps-5" style="color: #ffbf35; font-size: 1.5em;" aria-hidden="true" visible="false"></i>
+            </h6>
+        </li>
+
+        <li class="nav-item active" style="font-weight: 600; font-size: large">
+            <h6 id="lbAcademicSchooling" runat="server" class="nav-link text-white disabled" style="cursor: pointer;" onclick="location.href='sos.aspx';">
+                <i class="fa fa-book"></i>&nbsp; Academic & Schooling
+                <i id="academicSchoolingCheck" runat="server" class="fa fa-check ps-5" style="color: #ffbf35; font-size: 1.5em;" aria-hidden="true" visible="false"></i>
+            </h6>
+        </li>
+
+        <li class="nav-item active" style="font-weight: 600; font-size: large">
+            <h6 id="lbAdditionalInformation" runat="server" class="nav-link text-white disabled" style="cursor: pointer;" onclick="location.href='addinfo.aspx';">
+                <i class="fa fa-user"></i>&nbsp; Additional Information
+                <i id="additionalInfoCheck" runat="server" class="fa fa-check ps-3" style="color: #ffbf35; font-size: 1.5em;" aria-hidden="true" visible="false"></i>
+            </h6>
+        </li>
+
+        <li class="nav-item active" style="font-weight: 600; font-size: large">
+            <h6 id="lbDocumentsUpload" runat="server" class="nav-link text-white disabled" style="cursor: pointer;" onclick="location.href='upload.aspx';">
+                <i class="fa fa-upload"></i>&nbsp; Documents Upload
+                <i id="documentsUploadCheck" runat="server" class="fa fa-check ps-5" style="color: #ffbf35; font-size: 1.5em;" aria-hidden="true" visible="false"></i>
+            </h6>
+        </li>
+
+        <li class="nav-item active" style="font-weight: 600; font-size: large">
+            <h6 id="lbApplicationPreview" runat="server" class="nav-link text-white disabled" style="cursor: pointer;" onclick="location.href='apppreview.aspx';">
+                <i class="fa fa-eye"></i>&nbsp; Application Preview
+                <i id="applicationPreviewCheck" runat="server" class="fa fa-check ps-5" style="color: #ffbf35; font-size: 1.5em;" aria-hidden="true" visible="false"></i>        
+            </h6>
+        </li>
+
+       
+
+        <li style="background-color:lawngreen; width:85%" >
+            <h6 id="lbAppSubmit" runat="server" class="ps-1 pe-1 pt-1 pb-1 disabled"  style="cursor:pointer;" onclick="location.href='AppSubmit.aspx';" >  
+                <i class="fa fa-save ps-2"></i>&nbsp; Submit Your Application 
+
+            </h6>
+        </li>
+
+         <li class="nav-item active" style="font-weight: 600; font-size: large">
+     <h6 id="lbPrintDownload" runat="server" class="nav-link text-white " style="cursor: pointer;"  visible="false"  onclick="openAndPrint('appprint.aspx');">
+         <i class="fa fa-print"></i>&nbsp; Print / Download
+       
+     </h6>
+ </li>
+
+
+
+
+
+
+
+    </ul>
+</div>
+
+
+
+                </div>
+
+
+                <div class="col-9" style="padding: 0; padding-left: 25%; width: 100%;">
+
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server"></asp:ContentPlaceHolder>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </form>
+</body>
+</html>
+
+
+

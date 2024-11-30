@@ -1,0 +1,166 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MBBS.master.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.MBBS" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+
+
+      <%-- Meta tag for responsiveness --%>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+ <%-- CSS --%>
+
+ <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+ <link href="fontawesome/css/all.css" rel="stylesheet" />
+ <link href="CSS/customstylesheet.css" rel="stylesheet" />
+ <link href="CSS/customstylesheet.css?v=1.1" rel="stylesheet" />
+
+
+
+ <%-- JS --%>
+
+ <script src="bootstrap/js/jquery-3.7.1.min.js"></script>
+ <script src="bootstrap/js/popper.min.js"></script>
+ <script src="bootstrap/js/bootstrap.min.js"></script>
+ <script src="fontawesome/js/all.js"></script>
+
+
+
+
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+
+
+        <!--  HEADER  -->
+
+        <nav class="navbar navbar-expand-lg" style="background-color: #496c8e;">
+
+            <div class="container col-md-12 pt-1 pb-1">
+
+
+                <a href="#">
+                    <img src="pictures/logo.png" />
+                </a>
+                <div class="collapse navbar-collapse"></div>
+
+
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse " id="navbarSupportedContent">
+
+                    <span class="mx-auto" style="text-align: center; color: white" id="headcontent" runat="server">
+                        <b>GOVERNMENT OF TAMILNADU</b>
+                        <br />
+                        <b>DIRECTORATE OF MEDICAL EDUCATION</b>
+                        <br />
+                        <b>SELECTION COMMITTEE</b>
+                        <br />
+                        <b>ADMISSION TO TAMILNADU MBBS/BDS COURSES 2025-2026</b>
+
+                    </span>
+
+                    <ul class="navbar-nav mx-auto">
+
+                        <li class="nav-item active">
+                            <asp:LinkButton class="nav-link text-white" ID="lbHome" runat="server" OnClick="lbHome_Click">Home</asp:LinkButton>
+                        </li>
+
+                        <li class="nav-item">
+                            <asp:LinkButton class="nav-link" ID="lbAbout" runat="server"
+                                Style="color: rgba(255, 255, 255, 0.8);">About</asp:LinkButton>
+                        </li>
+
+                        <li class="nav-item">
+                            <asp:LinkButton class="nav-link golden-text" ID="lbLogin" runat="server" OnClick="lbLogin_Click">LogIn</asp:LinkButton>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <asp:LinkButton class="nav-link golden-text" ID="lbRegister" runat="server" OnClick="lbRegister_Click">Register</asp:LinkButton>
+                        </li>
+
+
+
+                    </ul>
+
+
+                </div>
+
+
+
+
+
+            </div>
+        </nav>
+
+
+
+
+        <!--  CONTENTS  -->
+
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+
+            </asp:ContentPlaceHolder>
+        </div>
+
+
+
+
+        <!--  FOOTER  -->
+
+        <footer id="footer" runat="server" style="background-color: #496c8e;" class="d-flex flex-row  justify-content-between ps-5 pe-5 pt-2 pb-2">
+
+
+            <span class="small pt-3 text-white" style="text-align: center;">Website
+                <br />
+                www.tnmedicalselection.org
+                <br />
+                www.tnhealth.org
+            </span>
+
+
+
+            <span class="small text-white" style="text-align: center;">Email
+                <br />
+                mbbsbds2020enquiry@gmail.com
+                <br />
+                Contact No.
+                <br />
+                044-2836 1674 / 044-2986 2045 / 044-2836
+                <br />
+                0675 / 044-2836 0674 / 044-2836 4884 
+            </span>
+
+
+
+            <span class="small text-white" style="text-align: center;">Contact
+                <br />
+                DIRECTORATE OF MEDICAL EDUCATION (DME),
+                <br />
+                Selection Committee
+                <br />
+                #162, Periyar E.V.R. High Road,
+                <br />
+                Kilpauk, Chennai-600010
+            </span>
+
+
+
+        </footer>
+
+
+
+    </form>
+</body>
+</html>
