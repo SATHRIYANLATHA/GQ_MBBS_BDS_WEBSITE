@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Esf;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
@@ -49,8 +50,9 @@ namespace MBBS_BDS_WEBSITE
         //    // Redirect to the next page (e.g., splres.aspx)
         //    Response.Redirect("splres.aspx");
 
-           
+
         //}
+
 
 
         protected void btnSaveContinue_Click(object sender, EventArgs e)
@@ -73,41 +75,44 @@ namespace MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE PersonalInformation SET NameOfTheParent=@NameOfTheParent,Nationality=@Nationality,MotherTongue=@MotherTongue,SchoolingStudied=@SchoolingStudied,Religion=@Religion,Nativity=@Nativity,Community=@Community,CasteWithSubCode=@CasteWithSubCode,CertificateNumber=@CertificateNumber,IssuedBy=@IssuedBy,IssuedTaluk=@IssuedTaluk,CommDistrict=@CommDistrict,IssuedDate=@IssuedDate WHERE LoginId=@LoginId";
+                        query = "UPDATE PersonalInformation SET NameOfTheParent=@NameOfTheParent, Nationality=@Nationality, MotherTongue=@MotherTongue, SchoolingStudied=@SchoolingStudied, Religion=@Religion, Nativity=@Nativity, Community=@Community, CasteWithSubCode=@CasteWithSubCode, CertificateNumber=@CertificateNumber, IssuedBy=@IssuedBy, IssuedTaluk=@IssuedTaluk, CommDistrict=@CommDistrict, IssuedDate=@IssuedDate WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO PersonalInformation(LoginId,NameOfTheParent,Nationality,MotherTongue,SchoolingStudied,Religion,Nativity,Community,CasteWithSubCode,CertificateNumber,IssuedBy,IssuedTaluk,CommDistrict,IssuedDate) VALUES (@LoginId,@NameOfTheParent,@Nationality,@MotherTongue,@SchoolingStudied,@Religion,@Nativity,@Community,@CasteWithSubCode,@CertificateNumber,@IssuedBy,@IssuedTaluk,@CommDistrict,@IssuedDate)";
+                        query = "INSERT INTO PersonalInformation(LoginId, NameOfTheParent, Nationality, MotherTongue, SchoolingStudied, Religion, Nativity, Community, CasteWithSubCode, CertificateNumber, IssuedBy, IssuedTaluk, CommDistrict, IssuedDate) VALUES (@LoginId, @NameOfTheParent, @Nationality, @MotherTongue, @SchoolingStudied, @Religion, @Nativity, @Community, @CasteWithSubCode, @CertificateNumber, @IssuedBy, @IssuedTaluk, @CommDistrict, @IssuedDate)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
 
                     cmd.Parameters.AddWithValue("@LoginId", LoginId);
                     cmd.Parameters.AddWithValue("@NameOfTheParent", txtParent.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Nationality", ddlNationality.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@MotherTongue", ddlMotherTongue.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@SchoolingStudied", ddlSchooling.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@Religion", ddlReligion.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@Nativity", ddlNativity.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@Community", ddlCommunity.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@CasteWithSubCode", ddlCaste.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@Nationality", ddlNationality.SelectedValue.Trim()); // Store ID of Nationality
+                    cmd.Parameters.AddWithValue("@MotherTongue", ddlMotherTongue.SelectedValue.Trim()); // Store ID of MotherTongue
+                    cmd.Parameters.AddWithValue("@SchoolingStudied", ddlSchooling.SelectedValue.Trim()); // Store ID of Schooling
+                    cmd.Parameters.AddWithValue("@Religion", ddlReligion.SelectedValue.Trim()); // Store ID of Religion
+                    cmd.Parameters.AddWithValue("@Nativity", ddlNativity.SelectedValue.Trim()); // Store ID of Nativity
+                    cmd.Parameters.AddWithValue("@Community", ddlCommunity.SelectedValue.Trim()); // Store ID of Community
+                    cmd.Parameters.AddWithValue("@CasteWithSubCode", ddlCaste.SelectedValue.Trim()); // Store ID of Caste
+
+                    if (ddlCommunity.SelectedValue.Trim() == "1")
+                    {
+                        txtCertificate.Text = "";
+                        txtIssuedby.Text = "";
+                        txtIssuedTaluk.Text = "";
+                        ddlDistrict.SelectedValue = "";
+                        txtDate.Text = "";
+                    }
+
                     cmd.Parameters.AddWithValue("@CertificateNumber", txtCertificate.Text.Trim());
                     cmd.Parameters.AddWithValue("@IssuedBy", txtIssuedby.Text.Trim());
                     cmd.Parameters.AddWithValue("@IssuedTaluk", txtIssuedTaluk.Text.Trim());
-                    cmd.Parameters.AddWithValue("@CommDistrict", ddlDistrict.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@CommDistrict", ddlDistrict.SelectedValue.Trim()); // Store ID of District
 
-                   // cmd.Parameters.AddWithValue("@IssuedDate", txtDate.Text.Trim());
-
-                    // Convert and format the date
-                    DateTime isuuedate = DateTime.ParseExact(txtDate.Text.Trim(), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-                    string  formattedissueddate= isuuedate.ToString("dd-MM-yyyy"); // Convert to "DD-MM-YYYY" format
-                    cmd.Parameters.AddWithValue("@IssuedDate", formattedissueddate);
+                    cmd.Parameters.AddWithValue("@IssuedDate", txtDate.Text.Trim());
 
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
-
-
                 }
 
                 // Set the session variable to mark the current step as complete
@@ -117,13 +122,13 @@ namespace MBBS_BDS_WEBSITE
 
                 // Redirect to the next page (e.g., splres.aspx)
                 Response.Redirect("splres.aspx");
-
             }
             catch (Exception ex)
             {
                 Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
         }
+
 
 
 
@@ -145,71 +150,116 @@ namespace MBBS_BDS_WEBSITE
                     {
                         while (dr.Read())
                         {
+                            // Load parent name
                             txtParent.Text = dr["NameOfTheParent"].ToString();
 
-                            if (ddlNationality.Items.FindByValue(dr["Nationality"].ToString()) != null)
+                            // Load Nationality
+                            string nationalityId = dr["Nationality"].ToString().Trim();
+                            ListItem nationalityItem = ddlNationality.Items.FindByValue(nationalityId);
+                            if (nationalityItem != null)
                             {
-                                ddlNationality.SelectedValue = dr["Nationality"].ToString();
+                                ddlNationality.SelectedValue = nationalityId;
+                            }
+                            else
+                            {
+                                System.Diagnostics.Debug.WriteLine("Nationality ID not found: " + nationalityId);
                             }
 
-                            if (ddlMotherTongue.Items.FindByValue(dr["MotherTongue"].ToString()) != null)
+                            // Load Mother Tongue
+                            string motherTongue = dr["MotherTongue"].ToString().Trim();
+                            if (ddlMotherTongue.Items.FindByValue(motherTongue) != null)
                             {
-                                ddlMotherTongue.SelectedValue = dr["MotherTongue"].ToString();
+                                ddlMotherTongue.SelectedValue = motherTongue;
                             }
 
-                            if (ddlSchooling.Items.FindByValue(dr["SchoolingStudied"].ToString().Trim()) != null)
+                            // Load Schooling Studied
+                            string schoolingStudied = dr["SchoolingStudied"].ToString().Trim();
+                            if (ddlSchooling.Items.FindByValue(schoolingStudied) != null)
                             {
-                                ddlSchooling.SelectedValue = dr["SchoolingStudied"].ToString().Trim();
+                                ddlSchooling.SelectedValue = schoolingStudied;
                             }
 
-                            if (ddlReligion.Items.FindByValue(dr["Religion"].ToString()) != null)
+                            // Load Religion
+                            string religion = dr["Religion"].ToString().Trim();
+                            if (ddlReligion.Items.FindByValue(religion) != null)
                             {
-                                ddlReligion.SelectedValue = dr["Religion"].ToString();
+                                ddlReligion.SelectedValue = religion;
                             }
 
-                            if (ddlNativity.Items.FindByValue(dr["Nativity"].ToString()) != null)
+                            // Load Nativity
+                            string nativity = dr["Nativity"].ToString().Trim();
+                            if (ddlNativity.Items.FindByValue(nativity) != null)
                             {
-                                ddlNativity.SelectedValue = dr["Nativity"].ToString();
-                            }
-
-                            if (ddlCommunity.Items.FindByValue(dr["Community"].ToString()) != null)
-                            {
-                                ddlCommunity.SelectedValue = dr["Community"].ToString();
+                                ddlNativity.SelectedValue = nativity;
+                                NativityChange(ddlNativity, EventArgs.Empty);  // Trigger any change for Nativity
                                 BindCasteDropDown();
                             }
 
-                            if (ddlCaste.Items.FindByValue(dr["CasteWithSubCode"].ToString().Trim()) != null)
+                            // Load Community
+                            string community = dr["Community"].ToString().Trim();
+                            if (ddlCommunity.Items.FindByValue(community) != null)
                             {
-                                ddlCaste.SelectedValue = dr["CasteWithSubCode"].ToString().Trim();
+                                ddlCommunity.SelectedValue = community;
+                                BindCasteDropDown();
                             }
 
+                            // Load Caste
+                            string casteWithSubCode = dr["CasteWithSubCode"].ToString().Trim();
+                            if (ddlCaste.Items.FindByValue(casteWithSubCode) != null)
+                            {
+                                ddlCaste.SelectedValue = casteWithSubCode;
+                            }
+
+                            // If OC and Tamilnadu selected, hide certificate details
+                            if (ddlNativity.Text.Trim() == "Tamilnadu" && ddlCommunity.Text.Trim() == "OC")
+                            {
+                                commmunity_certificate_detail.Visible = false;
+
+                                txtCertificate.Text = "";
+                                txtCertificate.Enabled = false;
+                                txtCertificate.Visible = false;
+
+                                txtIssuedby.Text = "";
+                                txtIssuedby.Enabled = false;
+                                txtIssuedby.Visible = false;
+
+                                txtIssuedTaluk.Text = "";
+                                txtIssuedTaluk.Enabled = false;
+                                txtIssuedTaluk.Visible = false;
+
+                                ddlDistrict.SelectedValue = "";
+                                ddlDistrict.Enabled = false;
+                                ddlDistrict.Visible = false;
+
+                                txtDate.Text = "";
+                                txtDate.Enabled = false;
+                                txtDate.Visible = false;
+                            }
+
+                            // Load Certificate and Issue details
                             txtCertificate.Text = dr["CertificateNumber"].ToString();
-
                             txtIssuedby.Text = dr["IssuedBy"].ToString();
-
                             txtIssuedTaluk.Text = dr["IssuedTaluk"].ToString();
 
-                            if (ddlDistrict.Items.FindByValue(dr["CommDistrict"].ToString().Trim()) != null)
+                            // Load District
+                            string commDistrict = dr["CommDistrict"].ToString().Trim();
+                            if (ddlDistrict.Items.FindByValue(commDistrict) != null)
                             {
-                                ddlDistrict.SelectedValue = dr["CommDistrict"].ToString().Trim();
+                                ddlDistrict.SelectedValue = commDistrict;
                             }
 
-                            DateTime issuedDate = Convert.ToDateTime(dr["IssuedDate"]);
-                            // Format the date to "yyyy-MM-dd" as required by the input of type "Date"
-                            txtDate.Text = issuedDate.ToString("yyyy-MM-dd");
+                            // Load Issued Date
+                            txtDate.Text = dr["IssuedDate"].ToString().Trim();
                         }
                     }
-
-
                 }
-  
-
             }
             catch (Exception ex)
             {
                 Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
         }
+
 
 
         protected void setuserstatus()
@@ -258,142 +308,290 @@ namespace MBBS_BDS_WEBSITE
 
         protected void BindNationalityDropDown()
         {
-
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT NationalityName FROM Nationality ";
+                string query = "SELECT NationalityId, NationalityName FROM Nationality"; // Fetch ID & Name
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+                ddlNationality.Items.Clear(); // Clear old items
+                ddlNationality.Items.Add(new ListItem("--Select Nationality--", "")); // Default option
+
                 while (reader.Read())
                 {
-                    string nationality = reader["NationalityName"].ToString();
-                    ddlNationality.Items.Add(new ListItem(nationality));
+                    int id = Convert.ToInt32(reader["NationalityId"]); // Get ID
+                    string name = reader["NationalityName"].ToString(); // Get Name
+                    ddlNationality.Items.Add(new ListItem(name, id.ToString())); // Set ID as value
                 }
             }
         }
 
+
+
+        // Bind Mother Tongue Dropdown using IDs as values, following the format you requested
         protected void BindMotherTongueDropDown()
         {
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT MotherTongueName FROM MotherTongue";
+                string query = "SELECT MotherTongueId, MotherTongueName FROM MotherTongue"; // Fetch ID & Name
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+                ddlMotherTongue.Items.Clear(); // Clear old items
+                ddlMotherTongue.Items.Add(new ListItem("--Select Mother Tongue--", "")); // Default option
+
                 while (reader.Read())
                 {
-                    string mothertongue = reader["MotherTongueName"].ToString();
-                    ddlMotherTongue.Items.Add(new ListItem(mothertongue));
+                    int id = Convert.ToInt32(reader["MotherTongueId"]); // Get ID
+                    string name = reader["MotherTongueName"].ToString(); // Get Name
+                    ddlMotherTongue.Items.Add(new ListItem(name, id.ToString())); // Set ID as value
                 }
             }
         }
 
-
+        // Bind Religion Dropdown using IDs as values, following the format you requested
         protected void BindReligionDropDown()
         {
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT ReligionName FROM Religion";
+                string query = "SELECT ReligionId, ReligionName FROM Religion"; // Fetch ID & Name
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+                ddlReligion.Items.Clear(); // Clear old items
+                ddlReligion.Items.Add(new ListItem("--Select Religion--", "")); // Default option
+
                 while (reader.Read())
                 {
-                    string religion = reader["ReligionName"].ToString();
-                    ddlReligion.Items.Add(new ListItem(religion));
+                    int id = Convert.ToInt32(reader["ReligionId"]); // Get ID
+                    string name = reader["ReligionName"].ToString(); // Get Name
+                    ddlReligion.Items.Add(new ListItem(name, id.ToString())); // Set ID as value
                 }
             }
         }
 
-
+        // Bind Nativity Dropdown using IDs as values, following the format you requested
         protected void BindNativityDropDown()
         {
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT NativityName FROM Nativity";
+                string query = "SELECT NativityId, NativityName FROM Nativity"; // Fetch ID & Name
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+                ddlNativity.Items.Clear(); // Clear old items
+                ddlNativity.Items.Add(new ListItem("--Select Nativity--", "")); // Default option
+
                 while (reader.Read())
                 {
-                    string nativity = reader["NativityName"].ToString();
-                    ddlNativity.Items.Add(new ListItem(nativity));
+                    int id = Convert.ToInt32(reader["NativityId"]); // Get ID
+                    string name = reader["NativityName"].ToString(); // Get Name
+                    ddlNativity.Items.Add(new ListItem(name, id.ToString())); // Set ID as value
                 }
             }
         }
 
+        // Bind Community Dropdown using IDs as values, following the format you requested
         protected void BindCommunityDropDown()
         {
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT CommunityId, CommunityName FROM Community";
+                string query = "SELECT CommunityId, CommunityName FROM Community"; // Fetch ID & Name
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                ddlCommunity.Items.Clear();
-
-                ddlCommunity.Items.Add(new ListItem("-- Select Community --", ""));
+                ddlCommunity.Items.Clear(); // Clear old items
+                ddlCommunity.Items.Add(new ListItem("--Select Community--", "")); // Default option
 
                 while (reader.Read())
                 {
-                    string communityName = reader["CommunityName"].ToString();
-                    string communityId = reader["CommunityId"].ToString();
-                    ddlCommunity.Items.Add(new ListItem(communityName, communityId));
+                    int id = Convert.ToInt32(reader["CommunityId"]); // Get ID
+                    string name = reader["CommunityName"].ToString(); // Get Name
+                    ddlCommunity.Items.Add(new ListItem(name, id.ToString())); // Set ID as value
                 }
             }
         }
-
 
 
         protected void ddlCommunity_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindCasteDropDown();
+           
+               
+
+            if(ddlCommunity.SelectedValue.Trim() == "1")
+            {
+                BindCasteDropDown();
+
+                commmunity_certificate_detail.Visible = false;
+
+                txtCertificate.Text = "";
+                txtCertificate.Enabled = false;
+                txtCertificate.Visible = false;
+
+                txtIssuedby.Text = "";
+                txtIssuedby.Enabled = false;
+                txtIssuedby.Visible = false;
+
+                txtIssuedTaluk.Text = "";
+                txtIssuedTaluk.Enabled = false;
+                txtIssuedTaluk.Visible = false;
+
+                ddlDistrict.SelectedValue = "";
+                ddlDistrict.Enabled = false;
+                ddlDistrict.Visible = false;
+
+                txtDate.Text = "";
+                txtDate.Enabled = false;
+                txtDate.Visible = false;
+            }
+            else
+            {
+                BindCasteDropDown();
+                commmunity_certificate_detail.Visible = true;
+
+                txtCertificate.Text = "";
+                txtCertificate.Enabled = true;
+                txtCertificate.Visible = true;
+
+                txtIssuedby.Text = "";
+                txtIssuedby.Enabled = true;
+                txtIssuedby.Visible = true;
+
+                txtIssuedTaluk.Text = "";
+                txtIssuedTaluk.Enabled = true;
+                txtIssuedTaluk.Visible = true;
+
+                ddlDistrict.SelectedValue = "";
+                ddlDistrict.Enabled = true;
+                ddlDistrict.Visible = true;
+
+                txtDate.Text = "";
+                txtDate.Enabled = true;
+                txtDate.Visible = true;
+            }
+
+
         }
 
+        // Bind Caste Dropdown using IDs as values
         private void BindCasteDropDown()
         {
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT CasteName, CommunityName FROM Caste WHERE CommunityName = @CommunityName";
+                string query = "SELECT CasteId, CasteName, CommunityId FROM Caste WHERE CommunityId = @CommunityId"; // Fetch ID, CasteName, and CommunityName
                 SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@CommunityName", ddlCommunity.SelectedValue.Trim());
+                cmd.Parameters.AddWithValue("@CommunityId", ddlCommunity.SelectedValue.Trim());
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
-                ddlCaste.Items.Clear();
-
-                ddlCaste.Items.Add(new ListItem("-- Select Caste --", ""));
+                ddlCaste.Items.Clear(); // Clear existing items
+                ddlCaste.Items.Add(new ListItem("-- Select Caste --", "")); // Default option
 
                 while (reader.Read())
                 {
-                    string casteName = reader["CasteName"].ToString().Trim();
-                   
-                    ddlCaste.Items.Add(new ListItem(casteName, casteName));
+                    int id = Convert.ToInt32(reader["CasteId"]); // Get ID
+                    string casteName = reader["CasteName"].ToString().Trim(); // Get CasteName
+
+                    ddlCaste.Items.Add(new ListItem(casteName, id.ToString())); // Set ID as value
                 }
             }
         }
 
-
+        // Bind District Dropdown using IDs as values
         protected void BindDistrictDropDown()
         {
-
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT DistrictName FROM District ";
+                string query = "SELECT DistrictId, DistrictName FROM District"; // Fetch ID & Name
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                ddlDistrict.Items.Clear(); // Clear existing items
+                ddlDistrict.Items.Add(new ListItem("-- Select District --", "")); // Default option
+
                 while (reader.Read())
                 {
-                    string district = reader["DistrictName"].ToString().Trim();
-                    ddlDistrict.Items.Add(new ListItem(district));
+                    int id = Convert.ToInt32(reader["DistrictId"]); // Get ID
+                    string district = reader["DistrictName"].ToString().Trim(); // Get DistrictName
+
+                    ddlDistrict.Items.Add(new ListItem(district, id.ToString())); // Set ID as value
                 }
             }
         }
 
 
+        protected void NativityChange(object sender, EventArgs e)
+        {
+            // Check if the selected value in ddlNativity is "Others"
+            if (ddlNativity.SelectedValue.Trim() == "2")
+            {
+                // Loop through all the items in ddlCommunity
+                for (int i = ddlCommunity.Items.Count - 1; i >= 0; i--)
+                {
+                    // If the item's value is not "1", remove it
+                    if (ddlCommunity.Items[i].Value != "1")
+                    {
+                        ddlCommunity.Items.RemoveAt(i);
+                    }
+                }
+
+                ddlCommunity.SelectedValue = "1";
+
+                BindCasteDropDown();
+
+                commmunity_certificate_detail.Visible = false;
+
+                txtCertificate.Text = "";
+                txtCertificate.Enabled = false;
+                txtCertificate.Visible = false;
+
+                txtIssuedby.Text = "";
+                txtIssuedby.Enabled = false;
+                txtIssuedby.Visible = false;
+
+                txtIssuedTaluk.Text = "";
+                txtIssuedTaluk.Enabled = false;
+                txtIssuedTaluk.Visible = false;
+
+                ddlDistrict.SelectedValue = "";
+                ddlDistrict.Enabled = false;
+                ddlDistrict.Visible = false;
+
+                txtDate.Text = "";
+                txtDate.Enabled = false;
+                txtDate.Visible = false;
+
+
+            }
+            else
+            {
+                BindCommunityDropDown(); // Rebind the community dropdown
+
+                commmunity_certificate_detail.Visible = true;
+
+                txtCertificate.Text = "";
+                txtCertificate.Enabled = true;
+                txtCertificate.Visible = true;
+
+                txtIssuedby.Text = "";
+                txtIssuedby.Enabled = true;
+                txtIssuedby.Visible = true;
+
+                txtIssuedTaluk.Text = "";
+                txtIssuedTaluk.Enabled = true;
+                txtIssuedTaluk.Visible = true;
+
+                ddlDistrict.SelectedValue = "";
+                ddlDistrict.Enabled = true;
+                ddlDistrict.Visible = true;
+
+                txtDate.Text = "";
+                txtDate.Enabled = true;
+                txtDate.Visible = true;
+            }
+        }
 
 
 

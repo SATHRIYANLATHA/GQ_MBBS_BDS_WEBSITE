@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="sos.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.sos" %>
+﻿<%@ Page Title=""  EnableEventValidation="false" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="sos.aspx.cs" Inherits="MBBS_BDS_WEBSITE.sos" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <script type="text/javascript">
@@ -291,16 +291,25 @@
             STATE10.value = STATE6;
             STATE11.value = STATE6;
             STATE12.value = STATE6;
+
+            updateDistrictDropdown6(STATE6);
+            updateDistrictDropdown7(STATE6);
+            updateDistrictDropdown8(STATE6);
+            updateDistrictDropdown9(STATE6);
+            updateDistrictDropdown10(STATE6);
+            updateDistrictDropdown11(STATE6);
+            updateDistrictDropdown12(STATE6);
+
         }
 
         function schooldistrictcopy() {
             var DISTRICT6 = document.getElementById('<%= DISTRICT6.ClientID %>').value;
-            var DISTRICT7 = document.getElementById('<%= DISTRICT7.ClientID %>');
-            var DISTRICT8 = document.getElementById('<%= DISTRICT8.ClientID %>');
-            var DISTRICT9 = document.getElementById('<%= DISTRICT9.ClientID %>');
-            var DISTRICT10 = document.getElementById('<%= DISTRICT10.ClientID %>');
-            var DISTRICT11= document.getElementById('<%= DISTRICT11.ClientID %>');
-            var DISTRICT12 = document.getElementById('<%= DISTRICT12.ClientID %>');
+          var DISTRICT7 = document.getElementById('<%= DISTRICT7.ClientID %>');
+          var DISTRICT8 = document.getElementById('<%= DISTRICT8.ClientID %>');
+          var DISTRICT9 = document.getElementById('<%= DISTRICT9.ClientID %>');
+          var DISTRICT10 = document.getElementById('<%= DISTRICT10.ClientID %>');
+          var DISTRICT11 = document.getElementById('<%= DISTRICT11.ClientID %>');
+          var DISTRICT12 = document.getElementById('<%= DISTRICT12.ClientID %>');
 
             DISTRICT7.value = DISTRICT6;
             DISTRICT8.value = DISTRICT6;
@@ -308,7 +317,19 @@
             DISTRICT10.value = DISTRICT6;
             DISTRICT11.value = DISTRICT6;
             DISTRICT12.value = DISTRICT6;
+
+
+            document.getElementById('<%= HiddenDistrict6.ClientID %>').value = DISTRICT6;
+            document.getElementById('<%= HiddenDistrict7.ClientID %>').value = DISTRICT7.value;
+            document.getElementById('<%= HiddenDistrict8.ClientID %>').value = DISTRICT8.value;
+            document.getElementById('<%= HiddenDistrict9.ClientID %>').value = DISTRICT9.value;
+            document.getElementById('<%= HiddenDistrict10.ClientID %>').value = DISTRICT10.value;
+            document.getElementById('<%= HiddenDistrict11.ClientID %>').value = DISTRICT11.value;
+            document.getElementById('<%= HiddenDistrict12.ClientID %>').value = DISTRICT12.value;
+
+         
         }
+
 
 
         function toggleneetcoach() {
@@ -332,11 +353,7 @@
              }
          }
 
-        window.onload = function () {
-            toggleCheckbox();
-            boxchecking();
-            toggleneetcoach();
-        }
+       
 
            
                
@@ -344,6 +361,311 @@
 
         
     </script>
+
+
+    <script>
+        // Districts for Tamil Nadu
+        const tamilNaduDistricts = [
+            "Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore",
+            "Dharmapuri", "Dindigul", "Erode", "Kallakurichi", "Kanchipuram",
+            "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Mayiladuthurai",
+            "Nagappattinam", "Namakkal", "Perambalur", "Pudukkottai",
+            "Ramanathapuram", "Ranipet", "Salem", "Sivagangai", "Tenkasi",
+            "Thanjavur", "The Nilgiris", "Theni", "Thirupattur", "Thoothukudi",
+            "Tiruchirappalli", "Tirunelveli", "Tiruppur", "Tiruvallur",
+            "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar","Others"
+        ];
+        const tamilNaduDistrictsOthers = [
+            "Others"
+        ]
+
+        function updateDistrictDropdown6(selectedState) {
+            console.log("Selected State:", selectedState);  // Debugging line to check state
+
+            var districtDropdown = document.getElementById('<%= DISTRICT6.ClientID %>');
+            districtDropdown.innerHTML = '<option value="" disabled selected>-- Select --</option>';
+
+            if (selectedState === "TAMIL NADU") {
+                tamilNaduDistricts.forEach(district => {
+                    const option = document.createElement("option");
+                    option.value = district;
+                    option.textContent = district;
+                    districtDropdown.appendChild(option);
+                });
+            } else {
+                tamilNaduDistrictsOthers.forEach(district => {
+                    const option = document.createElement("option");
+                    option.value = district;
+                    option.textContent = district;
+                    districtDropdown.appendChild(option);
+                });
+            }
+        }
+
+        function storeDistrict6Value(dropdown) {
+            var districtValue = dropdown.value; // Get the selected district value
+            document.getElementById('<%= HiddenDistrict6.ClientID %>').value = districtValue; // Store it in the hidden field
+        }
+
+        function updateDistrictDropdown7(selectedState) {
+            var districtDropdown = document.getElementById('<%= DISTRICT7.ClientID %>');
+             districtDropdown.innerHTML = '<option value="" disabled selected>-- Select --</option>';
+
+             // Add districts based on state selection
+             if (selectedState === "TAMIL NADU") {
+                 tamilNaduDistricts.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             if (selectedState != "TAMIL NADU") {
+                 tamilNaduDistrictsOthers.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             // If state is empty or other, dropdown remains empty
+        }
+
+
+        function storeDistrict7Value(dropdown) {
+            var districtValue = dropdown.value; // Get the selected district value
+            document.getElementById('<%= HiddenDistrict7.ClientID %>').value = districtValue; // Store it in the hidden field
+        }
+
+        function updateDistrictDropdown8(selectedState) {
+            var districtDropdown = document.getElementById('<%= DISTRICT8.ClientID %>');
+             districtDropdown.innerHTML = '<option value="" disabled selected>-- Select --</option>';
+
+             // Add districts based on state selection
+             if (selectedState === "TAMIL NADU") {
+                 tamilNaduDistricts.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             if (selectedState != "TAMIL NADU") {
+                 tamilNaduDistrictsOthers.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             // If state is empty or other, dropdown remains empty
+        }
+
+
+        function storeDistrict8Value(dropdown) {
+            var districtValue = dropdown.value; // Get the selected district value
+            document.getElementById('<%= HiddenDistrict8.ClientID %>').value = districtValue; // Store it in the hidden field
+        }
+
+        function updateDistrictDropdown9(selectedState) {
+            var districtDropdown = document.getElementById('<%= DISTRICT9.ClientID %>');
+             districtDropdown.innerHTML = '<option value="" disabled selected>-- Select --</option>';
+
+             // Add districts based on state selection
+             if (selectedState === "TAMIL NADU") {
+                 tamilNaduDistricts.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             if (selectedState != "TAMIL NADU") {
+                 tamilNaduDistrictsOthers.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             // If state is empty or other, dropdown remains empty
+        }
+
+
+        function storeDistrict9Value(dropdown) {
+            var districtValue = dropdown.value; // Get the selected district value
+            document.getElementById('<%= HiddenDistrict9.ClientID %>').value = districtValue; // Store it in the hidden field
+        }
+
+        function updateDistrictDropdown10(selectedState) {
+            var districtDropdown = document.getElementById('<%= DISTRICT10.ClientID %>');
+             districtDropdown.innerHTML = '<option value="" disabled selected>-- Select --</option>';
+
+             // Add districts based on state selection
+             if (selectedState === "TAMIL NADU") {
+                 tamilNaduDistricts.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             if (selectedState != "TAMIL NADU") {
+                 tamilNaduDistrictsOthers.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             // If state is empty or other, dropdown remains empty
+        }
+
+
+        function storeDistrict10Value(dropdown) {
+            var districtValue = dropdown.value; // Get the selected district value
+            document.getElementById('<%= HiddenDistrict10.ClientID %>').value = districtValue; // Store it in the hidden field
+        }
+
+        function updateDistrictDropdown11(selectedState) {
+            var districtDropdown = document.getElementById('<%= DISTRICT11.ClientID %>');
+             districtDropdown.innerHTML = '<option value="" disabled selected>-- Select --</option>';
+
+             // Add districts based on state selection
+             if (selectedState === "TAMIL NADU") {
+                 tamilNaduDistricts.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             if (selectedState != "TAMIL NADU") {
+                 tamilNaduDistrictsOthers.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             // If state is empty or other, dropdown remains empty
+        }
+
+
+        function storeDistrict11Value(dropdown) {
+            var districtValue = dropdown.value; // Get the selected district value
+            document.getElementById('<%= HiddenDistrict11.ClientID %>').value = districtValue; // Store it in the hidden field
+        }
+
+        function updateDistrictDropdown12(selectedState) {
+            var districtDropdown = document.getElementById('<%= DISTRICT12.ClientID %>');
+             districtDropdown.innerHTML = '<option value="" disabled selected>-- Select --</option>';
+
+             // Add districts based on state selection
+             if (selectedState === "TAMIL NADU") {
+                 tamilNaduDistricts.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value.trim = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             if (selectedState != "TAMIL NADU") {
+                 tamilNaduDistrictsOthers.forEach(district => {
+                     const option = document.createElement("option");
+                     option.value = district;
+                     option.textContent = district;
+                     districtDropdown.appendChild(option);
+                 });
+             }
+             // If state is empty or other, dropdown remains empty
+        }
+
+
+        function storeDistrict12Value(dropdown) {
+            var districtValue = dropdown.value; // Get the selected district value
+            document.getElementById('<%= HiddenDistrict12.ClientID %>').value = districtValue; // Store it in the hidden field
+        }
+
+
+
+
+
+
+        window.onload = function () {
+            toggleCheckbox();
+            boxchecking();
+            toggleneetcoach();
+
+            const STATE6 = document.getElementById('<%= STATE6.ClientID %>').value;
+            const hiddenDistrict6 = document.getElementById('<%= HiddenDistrict6.ClientID %>').value;    // Get the district value from the hidden field
+
+
+            const STATE7 = document.getElementById('<%= STATE7.ClientID %>').value;
+            const hiddenDistrict7 = document.getElementById('<%= HiddenDistrict7.ClientID %>').value; 
+
+            const STATE8 = document.getElementById('<%= STATE8.ClientID %>').value;
+            const hiddenDistrict8 = document.getElementById('<%= HiddenDistrict8.ClientID %>').value; 
+
+            const STATE9 = document.getElementById('<%= STATE9.ClientID %>').value;
+            const hiddenDistrict9 = document.getElementById('<%= HiddenDistrict9.ClientID %>').value; 
+
+            const STATE10 = document.getElementById('<%= STATE10.ClientID %>').value;
+            const hiddenDistrict10 = document.getElementById('<%= HiddenDistrict10.ClientID %>').value; 
+
+            const STATE11 = document.getElementById('<%= STATE11.ClientID %>').value;
+            const hiddenDistrict11 = document.getElementById('<%= HiddenDistrict11.ClientID %>').value; 
+
+            const STATE12 = document.getElementById('<%= STATE12.ClientID %>').value;
+            const hiddenDistrict12 = document.getElementById('<%= HiddenDistrict12.ClientID %>').value; 
+           
+
+    // Update the district dropdown based on the selected state
+            updateDistrictDropdown6(STATE6);
+            updateDistrictDropdown7(STATE7);
+            updateDistrictDropdown8(STATE8);
+            updateDistrictDropdown9(STATE9);
+            updateDistrictDropdown10(STATE10);
+            updateDistrictDropdown11(STATE11);
+            updateDistrictDropdown12(STATE12);
+
+    // After the dropdown is populated, set the selected value from the hidden field
+            const DISTRICT6 = document.getElementById('<%= DISTRICT6.ClientID %>');
+            const DISTRICT7 = document.getElementById('<%= DISTRICT7.ClientID %>');
+            const DISTRICT8 = document.getElementById('<%= DISTRICT8.ClientID %>');
+            const DISTRICT9 = document.getElementById('<%= DISTRICT9.ClientID %>');
+            const DISTRICT10 = document.getElementById('<%= DISTRICT10.ClientID %>');
+            const DISTRICT11 = document.getElementById('<%= DISTRICT11.ClientID %>');
+            const DISTRICT12 = document.getElementById('<%= DISTRICT12.ClientID %>');
+
+
+            if (hiddenDistrict6) {
+                DISTRICT6.value = hiddenDistrict6; // Set the value of the dropdown to the hidden field value
+            }
+            if (hiddenDistrict7) {
+                DISTRICT7.value = hiddenDistrict7; // Set the value of the dropdown to the hidden field value
+            }
+            if (hiddenDistrict8) {
+                DISTRICT8.value = hiddenDistrict8; // Set the value of the dropdown to the hidden field value
+            }
+            if (hiddenDistrict9) {
+                DISTRICT9.value = hiddenDistrict9; // Set the value of the dropdown to the hidden field value
+            }
+            if (hiddenDistrict10) {
+                DISTRICT10.value = hiddenDistrict10; // Set the value of the dropdown to the hidden field value
+            }
+            if (hiddenDistrict11) {
+                DISTRICT11.value = hiddenDistrict11; // Set the value of the dropdown to the hidden field value
+            }
+            if (hiddenDistrict12) {
+                DISTRICT12.value = hiddenDistrict12; // Set the value of the dropdown to the hidden field value
+            }
+        };
+
+
+
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -857,19 +1179,22 @@
                         <input id="NOTS6" runat="server" style="width: 270px" class="custom-textbox" required="required"/>
                         &nbsp;<i class="fa fa-copy" style="cursor:pointer;" onclick="schoolnamecopy();"></i></td>
                     <td>
-                        <asp:DropDownList ID="STATE6" runat="server" Style="width: 100px;" class="custom-textbox" required="required" >
+                        <asp:DropDownList ID="STATE6" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="updateDistrictDropdown6(this.value);" >
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select  </asp:ListItem>
 
                         </asp:DropDownList>
                         &nbsp;<i class="fa fa-copy" style="cursor:pointer;" onclick="schoolstatecopy();"></i>
 
+
                     </td>
                     <td>
-                        <asp:DropDownList ID="DISTRICT6" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="DISTRICT6" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="storeDistrict6Value(this)">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select </asp:ListItem>
 
                         </asp:DropDownList>
                         &nbsp;<i class="fa fa-copy" style="cursor:pointer;" onclick="schooldistrictcopy();"></i>
+
+                        <asp:HiddenField ID="HiddenDistrict6" runat="server" />
 
                     </td>
                 </tr>
@@ -885,7 +1210,7 @@
                         <input id="NOTS7" runat="server" style="width: 270px" class="custom-textbox" required="required" />
                     </td>
                     <td>
-                        <asp:DropDownList ID="STATE7" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="STATE7" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="updateDistrictDropdown7(this.value);">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select  </asp:ListItem>
 
                         </asp:DropDownList>
@@ -893,10 +1218,12 @@
 
                     </td>
                     <td>
-                        <asp:DropDownList ID="DISTRICT7" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="DISTRICT7" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="storeDistrict7Value(this)">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select </asp:ListItem>
 
                         </asp:DropDownList>
+
+                         <asp:HiddenField ID="HiddenDistrict7" runat="server" />
 
 
                     </td>
@@ -913,7 +1240,7 @@
                         <input id="NOTS8" runat="server" style="width: 270px" class="custom-textbox" required="required"/>
                     </td>
                     <td>
-                        <asp:DropDownList ID="STATE8" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="STATE8" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="updateDistrictDropdown8(this.value);">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select  </asp:ListItem>
 
                         </asp:DropDownList>
@@ -921,10 +1248,12 @@
 
                     </td>
                     <td>
-                        <asp:DropDownList ID="DISTRICT8" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="DISTRICT8" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="storeDistrict8Value(this)">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select </asp:ListItem>
 
                         </asp:DropDownList>
+
+                         <asp:HiddenField ID="HiddenDistrict8" runat="server" />
 
 
                     </td>
@@ -941,7 +1270,7 @@
                         <input id="NOTS9" runat="server" style="width: 270px" class="custom-textbox" required="required"/>
                     </td>
                     <td>
-                        <asp:DropDownList ID="STATE9" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="STATE9" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="updateDistrictDropdown9(this.value);">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select  </asp:ListItem>
 
                         </asp:DropDownList>
@@ -949,10 +1278,12 @@
 
                     </td>
                     <td>
-                        <asp:DropDownList ID="DISTRICT9" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="DISTRICT9" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="storeDistrict9Value(this)">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select </asp:ListItem>
 
                         </asp:DropDownList>
+
+                         <asp:HiddenField ID="HiddenDistrict9" runat="server" />
 
 
                     </td>
@@ -969,7 +1300,7 @@
                         <input id="NOTS10" runat="server" style="width: 270px" class="custom-textbox" required="required"/>
                     </td>
                     <td>
-                        <asp:DropDownList ID="STATE10" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="STATE10" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="updateDistrictDropdown10(this.value);">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select  </asp:ListItem>
 
                         </asp:DropDownList>
@@ -977,10 +1308,12 @@
 
                     </td>
                     <td>
-                        <asp:DropDownList ID="DISTRICT10" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="DISTRICT10" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="storeDistrict10Value(this)">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select </asp:ListItem>
 
                         </asp:DropDownList>
+
+                         <asp:HiddenField ID="HiddenDistrict10" runat="server" />
 
 
                     </td>
@@ -997,7 +1330,7 @@
                         <input id="NOTS11" runat="server" style="width: 270px"  class="custom-textbox" required="required"/>
                     </td>
                     <td>
-                        <asp:DropDownList ID="STATE11" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="STATE11" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="updateDistrictDropdown11(this.value);">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select  </asp:ListItem>
 
                         </asp:DropDownList>
@@ -1005,10 +1338,12 @@
 
                     </td>
                     <td>
-                        <asp:DropDownList ID="DISTRICT11" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="DISTRICT11" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="storeDistrict11Value(this)">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select </asp:ListItem>
 
                         </asp:DropDownList>
+
+                         <asp:HiddenField ID="HiddenDistrict11" runat="server" />
 
 
                     </td>
@@ -1025,7 +1360,7 @@
                         <input id="NOTS12" runat="server" style="width: 270px" class="custom-textbox" required="required"/>
                     </td>
                     <td>
-                        <asp:DropDownList ID="STATE12" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="STATE12" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="updateDistrictDropdown12(this.value);">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select  </asp:ListItem>
 
                         </asp:DropDownList>
@@ -1033,10 +1368,12 @@
 
                     </td>
                     <td>
-                        <asp:DropDownList ID="DISTRICT12" runat="server" Style="width: 100px;" class="custom-textbox" required="required">
+                        <asp:DropDownList ID="DISTRICT12" runat="server" Style="width: 100px;" class="custom-textbox" required="required" onchange="storeDistrict12Value(this)">
                             <asp:ListItem Value="" Disabled="True" Selected="True">-- Select </asp:ListItem>
 
                         </asp:DropDownList>
+
+                         <asp:HiddenField ID="HiddenDistrict12" runat="server" />
 
 
                     </td>

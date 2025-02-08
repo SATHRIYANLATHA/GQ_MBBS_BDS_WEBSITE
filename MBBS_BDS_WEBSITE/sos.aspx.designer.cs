@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
 
 
@@ -447,6 +447,15 @@ namespace mbbs_MBBS_BDS_WEBSITE
         protected global::System.Web.UI.WebControls.DropDownList DISTRICT6;
 
         /// <summary>
+        /// HiddenDistrict6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenDistrict6;
+
+        /// <summary>
         /// YOP7 control.
         /// </summary>
         /// <remarks>
@@ -481,6 +490,15 @@ namespace mbbs_MBBS_BDS_WEBSITE
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DISTRICT7;
+
+        /// <summary>
+        /// HiddenDistrict7 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenDistrict7;
 
         /// <summary>
         /// YOP8 control.
@@ -519,6 +537,15 @@ namespace mbbs_MBBS_BDS_WEBSITE
         protected global::System.Web.UI.WebControls.DropDownList DISTRICT8;
 
         /// <summary>
+        /// HiddenDistrict8 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenDistrict8;
+
+        /// <summary>
         /// YOP9 control.
         /// </summary>
         /// <remarks>
@@ -553,6 +580,15 @@ namespace mbbs_MBBS_BDS_WEBSITE
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DISTRICT9;
+
+        /// <summary>
+        /// HiddenDistrict9 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenDistrict9;
 
         /// <summary>
         /// YOP10 control.
@@ -591,6 +627,15 @@ namespace mbbs_MBBS_BDS_WEBSITE
         protected global::System.Web.UI.WebControls.DropDownList DISTRICT10;
 
         /// <summary>
+        /// HiddenDistrict10 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenDistrict10;
+
+        /// <summary>
         /// YOP11 control.
         /// </summary>
         /// <remarks>
@@ -627,6 +672,15 @@ namespace mbbs_MBBS_BDS_WEBSITE
         protected global::System.Web.UI.WebControls.DropDownList DISTRICT11;
 
         /// <summary>
+        /// HiddenDistrict11 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenDistrict11;
+
+        /// <summary>
         /// YOP12 control.
         /// </summary>
         /// <remarks>
@@ -661,6 +715,15 @@ namespace mbbs_MBBS_BDS_WEBSITE
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DISTRICT12;
+
+        /// <summary>
+        /// HiddenDistrict12 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenDistrict12;
 
         /// <summary>
         /// NEETATTEMPT control.

@@ -1,5 +1,35 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="pinfo.aspx.cs" Inherits="MBBS_BDS_WEBSITE.pinfo" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="pinfo.aspx.cs" Inherits="MBBS_BDS_WEBSITE.pinfo" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+ <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+    <script type="text/javascript">
+
+
+        $(function () {
+            $("#<%= txtDate.ClientID %>").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                maxDate: 0, // Disable future dates
+                yearRange: '1970:' + new Date().getFullYear().toString(),
+                onSelect: function (dateText, inst) {
+                    // Additional logic when a date is selected
+                    if ($("#<%= txtDate.ClientID %>").val() !== "") {
+                        fnSetBorder("<%= txtDate.ClientID %>", 0);
+                    }
+                }
+            });
+        });
+
+        // Example function to set border (customize as needed)
+        function fnSetBorder(elementId, borderStyle) {
+            document.getElementById(elementId).style.border = borderStyle === 0 ? "1px solid #ccc" : "2px solid red";
+        }
+
+    </script>
    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -88,7 +118,7 @@
 
 
                             <h6 style="color:#172e81;margin-bottom: 4px;" class="pt-3">NATIVITY</h6>
-                           <asp:DropDownList ID="ddlNativity" runat="server" Style="width: 50%;" class="custom-textbox mb-2" required="required">
+                           <asp:DropDownList ID="ddlNativity" runat="server" Style="width: 50%;" class="custom-textbox mb-2" required="required"  AutoPostBack="true" OnSelectedIndexChanged="NativityChange">
                                <asp:ListItem Value="" Disabled="True" Selected="True">-- Select Nativity --</asp:ListItem>
                               
                            </asp:DropDownList>
@@ -126,7 +156,7 @@
                </div>
 
 
-               <div class="d-flex justify-content-around container-fluid ">
+               <div class="d-flex justify-content-around container-fluid " id="commmunity_certificate_detail" runat="server">
 
                    <div>
                         <h6 style="color: #172e81; margin-bottom: 4px;" class="pt-3">CERTIFICATE NO</h6>
@@ -145,17 +175,17 @@
 
                    <div>
                        <h6 style="color: #172e81; margin-bottom: 4px;" class="pt-3">COMM DISTRICT</h6>
-                       <asp:DropDownList ID="ddlDistrict" runat="server" Style="width: 80%;height:30px"  class="custom-textbox mb-2" required="required">
-                           <asp:ListItem Value="" Disabled="True" Selected="True">-- Select District --</asp:ListItem>
+                       <asp:DropDownList ID="ddlDistrict" runat="server" Style="width: 100%;height:30px"  class="custom-textbox mb-2" required="required">
+                           <asp:ListItem Value="" Disabled="True" Selected="True">-- District --</asp:ListItem>
                           
                        </asp:DropDownList>
 
                        
                    </div>
 
-                   <div>
+                   <div class="ms-4">
                        <h6 style="color: #172e81; margin-bottom: 4px;" class="pt-3">ISSUED DATE</h6>
-                       <asp:TextBox ID="txtDate" runat="server" placeholder=" Pick the Date" Textmode="Date" style="width:60%;" class="custom-textbox mb-2"  required="required" ></asp:TextBox>
+                       <asp:TextBox ID="txtDate" runat="server" placeholder=" Pick the Date"  style="width:60%;" class="custom-textbox mb-2"  required="required" ></asp:TextBox>
                    </div>
 
                </div>

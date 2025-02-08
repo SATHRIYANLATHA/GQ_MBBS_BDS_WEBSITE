@@ -141,6 +141,15 @@ namespace MBBS_BDS_WEBSITE
         protected global::System.Web.UI.WebControls.DropDownList ddlCaste;
 
         /// <summary>
+        /// commmunity_certificate_detail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl commmunity_certificate_detail;
+
+        /// <summary>
         /// txtCertificate control.
         /// </summary>
         /// <remarks>

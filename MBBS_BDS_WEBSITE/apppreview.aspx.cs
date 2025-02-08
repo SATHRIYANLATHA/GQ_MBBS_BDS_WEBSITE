@@ -10,7 +10,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ZXing;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class apppreview : System.Web.UI.Page
     {
@@ -390,12 +390,25 @@ namespace mbbs_MBBS_BDS_WEBSITE
                             app8.InnerHtml = dr["MotherTongue"].ToString().Trim().ToUpper();
                             app9.InnerHtml = dr["Nativity"].ToString().Trim().ToUpper();
                             app10.InnerHtml = dr["Community"].ToString().Trim().ToUpper();
+
+                            if (dr["Community"].ToString().Trim() == "OC")
+                            {
+                                app13a.InnerHtml = "-- NA --";
+                                app13b.InnerHtml = "-- NA --";
+                                app13c.InnerHtml = "-- NA --";
+                                app13d.InnerHtml = "-- NA --";
+                            }
+                            else
+                            {
+                                app13a.InnerHtml = dr["CertificateNumber"].ToString().Trim().ToUpper();
+                                app13b.InnerHtml = dr["IssuedTaluk"].ToString().Trim().ToUpper();
+                                app13c.InnerHtml = dr["IssuedBy"].ToString().Trim().ToUpper();
+                                app13d.InnerHtml = dr["IssuedDate"].ToString().Trim().ToUpper();
+                            }
+
                             app11.InnerHtml = dr["SchoolingStudied"].ToString().Trim().ToUpper();
                             app12.InnerHtml = dr["CasteWithSubCode"].ToString().Trim().ToUpper();
-                            app13a.InnerHtml = dr["CertificateNumber"].ToString().Trim().ToUpper();
-                            app13b.InnerHtml = dr["IssuedTaluk"].ToString().Trim().ToUpper();
-                            app13c.InnerHtml = dr["IssuedBy"].ToString().Trim().ToUpper();
-                            app13d.InnerHtml = dr["IssuedDate"].ToString().Trim().ToUpper();
+                           
 
 
                            

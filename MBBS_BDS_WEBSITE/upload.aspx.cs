@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class upload : System.Web.UI.Page
     {
@@ -3748,7 +3748,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
                 docup.Visible = false;
                 Session["DocumentsUploadComplete"] = true;
 
-                setuserstatus();               
+                setuserstatus();
 
                 Response.Redirect("apppreview.aspx");
             }

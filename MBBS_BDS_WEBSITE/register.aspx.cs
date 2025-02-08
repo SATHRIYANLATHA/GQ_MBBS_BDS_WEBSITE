@@ -89,7 +89,9 @@ namespace MBBS_BDS_WEBSITE
             }
             else
             {
+                
                 errorPassword.InnerHtml = "Password and confirm password are wrong. ";
+
             }
 
 
@@ -145,10 +147,8 @@ namespace MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@Mobile", txtMobileNumber.Text.Trim());
 
 
-                    // Convert and format the date
-                    DateTime dob = DateTime.ParseExact(txtDOB.Text.Trim(), "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-                    string formattedDOB = dob.ToString("dd-MM-yyyy"); // Convert to "DD-MM-YYYY" format
-                    cmd.Parameters.AddWithValue("@DateOfBirth", formattedDOB);
+                    
+                    cmd.Parameters.AddWithValue("@DateOfBirth", txtDOB.Text.Trim());
 
 
                     cmd.Parameters.AddWithValue("@PlusOnePassed", rdPlusonepassed.SelectedValue.Trim());
@@ -311,158 +311,7 @@ namespace MBBS_BDS_WEBSITE
             }
         }
 
-        private static readonly Random random = new Random();
-        private const string ApiKey = "GsqwL9vfBYxG+uwgadAeI73FR8Myrf9Tps1V4Rbt1PE=";
-        private const string ClientId = "8119feed-acaf-4580-a07e-9a63e3ff9559";
-        private const string BaseUrl = "http://smsssl.dial4sms.com/api/v2";
-
-        protected void btnSendSMS_Click(object sender, EventArgs e)
-        {
-            // Generate a random 6-digit OTP
-            int otp = random.Next(100000, 999999);
-
-            // Store OTP in session for verification
-            Session["GeneratedOTP"] = otp;
-
-            // Get the mobile number from the input field
-            string mobileNumber = txtMobileNumber.Text.Trim();
-            string defaultCountryCode = "+91"; // Change as per your region
-
-            if (!mobileNumber.StartsWith("+"))
-            {
-                mobileNumber = defaultCountryCode + mobileNumber;
-            }
-
-            // Prepare the SMS content
-            string message = $"Your OTP is: {otp}";
-            string senderId = "CALLER"; // Change to your Sender ID
-            string templateId = "1407162065828534452"; // Replace with your actual Template ID
-
-            // Construct the API URL for sending the SMS
-            string url = $"{BaseUrl}/SMS?ApiKey={ApiKey}&ClientId={ClientId}&sender={senderId}&number={mobileNumber}&sms={message}&templateid={templateId}";
-
-            try
-            {
-                // Send the SMS using WebRequest
-                WebRequest request = HttpWebRequest.Create(url);
-                WebResponse response = request.GetResponse();
-
-                // Read and log the response
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string apiResponse = reader.ReadToEnd();
-                    System.Diagnostics.Debug.WriteLine("SMS API Response: " + apiResponse);
-                }
-
-                // Display success message or next panel
-                sendSMS.Visible = false;
-                smssent.Visible = true;
-
-                // Debug the generated OTP (remove in production)
-                System.Diagnostics.Debug.WriteLine("Generated OTP: " + otp);
-            }
-            catch (Exception ex)
-            {
-                // Log and display error
-                System.Diagnostics.Debug.WriteLine("Error sending SMS: " + ex.Message);
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Failed to send SMS. Please try again.');", true);
-            }
-        }
-
-        protected void resend_Click(object sender, EventArgs e)
-        {
-            // Generate a new OTP
-            int newOtp = random.Next(100000, 999999);
-            Session["GeneratedOTP"] = newOtp;
-
-            string mobileNumber = txtMobileNumber.Text.Trim();
-            string defaultCountryCode = "+91";
-
-            if (!mobileNumber.StartsWith("+"))
-            {
-                mobileNumber = defaultCountryCode + mobileNumber;
-            }
-
-            string message = $"Your new OTP is: {newOtp}";
-            string senderId = "CALLER";
-            string templateId = "1407162065828534452";
-
-            string url = $"{BaseUrl}/SMS?ApiKey={ApiKey}&ClientId={ClientId}&sender={senderId}&number={mobileNumber}&sms={message}&templateid={templateId}";
-
-            try
-            {
-                WebRequest request = HttpWebRequest.Create(url);
-                WebResponse response = request.GetResponse();
-
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string apiResponse = reader.ReadToEnd();
-                    System.Diagnostics.Debug.WriteLine("Resend SMS API Response: " + apiResponse);
-                }
-
-                sendSMS.Visible = false;
-                smssent.Visible = true;
-                otpsuccess.Visible = false;
-                otpfailure.Visible = false;
-
-                System.Diagnostics.Debug.WriteLine("Resent OTP: " + newOtp);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error resending SMS: " + ex.Message);
-                ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Failed to resend SMS. Please try again.');", true);
-            }
-        }
-
-        protected void verify_Click(object sender, EventArgs e)
-        {
-            // Concatenate entered OTP from multiple input boxes
-            string enteredOTP = Request.Form["otp1"] + Request.Form["otp2"] +
-                                Request.Form["otp3"] + Request.Form["otp4"] +
-                                Request.Form["otp5"] + Request.Form["otp6"];
-
-            string generatedOTP = Session["GeneratedOTP"]?.ToString();
-
-            if (!string.IsNullOrEmpty(enteredOTP) && enteredOTP == generatedOTP)
-            {
-                sendSMS.Visible = false;
-                smssent.Visible = false;
-                otpsuccess.Visible = true;
-                otpfailure.Visible = false;
-                fourfive.Visible = true;
-            }
-            else
-            {
-                sendSMS.Visible = false;
-                smssent.Visible = true;
-                otpsuccess.Visible = false;
-                otpfailure.Visible = true;
-            }
-        }
-
-        // Fetch Template List
-        public void FetchTemplates()
-        {
-            string url = $"{BaseUrl}/Template?ApiKey={ApiKey}&ClientId={ClientId}";
-
-            try
-            {
-                WebRequest request = HttpWebRequest.Create(url);
-                WebResponse response = request.GetResponse();
-
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                {
-                    string apiResponse = reader.ReadToEnd();
-                    System.Diagnostics.Debug.WriteLine("Template List Response: " + apiResponse);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error fetching templates: " + ex.Message);
-            }
-        }
-    
-
+       
 
 
 }

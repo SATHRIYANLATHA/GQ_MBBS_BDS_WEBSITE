@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class sos : System.Web.UI.Page
     {
@@ -30,18 +30,6 @@ namespace mbbs_MBBS_BDS_WEBSITE
                 BindStateDropDown(STATE11);
                 BindStateDropDown(STATE12);
                 BindStateDropDown(STATEneet);
-
-
-                // dropdown for district
-                BindDistrictDropDown(DISTRICT6);
-                BindDistrictDropDown(DISTRICT7);
-                BindDistrictDropDown(DISTRICT8);
-                BindDistrictDropDown(DISTRICT9);
-                BindDistrictDropDown(DISTRICT10);
-                BindDistrictDropDown(DISTRICT11);
-                BindDistrictDropDown(DISTRICT12);
-
-               
 
 
 
@@ -165,11 +153,9 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 STATE6.SelectedValue = dr["STATE6"].ToString().Trim();
                             }
 
+                            string district6Value = dr["DISTRICT6"].ToString().Trim();
+                            HiddenDistrict6.Value = district6Value; // Set the value in the hidden field
 
-                            if (DISTRICT6.Items.FindByValue(dr["DISTRICT6"].ToString().Trim()) != null)
-                            {
-                                DISTRICT6.SelectedValue = dr["DISTRICT6"].ToString().Trim();
-                            }
 
 
 
@@ -185,10 +171,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
                             }
 
 
-                            if (DISTRICT7.Items.FindByValue(dr["DISTRICT7"].ToString().Trim()) != null)
-                            {
-                                DISTRICT7.SelectedValue = dr["DISTRICT7"].ToString().Trim();
-                            }
+                            string district7Value = dr["DISTRICT7"].ToString().Trim();
+                            HiddenDistrict7.Value = district7Value;
 
 
                             // .................. 8 ..............
@@ -202,11 +186,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 STATE8.SelectedValue = dr["STATE8"].ToString().Trim();
                             }
 
-
-                            if (DISTRICT8.Items.FindByValue(dr["DISTRICT8"].ToString().Trim()) != null)
-                            {
-                                DISTRICT8.SelectedValue = dr["DISTRICT8"].ToString().Trim();
-                            }
+                            string district8Value = dr["DISTRICT8"].ToString().Trim();
+                            HiddenDistrict8.Value = district8Value;
 
 
                             // .................. 9 ..............
@@ -220,11 +201,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 STATE9.SelectedValue = dr["STATE9"].ToString().Trim();
                             }
 
-
-                            if (DISTRICT9.Items.FindByValue(dr["DISTRICT9"].ToString().Trim()) != null)
-                            {
-                                DISTRICT9.SelectedValue = dr["DISTRICT9"].ToString().Trim();
-                            }
+                            string district9Value = dr["DISTRICT9"].ToString().Trim();
+                            HiddenDistrict9.Value = district9Value;
 
 
                             // .................. 10 ..............
@@ -238,11 +216,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 STATE10.SelectedValue = dr["STATE10"].ToString().Trim();
                             }
 
-
-                            if (DISTRICT10.Items.FindByValue(dr["DISTRICT10"].ToString().Trim()) != null)
-                            {
-                                DISTRICT10.SelectedValue = dr["DISTRICT10"].ToString().Trim();
-                            }
+                            string district10Value = dr["DISTRICT10"].ToString().Trim();
+                            HiddenDistrict10.Value = district10Value;
 
                             // .................. 11 ..............
 
@@ -255,11 +230,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 STATE11.SelectedValue = dr["STATE11"].ToString().Trim();
                             }
 
-
-                            if (DISTRICT11.Items.FindByValue(dr["DISTRICT11"].ToString().Trim()) != null)
-                            {
-                                DISTRICT11.SelectedValue = dr["DISTRICT11"].ToString().Trim();
-                            }
+                            string district11Value = dr["DISTRICT11"].ToString().Trim();
+                            HiddenDistrict11.Value = district11Value;
 
 
                             // .................. 12 ..............
@@ -273,11 +245,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 STATE12.SelectedValue = dr["STATE12"].ToString().Trim();
                             }
 
-
-                            if (DISTRICT12.Items.FindByValue(dr["DISTRICT12"].ToString().Trim()) != null)
-                            {
-                                DISTRICT12.SelectedValue = dr["DISTRICT12"].ToString().Trim();
-                            }
+                            string district12Value = dr["DISTRICT12"].ToString().Trim();
+                            HiddenDistrict12.Value = district12Value;
 
                         }
                     }
@@ -678,40 +647,144 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     SqlCommand cmd = new SqlCommand(query, con);
 
                     cmd.Parameters.AddWithValue("@LoginId", LoginId);
+
                     cmd.Parameters.AddWithValue("@YOP6", YOP6.Value.Trim());
                     cmd.Parameters.AddWithValue("@NOTS6", NOTS6.Value.Trim());
                     cmd.Parameters.AddWithValue("@STATE6", STATE6.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@DISTRICT6", DISTRICT6.SelectedValue.Trim());
+                    string district6 = HiddenDistrict6.Value;  // Get the value from the hidden field
+
+                    if (string.IsNullOrEmpty(district6))
+                    {
+                        Console.WriteLine("District6 is empty!");  // Log if it's empty
+                    }
+                    else
+                    {
+                        Console.WriteLine("District6 selected: " + district6);  // Log the selected district value
+                    }
+
+                    // Proceed with saving the district value to the database
+                    cmd.Parameters.AddWithValue("@DISTRICT6", district6);
+
+
+
 
                     cmd.Parameters.AddWithValue("@YOP7", YOP7.Value.Trim());
                     cmd.Parameters.AddWithValue("@NOTS7", NOTS7.Value.Trim());
                     cmd.Parameters.AddWithValue("@STATE7", STATE7.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@DISTRICT7", DISTRICT7.SelectedValue.Trim());
+                    string district7 = HiddenDistrict7.Value;  // Get the value from the hidden field
+
+                    if (string.IsNullOrEmpty(district7))
+                    {
+                        Console.WriteLine("District7 is empty!");  // Log if it's empty
+                    }
+                    else
+                    {
+                        Console.WriteLine("District7 selected: " + district7);  // Log the selected district value
+                    }
+
+                    // Proceed with saving the district value to the database
+                    cmd.Parameters.AddWithValue("@DISTRICT7", district7);
+
+
+
 
                     cmd.Parameters.AddWithValue("@YOP8", YOP8.Value.Trim());
                     cmd.Parameters.AddWithValue("@NOTS8", NOTS8.Value.Trim());
                     cmd.Parameters.AddWithValue("@STATE8", STATE8.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@DISTRICT8", DISTRICT8.SelectedValue.Trim());
+                    string district8 = HiddenDistrict8.Value;  // Get the value from the hidden field
+
+                    if (string.IsNullOrEmpty(district8))
+                    {
+                        Console.WriteLine("District8 is empty!");  // Log if it's empty
+                    }
+                    else
+                    {
+                        Console.WriteLine("District8 selected: " + district8);  // Log the selected district value
+                    }
+
+                    // Proceed with saving the district value to the database
+                    cmd.Parameters.AddWithValue("@DISTRICT8", district8);
+
+
+
+
 
                     cmd.Parameters.AddWithValue("@YOP9", YOP9.Value.Trim());
                     cmd.Parameters.AddWithValue("@NOTS9", NOTS9.Value.Trim());
                     cmd.Parameters.AddWithValue("@STATE9", STATE9.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@DISTRICT9", DISTRICT9.SelectedValue.Trim());
+                    string district9 = HiddenDistrict9.Value;  // Get the value from the hidden field
+
+                    if (string.IsNullOrEmpty(district9))
+                    {
+                        Console.WriteLine("District9 is empty!");  // Log if it's empty
+                    }
+                    else
+                    {
+                        Console.WriteLine("District9 selected: " + district9);  // Log the selected district value
+                    }
+
+                    // Proceed with saving the district value to the database
+                    cmd.Parameters.AddWithValue("@DISTRICT9", district9);
+
+
+
 
                     cmd.Parameters.AddWithValue("@YOP10", YOP10.Value.Trim());
                     cmd.Parameters.AddWithValue("@NOTS10", NOTS10.Value.Trim());
                     cmd.Parameters.AddWithValue("@STATE10", STATE10.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@DISTRICT10", DISTRICT10.SelectedValue.Trim());
+                    string district10 = HiddenDistrict10.Value;  // Get the value from the hidden field
+
+                    if (string.IsNullOrEmpty(district10))
+                    {
+                        Console.WriteLine("District10 is empty!");  // Log if it's empty
+                    }
+                    else
+                    {
+                        Console.WriteLine("District10 selected: " + district10);  // Log the selected district value
+                    }
+
+                    // Proceed with saving the district value to the database
+                    cmd.Parameters.AddWithValue("@DISTRICT10", district10);
+
+
+
 
                     cmd.Parameters.AddWithValue("@YOP11", YOP11.Value.Trim());
                     cmd.Parameters.AddWithValue("@NOTS11", NOTS11.Value.Trim());
                     cmd.Parameters.AddWithValue("@STATE11", STATE11.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@DISTRICT11", DISTRICT11.SelectedValue.Trim());
+                    string district11 = HiddenDistrict11.Value;  // Get the value from the hidden field
+
+                    if (string.IsNullOrEmpty(district11))
+                    {
+                        Console.WriteLine("District11 is empty!");  // Log if it's empty
+                    }
+                    else
+                    {
+                        Console.WriteLine("District11 selected: " + district11);  // Log the selected district value
+                    }
+
+                    // Proceed with saving the district value to the database
+                    cmd.Parameters.AddWithValue("@DISTRICT11", district11);
+
+
+
 
                     cmd.Parameters.AddWithValue("@YOP12", YOP12.Value.Trim());
                     cmd.Parameters.AddWithValue("@NOTS12", NOTS12.Value.Trim());
                     cmd.Parameters.AddWithValue("@STATE12", STATE12.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@DISTRICT12", DISTRICT12.SelectedValue.Trim());
+                    string district12 = HiddenDistrict12.Value;  // Get the value from the hidden field
+
+                    if (string.IsNullOrEmpty(district12))
+                    {
+                        Console.WriteLine("District12 is empty!");  // Log if it's empty
+                    }
+                    else
+                    {
+                        Console.WriteLine("District12 selected: " + district12);  // Log the selected district value
+                    }
+
+                    // Proceed with saving the district value to the database
+                    cmd.Parameters.AddWithValue("@DISTRICT12", district12);
 
 
                     con.Open();
@@ -1090,32 +1163,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
         }
 
 
-        protected void BindDistrictDropDown(DropDownList ddlDistrict)
-        {
-            using (SqlConnection con = new SqlConnection(strcon))
-            {
-                string query = "SELECT DistrictName FROM District";
-                SqlCommand cmd = new SqlCommand(query, con);
-                con.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                ddlDistrict.Items.Clear(); // Clear existing items
-                ddlDistrict.Items.Add(new ListItem("-- Select --", "")); // Add default item
-
-                while (reader.Read())
-                {
-                    string district = reader["DistrictName"].ToString().Trim();
-                    ddlDistrict.Items.Add(new ListItem(district));
-                }
-            }
-        }
-
-
-
-
-
-
-
+       
 
 
         // storing student mark details along with their application number 

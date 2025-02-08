@@ -2270,7 +2270,6 @@
     <Content Include="fontawesome\svgs\solid\yen-sign.svg" />
     <Content Include="fontawesome\svgs\solid\yin-yang.svg" />
     <Content Include="fontawesome\svgs\solid\z.svg" />
-    <Content Include="Global.asax" />
     <Content Include="hello.aspx" />
     <Content Include="home.aspx" />
     <Content Include="login.aspx" />
@@ -2319,9 +2318,6 @@
     </Compile>
     <Compile Include="AppSubmit.aspx.designer.cs">
       <DependentUpon>AppSubmit.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="hello.aspx.cs">
       <DependentUpon>hello.aspx</DependentUpon>

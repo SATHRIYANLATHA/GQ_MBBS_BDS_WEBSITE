@@ -1,5 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBS.Master" AutoEventWireup="true" CodeBehind="register.aspx.cs" Inherits="MBBS_BDS_WEBSITE.register" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBS.Master" AutoEventWireup="true" CodeBehind="register.aspx.cs" Inherits="MBBS_BDS_WEBSITE.register"  MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 
     <style>
        .otp-container {
@@ -33,6 +37,31 @@
     </style>
 
     <script type="text/javascript">
+
+
+
+        $(function () {
+            $("#<%= txtDOB.ClientID %>").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'dd/mm/yy',
+                maxDate: 0, // Disable future dates
+                yearRange: '1970:' + new Date().getFullYear().toString(),
+                onSelect: function (dateText, inst) {
+                    // Additional logic when a date is selected
+                    if ($("#<%= txtDOB.ClientID %>").val() !== "") {
+                        fnSetBorder("<%= txtDOB.ClientID %>", 0);
+                    }
+                }
+            });
+        });
+
+        // Example function to set border (customize as needed)
+        function fnSetBorder(elementId, borderStyle) {
+            document.getElementById(elementId).style.border = borderStyle === 0 ? "1px solid #ccc" : "2px solid red";
+        }
+
+
 
        
         function PasswordChecking() {
@@ -232,9 +261,9 @@
                                 <h6 style="color: darkblue">Gender</h6>
 
                                 <asp:RadioButtonList ID="rdGender" runat="server" RepeatDirection="Horizontal" CssClass="custom-textbox"  required="required" >
-                                    <asp:ListItem Text="Male" Value="Male" style="padding-left: 10px;"></asp:ListItem>
-                                    <asp:ListItem Text="Female" Value="Female" style="padding-left: 10px;"></asp:ListItem>
-                                    <asp:ListItem Text="Others" Value="Others" style="padding-left: 10px;"></asp:ListItem>                                  
+                                    <asp:ListItem  Value="Male" style="padding-left: 10px;" Selected="True">&nbsp;Male</asp:ListItem>
+                                    <asp:ListItem  Value="Female" style="padding-left: 10px;">&nbsp;Female</asp:ListItem>
+                                    <asp:ListItem  Value="Others" style="padding-left: 10px;">&nbsp;Others</asp:ListItem>                                  
                                 </asp:RadioButtonList>
                                
 
@@ -257,7 +286,7 @@
 
 
                                 <h6 style="color: darkblue">Date Of Birth</h6>
-                                <asp:TextBox ID="txtDOB" runat="server" placeholder="Pick the Date" TextMode="Date" Style="width: 70%;" class="custom-textbox mb-2" required="required"  ></asp:TextBox>
+                                <asp:TextBox ID="txtDOB" runat="server" placeholder="Pick the Date"  Style="width: 70%;" class="custom-textbox mb-2" required="required"  ></asp:TextBox>
                                
 
 
@@ -399,66 +428,8 @@
 
 
 
-                    <!-- OTP VERIFICATION -->
-                                <div class="panel ">
-    <div class="panel-heading p-1 ps-3" style="background-color: #3d6d8c; color: white; border-radius: 5px;">VERIFICATION  </div>
 
-    <div class="panel-body ps-4 pt-4 pb-4" style="border: 1px solid #3d6d8c; border-color: #3d6d8c; border-radius: 5px;">
-
-        <div class="row ">
-
-            <div class="d-flex justify-content-center" >
-             <asp:Button ID="sendSMS" runat="server" Text="SEND SMS" class="btn btn-primary" style="width:20%;" OnClick="btnSendSMS_Click" />
-            </div>
-
-            <div id="smssent" runat="server" visible="false">
-            <h6 style="color: darkblue" class="mt-2 d-flex justify-content-center ">ENTER THE OTP SENT TO YOUR REGISTERED MOBILE NUMBER </h6>
-
-                <div class="otp-container">
-                    <input type="number" maxlength="1" class="otp-input"  name="otp1" oninput="validateInput(this)"/>
-                    <input type="number" maxlength="1" class="otp-input"  name="otp2" oninput="validateInput(this)"/>
-                    <input type="number" maxlength="1" class="otp-input"  name="otp3" oninput="validateInput(this)"/>
-                    <input type="number" maxlength="1" class="otp-input"  name="otp4" oninput="validateInput(this)"/>
-                    <input type="number" maxlength="1" class="otp-input"  name="otp5" oninput="validateInput(this)"/>
-                    <input type="number" maxlength="1" class="otp-input"  name="otp6" oninput="validateInput(this)"/>
-                </div>
-
-                
-                
-
-                <div  class="d-flex justify-content-center mt-2"> 
-                    <asp:Button ID="verify" runat="server" Text=" VERIFY " class="btn btn-success" Style="width: 10%;"  OnClick="verify_Click"/> &nbsp;
-
-                    <asp:Button Id="resend" runat="server" Text="RESEND SMS"  class="btn btn-danger" style="width:15%" OnClick="resend_Click" />
-
-                </div>
-
-
-            </div>
-
-         
-            <div id="otpsuccess" runat="server" visible="false" class="mt-2" >
-    <h6 style="color:green"> OTP VERIFIED SUCCESSFULLY </h6>
-</div>
-
-<div id="otpfailure" runat="server" visible="false" class="mt-2 d-flex justify-content-center">
-    <h6 style="color: red">INVALID  OTP </h6>
-</div>
-
-
-        </div>
-    </div>
-
-</div>
-
-
-
-
-
-
-
-
-                    <div id="fourfive" runat="server" visible="false"  >
+                   
 
                 <!-- PANEL 4 -->
 
@@ -537,7 +508,7 @@
 
                     </div>
 
-            </div>
+         
 
 
 
