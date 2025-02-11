@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class pinfo : System.Web.UI.Page
     {
@@ -60,10 +60,11 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
+                string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
-                    String checkQuery = "SELECT COUNT(*) FROM PersonalInformation where LoginId = @LoginId";
+                    String checkQuery = "SELECT COUNT(*) FROM PersonalInformation WHERE LoginId = @LoginId";
                     SqlCommand checkcmd = new SqlCommand(checkQuery, con);
                     checkcmd.Parameters.AddWithValue("@LoginId", LoginId);
 
@@ -75,24 +76,23 @@ namespace MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE PersonalInformation SET NameOfTheParent=@NameOfTheParent, Nationality=@Nationality, MotherTongue=@MotherTongue, SchoolingStudied=@SchoolingStudied, Religion=@Religion, Nativity=@Nativity, Community=@Community, CasteWithSubCode=@CasteWithSubCode, CertificateNumber=@CertificateNumber, IssuedBy=@IssuedBy, IssuedTaluk=@IssuedTaluk, CommDistrict=@CommDistrict, IssuedDate=@IssuedDate WHERE LoginId=@LoginId";
+                        query = "UPDATE PersonalInformation SET NameOfTheParent=@NameOfTheParent, Nationality=@Nationality, MotherTongue=@MotherTongue, SchoolingStudied=@SchoolingStudied, Religion=@Religion, Nativity=@Nativity, Community=@Community, CasteWithSubCode=@CasteWithSubCode, CertificateNumber=@CertificateNumber, IssuedBy=@IssuedBy, IssuedTaluk=@IssuedTaluk, CommDistrict=@CommDistrict, IssuedDate=@IssuedDate, ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO PersonalInformation(LoginId, NameOfTheParent, Nationality, MotherTongue, SchoolingStudied, Religion, Nativity, Community, CasteWithSubCode, CertificateNumber, IssuedBy, IssuedTaluk, CommDistrict, IssuedDate) VALUES (@LoginId, @NameOfTheParent, @Nationality, @MotherTongue, @SchoolingStudied, @Religion, @Nativity, @Community, @CasteWithSubCode, @CertificateNumber, @IssuedBy, @IssuedTaluk, @CommDistrict, @IssuedDate)";
+                        query = "INSERT INTO PersonalInformation(LoginId, NameOfTheParent, Nationality, MotherTongue, SchoolingStudied, Religion, Nativity, Community, CasteWithSubCode, CertificateNumber, IssuedBy, IssuedTaluk, CommDistrict, IssuedDate, ModifiedAt) VALUES (@LoginId, @NameOfTheParent, @Nationality, @MotherTongue, @SchoolingStudied, @Religion, @Nativity, @Community, @CasteWithSubCode, @CertificateNumber, @IssuedBy, @IssuedTaluk, @CommDistrict, @IssuedDate, @ModifiedAt)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
-
                     cmd.Parameters.AddWithValue("@LoginId", LoginId);
                     cmd.Parameters.AddWithValue("@NameOfTheParent", txtParent.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Nationality", ddlNationality.SelectedValue.Trim()); // Store ID of Nationality
-                    cmd.Parameters.AddWithValue("@MotherTongue", ddlMotherTongue.SelectedValue.Trim()); // Store ID of MotherTongue
-                    cmd.Parameters.AddWithValue("@SchoolingStudied", ddlSchooling.SelectedValue.Trim()); // Store ID of Schooling
-                    cmd.Parameters.AddWithValue("@Religion", ddlReligion.SelectedValue.Trim()); // Store ID of Religion
-                    cmd.Parameters.AddWithValue("@Nativity", ddlNativity.SelectedValue.Trim()); // Store ID of Nativity
-                    cmd.Parameters.AddWithValue("@Community", ddlCommunity.SelectedValue.Trim()); // Store ID of Community
-                    cmd.Parameters.AddWithValue("@CasteWithSubCode", ddlCaste.SelectedValue.Trim()); // Store ID of Caste
+                    cmd.Parameters.AddWithValue("@Nationality", ddlNationality.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@MotherTongue", ddlMotherTongue.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@SchoolingStudied", ddlSchooling.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@Religion", ddlReligion.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@Nativity", ddlNativity.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@Community", ddlCommunity.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@CasteWithSubCode", ddlCaste.SelectedValue.Trim());
 
                     if (ddlCommunity.SelectedValue.Trim() == "1")
                     {
@@ -106,21 +106,17 @@ namespace MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@CertificateNumber", txtCertificate.Text.Trim());
                     cmd.Parameters.AddWithValue("@IssuedBy", txtIssuedby.Text.Trim());
                     cmd.Parameters.AddWithValue("@IssuedTaluk", txtIssuedTaluk.Text.Trim());
-                    cmd.Parameters.AddWithValue("@CommDistrict", ddlDistrict.SelectedValue.Trim()); // Store ID of District
-
+                    cmd.Parameters.AddWithValue("@CommDistrict", ddlDistrict.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@IssuedDate", txtDate.Text.Trim());
+                    cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
                 }
 
-                // Set the session variable to mark the current step as complete
                 Session["PersonalInformationComplete"] = true;
-
                 setuserstatus();
-
-                // Redirect to the next page (e.g., splres.aspx)
                 Response.Redirect("splres.aspx");
             }
             catch (Exception ex)
@@ -128,6 +124,7 @@ namespace MBBS_BDS_WEBSITE
                 Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
         }
+
 
 
 

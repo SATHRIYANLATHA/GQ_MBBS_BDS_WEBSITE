@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class sos : System.Web.UI.Page
     {
@@ -21,6 +21,8 @@ namespace MBBS_BDS_WEBSITE
                 BindCivicSchoolDropDown(); // dropdown for civic school
                 BindCivicNativeDropDown(); // dropdown for civic native
 
+                BindMaxMarksDropDown(); // DROPDOWN FOR MAX MARKS 
+                BindMonthsDropDown(); // DROPDOWN FOR MONTHS
 
                 BindStateDropDown(STATE6); // dropdown for states
                 BindStateDropDown(STATE7);
@@ -36,9 +38,10 @@ namespace MBBS_BDS_WEBSITE
                 String loginId = Session["LoginId"] as string;
                 loadotherdetails(loginId);
                 loadstudydetails(loginId);
-                loadphysicschemistry(loginId);
-                loadbotanyzoology(loginId);
-                loadbiologymathsothers(loginId);
+                loadStudentMarkDetails(loginId);
+                //loadphysicschemistry(loginId);
+                //loadbotanyzoology(loginId);
+                //loadbiologymathsothers(loginId);
 
 
             }
@@ -261,13 +264,243 @@ namespace MBBS_BDS_WEBSITE
         }
 
 
-        protected void loadphysicschemistry(string loginId)
+        //protected void loadphysicschemistry(string loginId)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection con = new SqlConnection(strcon))
+        //        {
+        //            string query = "SELECT * FROM PhysicsChemistry WHERE LoginId=@LoginId";
+        //            SqlCommand cmd = new SqlCommand(query, con);
+        //            cmd.Parameters.AddWithValue("@LoginId", loginId);
+
+        //            con.Open();
+        //            SqlDataReader dr = cmd.ExecuteReader();
+
+        //            if (dr.HasRows)
+        //            {
+        //                while (dr.Read())
+        //                {
+
+        //                    // PHYSICS .......
+
+        //                    PHYSICSSUBJECT.InnerHtml = dr["PHYSICSSUBJECT"].ToString().Trim();
+
+        //                    RNPHY.Value = dr["RNPHY"].ToString().Trim();
+
+        //                    if (MOPPHY.Items.FindByValue(dr["MOPPHY"].ToString().Trim()) != null)
+        //                    {
+        //                        MOPPHY.SelectedValue = dr["MOPPHY"].ToString().Trim();
+        //                    }
+
+        //                    YOPPHY.Value = dr["YOPPHY"].ToString().Trim();
+
+        //                    if (MAXMARKSPHY.Items.FindByValue(dr["MAXMARKSPHY"].ToString().Trim()) != null)
+        //                    {
+        //                        MAXMARKSPHY.SelectedValue = dr["MAXMARKSPHY"].ToString().Trim();
+        //                    }
+
+        //                    OBTMARKSPHY.Value = dr["OBTMARKSPHY"].ToString().Trim();
+
+
+        //                    // CHEMISTRY.......
+
+        //                    CHEMISTRYSUBJECT.InnerHtml = dr["CHEMISTRYSUBJECT"].ToString().Trim();
+
+        //                    RNCHE.Value = dr["RNCHE"].ToString().Trim();
+
+        //                    if (MOPCHE.Items.FindByValue(dr["MOPCHE"].ToString().Trim()) != null)
+        //                    {
+        //                        MOPCHE.SelectedValue = dr["MOPCHE"].ToString().Trim();
+        //                    }
+
+        //                    YOPCHE.Value = dr["YOPCHE"].ToString().Trim();
+
+        //                    if (MAXMARKSCHE.Items.FindByValue(dr["MAXMARKSCHE"].ToString().Trim()) != null)
+        //                    {
+        //                        MAXMARKSCHE.SelectedValue = dr["MAXMARKSCHE"].ToString().Trim();
+        //                    }
+
+        //                    OBTMARKSCHE.Value = dr["OBTMARKSCHE"].ToString().Trim();
+
+
+        //                }
+        //            }
+
+
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
+        //    }
+        //}
+
+        //protected void loadbotanyzoology(string loginId)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection con = new SqlConnection(strcon))
+        //        {
+        //            string query = "SELECT * FROM BotanyZoology WHERE LoginId=@LoginId";
+        //            SqlCommand cmd = new SqlCommand(query, con);
+        //            cmd.Parameters.AddWithValue("@LoginId", loginId);
+
+        //            con.Open();
+        //            SqlDataReader dr = cmd.ExecuteReader();
+
+        //            if (dr.HasRows)
+        //            {
+        //                while (dr.Read())
+        //                {
+
+        //                    checkbox1.Checked = Convert.ToBoolean(dr["CHECKBOX1"]);
+
+        //                    // PHYSICS .......
+
+
+        //                    BOTANYSUBJECT.InnerHtml = dr["BOTANYSUBJECT"].ToString().Trim();
+
+        //                    RNBOT.Value = dr["RNBOT"].ToString().Trim();
+
+        //                    if (MOPBOT.Items.FindByValue(dr["MOPBOT"].ToString().Trim()) != null)
+        //                    {
+        //                        MOPBOT.SelectedValue = dr["MOPBOT"].ToString().Trim();
+        //                    }
+
+        //                    YOPBOT.Value = dr["YOPBOT"].ToString().Trim();
+
+        //                    if (MAXMARKSBOT.Items.FindByValue(dr["MAXMARKSBOT"].ToString().Trim()) != null)
+        //                    {
+        //                        MAXMARKSBOT.SelectedValue = dr["MAXMARKSBOT"].ToString().Trim();
+        //                    }
+
+        //                    OBTMARKSBOT.Value = dr["OBTMARKSBOT"].ToString().Trim();
+
+
+
+
+        //                    // CHEMISTRY.......
+
+        //                    ZOOLOGYSUBJECT.InnerHtml = dr["ZOOLOGYSUBJECT"].ToString().Trim();
+
+        //                    RNZOO.Value = dr["RNZOO"].ToString().Trim();
+
+        //                    if (MOPZOO.Items.FindByValue(dr["MOPZOO"].ToString().Trim()) != null)
+        //                    {
+        //                        MOPZOO.SelectedValue = dr["MOPZOO"].ToString().Trim();
+        //                    }
+
+        //                    YOPZOO.Value = dr["YOPZOO"].ToString().Trim();
+
+        //                    if (MAXMARKSZOO.Items.FindByValue(dr["MAXMARKSZOO"].ToString().Trim()) != null)
+        //                    {
+        //                        MAXMARKSZOO.SelectedValue = dr["MAXMARKSZOO"].ToString().Trim();
+        //                    }
+
+        //                    OBTMARKSZOO.Value = dr["OBTMARKSZOO"].ToString().Trim();
+
+
+        //                }
+        //            }
+
+
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
+        //    }
+        //}
+
+        //protected void loadbiologymathsothers(string loginId)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection con = new SqlConnection(strcon))
+        //        {
+        //            string query = "SELECT * FROM BiologyMathsOthers WHERE LoginId=@LoginId";
+        //            SqlCommand cmd = new SqlCommand(query, con);
+        //            cmd.Parameters.AddWithValue("@LoginId", loginId);
+
+        //            con.Open();
+        //            SqlDataReader dr = cmd.ExecuteReader();
+
+        //            if (dr.HasRows)
+        //            {
+        //                while (dr.Read())
+        //                {
+
+        //                    checkbox2.Checked = Convert.ToBoolean(dr["CHECKBOX2"]);
+
+        //                    // PHYSICS .......
+
+
+        //                    BIOLOGYSUBJECT.InnerHtml = dr["BIOLOGYSUBJECT"].ToString().Trim();
+
+        //                    RNBIO.Value = dr["RNBIO"].ToString().Trim();
+
+        //                    if (MOPBIO.Items.FindByValue(dr["MOPBIO"].ToString().Trim()) != null)
+        //                    {
+        //                        MOPBIO.SelectedValue = dr["MOPBIO"].ToString().Trim();
+        //                    }
+
+        //                    YOPBIO.Value = dr["YOPBIO"].ToString().Trim();
+
+        //                    if (MAXMARKSBIO.Items.FindByValue(dr["MAXMARKSBIO"].ToString().Trim()) != null)
+        //                    {
+        //                        MAXMARKSBIO.SelectedValue = dr["MAXMARKSBIO"].ToString().Trim();
+        //                    }
+
+        //                    OBTMARKSBIO.Value = dr["OBTMARKSBIO"].ToString().Trim();
+
+
+
+
+        //                    // CHEMISTRY.......
+
+        //                    if (MATHSOTHERSSUBJECT.Items.FindByValue(dr["MATHSOTHERSSUBJECT"].ToString().Trim()) != null)
+        //                    {
+        //                        MATHSOTHERSSUBJECT.SelectedValue = dr["MATHSOTHERSSUBJECT"].ToString().Trim();
+        //                    }
+
+        //                    RNMATOTH.Value = dr["RNMATOTH"].ToString().Trim();
+
+        //                    if (MOPMATOTH.Items.FindByValue(dr["MOPMATOTH"].ToString().Trim()) != null)
+        //                    {
+        //                        MOPMATOTH.SelectedValue = dr["MOPMATOTH"].ToString().Trim();
+        //                    }
+
+        //                    YOPMATOTH.Value = dr["YOPMATOTH"].ToString().Trim();
+
+        //                    if (MAXMARKSMATOTH.Items.FindByValue(dr["MAXMARKSMATOTH"].ToString().Trim()) != null)
+        //                    {
+        //                        MAXMARKSMATOTH.SelectedValue = dr["MAXMARKSMATOTH"].ToString().Trim();
+        //                    }
+
+        //                    OBTMARKSMATOTH.Value = dr["OBTMARKSMATOTH"].ToString().Trim();
+
+
+        //                }
+        //            }
+
+
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
+        //    }
+        //}
+
+
+        protected void loadStudentMarkDetails(string loginId)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
-                    string query = "SELECT * FROM PhysicsChemistry WHERE LoginId=@LoginId";
+                    string query = "SELECT * FROM StudentMarkDetails WHERE LoginId=@LoginId";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@LoginId", loginId);
 
@@ -321,35 +554,6 @@ namespace MBBS_BDS_WEBSITE
                             OBTMARKSCHE.Value = dr["OBTMARKSCHE"].ToString().Trim();
 
 
-                        }
-                    }
-
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script> alert('" + ex.Message + "') </script>");
-            }
-        }
-
-        protected void loadbotanyzoology(string loginId)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(strcon))
-                {
-                    string query = "SELECT * FROM BotanyZoology WHERE LoginId=@LoginId";
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@LoginId", loginId);
-
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
 
                             checkbox1.Checked = Convert.ToBoolean(dr["CHECKBOX1"]);
 
@@ -398,35 +602,6 @@ namespace MBBS_BDS_WEBSITE
                             OBTMARKSZOO.Value = dr["OBTMARKSZOO"].ToString().Trim();
 
 
-                        }
-                    }
-
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script> alert('" + ex.Message + "') </script>");
-            }
-        }
-
-        protected void loadbiologymathsothers(string loginId)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(strcon))
-                {
-                    string query = "SELECT * FROM BiologyMathsOthers WHERE LoginId=@LoginId";
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@LoginId", loginId);
-
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
 
                             checkbox2.Checked = Convert.ToBoolean(dr["CHECKBOX2"]);
 
@@ -478,6 +653,8 @@ namespace MBBS_BDS_WEBSITE
                             OBTMARKSMATOTH.Value = dr["OBTMARKSMATOTH"].ToString().Trim();
 
 
+
+
                         }
                     }
 
@@ -490,22 +667,27 @@ namespace MBBS_BDS_WEBSITE
             }
         }
 
-
         protected void btnSaveContinue_Click(object sender, EventArgs e)
         {
-            OtherDetails();
-            StudyDetails();
-            PhysicsChemistry();
-            BotanyZoology();
-            BioloyMathsOthers();
+            //OtherDetails();
+            //StudyDetails();
+            //PhysicsChemistry();
+            //BotanyZoology();
+            //BioloyMathsOthers();
+            try
+            {
+                StudentMarkDetails();
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script> alert('" + ex.Message + "') </script>");
+            }
 
-            StudentMarkDetails();
+            //Session["AcademicAndSchoolingComplete"] = true;
 
-            Session["AcademicAndSchoolingComplete"] = true;
+            //setuserstatus();
 
-            setuserstatus();
-
-            Response.Redirect("addinfo.aspx");
+            //Response.Redirect("addinfo.aspx");
 
         }
 
@@ -555,6 +737,7 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
+                string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
@@ -570,11 +753,11 @@ namespace MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE AcademicAndSchooling SET NumberOfHSCAttempt=@NumberOfHSCAttempt,MediumOfInstruction=@MediumOfInstruction,CivicSchool=@CivicSchool,CivicNative=@CivicNative,NumberOfNEETAttempt=@NumberOfNEETAttempt,NEETCoaching=@NEETCoaching,NEETstate=@NEETstate,NEETaddress=@NEETaddress,GovtSchool=@GovtSchool,RTE=@RTE WHERE LoginId=@LoginId";
+                        query = "UPDATE AcademicAndSchooling SET NumberOfHSCAttempt=@NumberOfHSCAttempt,MediumOfInstruction=@MediumOfInstruction,CivicSchool=@CivicSchool,CivicNative=@CivicNative,NumberOfNEETAttempt=@NumberOfNEETAttempt,NEETCoaching=@NEETCoaching,NEETstate=@NEETstate,NEETaddress=@NEETaddress,GovtSchool=@GovtSchool,RTE=@RTE,ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO AcademicAndSchooling(LoginId,NumberOfHSCAttempt,MediumOfInstruction,CivicSchool,CivicNative,NumberOfNEETAttempt,NEETCoaching,NEETstate,NEETaddress,GovtSchool,RTE) VALUES (@LoginId,@NumberOfHSCAttempt,@MediumOfInstruction,@CivicSchool,@CivicNative,@NumberOfNEETAttempt,@NEETCoaching,@NEETstate,@NEETaddress,@GovtSchool,@RTE)";
+                        query = "INSERT INTO AcademicAndSchooling(LoginId,NumberOfHSCAttempt,MediumOfInstruction,CivicSchool,CivicNative,NumberOfNEETAttempt,NEETCoaching,NEETstate,NEETaddress,GovtSchool,RTE,ModifiedAt) VALUES (@LoginId,@NumberOfHSCAttempt,@MediumOfInstruction,@CivicSchool,@CivicNative,@NumberOfNEETAttempt,@NEETCoaching,@NEETstate,@NEETaddress,@GovtSchool,@RTE,@ModifiedAt)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
@@ -597,6 +780,8 @@ namespace MBBS_BDS_WEBSITE
                     }
                     cmd.Parameters.AddWithValue("@NEETstate", STATEneet.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@NEETaddress", neetaddress.Text.Trim());
+                    cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -622,6 +807,7 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
+                string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
@@ -637,11 +823,11 @@ namespace MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE StudyDetails SET YOP6=@YOP6,NOTS6=@NOTS6,STATE6=@STATE6,DISTRICT6=@DISTRICT6,YOP7=@YOP7,NOTS7=@NOTS7,STATE7=@STATE7,DISTRICT7=@DISTRICT7,YOP8=@YOP8,NOTS8=@NOTS8,STATE8=@STATE8,DISTRICT8=@DISTRICT8,YOP9=@YOP9,NOTS9=@NOTS9,STATE9=@STATE9,DISTRICT9=@DISTRICT9,YOP10=@YOP10,NOTS10=@NOTS10,STATE10=@STATE10,DISTRICT10=@DISTRICT10,YOP11=@YOP11,NOTS11=@NOTS11,STATE11=@STATE11,DISTRICT11=@DISTRICT11,YOP12=@YOP12,NOTS12=@NOTS12,STATE12=@STATE12,DISTRICT12=@DISTRICT12 WHERE LoginId=@LoginId";
+                        query = "UPDATE StudyDetails SET YOP6=@YOP6,NOTS6=@NOTS6,STATE6=@STATE6,DISTRICT6=@DISTRICT6,YOP7=@YOP7,NOTS7=@NOTS7,STATE7=@STATE7,DISTRICT7=@DISTRICT7,YOP8=@YOP8,NOTS8=@NOTS8,STATE8=@STATE8,DISTRICT8=@DISTRICT8,YOP9=@YOP9,NOTS9=@NOTS9,STATE9=@STATE9,DISTRICT9=@DISTRICT9,YOP10=@YOP10,NOTS10=@NOTS10,STATE10=@STATE10,DISTRICT10=@DISTRICT10,YOP11=@YOP11,NOTS11=@NOTS11,STATE11=@STATE11,DISTRICT11=@DISTRICT11,YOP12=@YOP12,NOTS12=@NOTS12,STATE12=@STATE12,DISTRICT12=@DISTRICT12,ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO StudyDetails(LoginId,YOP6,NOTS6,STATE6,DISTRICT6,YOP7,NOTS7,STATE7,DISTRICT7,YOP8,NOTS8,STATE8,DISTRICT8,YOP9,NOTS9,STATE9,DISTRICT9,YOP10,NOTS10,STATE10,DISTRICT10,YOP11,NOTS11,STATE11,DISTRICT11,YOP12,NOTS12,STATE12,DISTRICT12) VALUES(@LoginId,@YOP6,@NOTS6,@STATE6,@DISTRICT6,@YOP7,@NOTS7,@STATE7,@DISTRICT7,@YOP8,@NOTS8,@STATE8,@DISTRICT8,@YOP9,@NOTS9,@STATE9,@DISTRICT9,@YOP10,@NOTS10,@STATE10,@DISTRICT10,@YOP11,@NOTS11,@STATE11,@DISTRICT11,@YOP12,@NOTS12,@STATE12,@DISTRICT12)";
+                        query = "INSERT INTO StudyDetails(LoginId,YOP6,NOTS6,STATE6,DISTRICT6,YOP7,NOTS7,STATE7,DISTRICT7,YOP8,NOTS8,STATE8,DISTRICT8,YOP9,NOTS9,STATE9,DISTRICT9,YOP10,NOTS10,STATE10,DISTRICT10,YOP11,NOTS11,STATE11,DISTRICT11,YOP12,NOTS12,STATE12,DISTRICT12,@ModifiedAt) VALUES(@LoginId,@YOP6,@NOTS6,@STATE6,@DISTRICT6,@YOP7,@NOTS7,@STATE7,@DISTRICT7,@YOP8,@NOTS8,@STATE8,@DISTRICT8,@YOP9,@NOTS9,@STATE9,@DISTRICT9,@YOP10,@NOTS10,@STATE10,@DISTRICT10,@YOP11,@NOTS11,@STATE11,@DISTRICT11,@YOP12,@NOTS12,@STATE12,@DISTRICT12,@ModifiedAt)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
@@ -786,6 +972,9 @@ namespace MBBS_BDS_WEBSITE
                     // Proceed with saving the district value to the database
                     cmd.Parameters.AddWithValue("@DISTRICT12", district12);
 
+                    cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+
+
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -803,286 +992,301 @@ namespace MBBS_BDS_WEBSITE
         }
 
 
-        protected void PhysicsChemistry()
-        {
-            try
-            {
-                String LoginId = Session["LoginId"] as string;
-
-                using (SqlConnection con = new SqlConnection(strcon))
-                {
+        //protected void PhysicsChemistry()
+        //{
+        //    try
+        //    {
+        //        String LoginId = Session["LoginId"] as string;
+        //        string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
 
 
-                    if (checkbox1.Checked)
-                    {
-                        RNBIO.Value = "";
-                        MOPBIO.SelectedValue = "";
-                        YOPBIO.Value = "";
-                        MAXMARKSBIO.SelectedValue = "";
-                        OBTMARKSBIO.Value = "";
-
-                        RNMATOTH.Value = "";
-                        MOPMATOTH.SelectedValue = "";
-                        YOPMATOTH.Value = "";
-                        MAXMARKSMATOTH.SelectedValue = "";
-                        OBTMARKSMATOTH.Value = "";
-
-                    }
-                    else if (checkbox2.Checked)
-                    {
-
-                        RNBOT.Value = "";
-                        MOPBOT.SelectedValue = "";
-                        YOPBOT.Value = "";
-                        MAXMARKSBOT.SelectedValue = "";
-                        OBTMARKSBOT.Value = "";
-
-                        RNZOO.Value = "";
-                        MOPZOO.SelectedValue = "";
-                        YOPZOO.Value = "";
-                        MAXMARKSZOO.SelectedValue = "";
-                        OBTMARKSZOO.Value = "";
-                    }
+        //        using (SqlConnection con = new SqlConnection(strcon))
+        //        {
 
 
-                    String checkQuery = "SELECT COUNT(*) FROM PhysicsChemistry where LoginId = @LoginId";
-                    SqlCommand checkcmd = new SqlCommand(checkQuery, con);
-                    checkcmd.Parameters.AddWithValue("@LoginId", LoginId);
+        //            if (checkbox1.Checked)
+        //            {
+        //                RNBIO.Value = "";
+        //                MOPBIO.SelectedValue = "";
+        //                YOPBIO.Value = "";
+        //                MAXMARKSBIO.SelectedValue = "";
+        //                OBTMARKSBIO.Value = "";
 
-                    con.Open();
-                    int count = Convert.ToInt32(checkcmd.ExecuteScalar());
-                    con.Close();
+        //                RNMATOTH.Value = "";
+        //                MOPMATOTH.SelectedValue = "";
+        //                YOPMATOTH.Value = "";
+        //                MAXMARKSMATOTH.SelectedValue = "";
+        //                OBTMARKSMATOTH.Value = "";
 
-                    string query;
+        //            }
+        //            else if (checkbox2.Checked)
+        //            {
 
-                    if (count > 0)
-                    {
-                        query = "UPDATE PhysicsChemistry SET RNPHY=@RNPHY,PHYSICSSUBJECT=@PHYSICSSUBJECT,MOPPHY=@MOPPHY,YOPPHY=@YOPPHY,MAXMARKSPHY=@MAXMARKSPHY,OBTMARKSPHY=@OBTMARKSPHY,CHEMISTRYSUBJECT=@CHEMISTRYSUBJECT,RNCHE=@RNCHE,MOPCHE=@MOPCHE,YOPCHE=@YOPCHE,MAXMARKSCHE=@MAXMARKSCHE,OBTMARKSCHE=@OBTMARKSCHE WHERE LoginId=@LoginId";
-                    }
-                    else
-                    {
-                        query = "INSERT INTO PhysicsChemistry(LoginId,PHYSICSSUBJECT,RNPHY,MOPPHY,YOPPHY,MAXMARKSPHY,OBTMARKSPHY,CHEMISTRYSUBJECT,RNCHE,MOPCHE,YOPCHE,MAXMARKSCHE,OBTMARKSCHE) VALUES(@LoginId,@PHYSICSSUBJECT,@RNPHY,@MOPPHY,@YOPPHY,@MAXMARKSPHY,@OBTMARKSPHY,@CHEMISTRYSUBJECT,@RNCHE,@MOPCHE,@YOPCHE,@MAXMARKSCHE,@OBTMARKSCHE)";
-                    }
+        //                RNBOT.Value = "";
+        //                MOPBOT.SelectedValue = "";
+        //                YOPBOT.Value = "";
+        //                MAXMARKSBOT.SelectedValue = "";
+        //                OBTMARKSBOT.Value = "";
 
-                    SqlCommand cmd = new SqlCommand(query, con);
-
-                    cmd.Parameters.AddWithValue("@LoginId", LoginId);
-
-                    cmd.Parameters.AddWithValue("@PHYSICSSUBJECT", PHYSICSSUBJECT.InnerHtml.Trim());
-                    cmd.Parameters.AddWithValue("@RNPHY", RNPHY.Value.Trim());
-                    cmd.Parameters.AddWithValue("@MOPPHY", MOPPHY.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@YOPPHY", YOPPHY.Value.Trim());
-                    cmd.Parameters.AddWithValue("@MAXMARKSPHY", MAXMARKSPHY.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSPHY", OBTMARKSPHY.Value.Trim());
-
-                    cmd.Parameters.AddWithValue("@CHEMISTRYSUBJECT", CHEMISTRYSUBJECT.InnerHtml.Trim());
-                    cmd.Parameters.AddWithValue("@RNCHE", RNCHE.Value.Trim());
-                    cmd.Parameters.AddWithValue("@MOPCHE", MOPCHE.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@YOPCHE", YOPCHE.Value.Trim());
-                    cmd.Parameters.AddWithValue("@MAXMARKSCHE", MAXMARKSCHE.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSCHE", OBTMARKSCHE.Value.Trim());
-
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();       
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script> alert('" + ex.Message + "') </script>");
-            }
-        }
+        //                RNZOO.Value = "";
+        //                MOPZOO.SelectedValue = "";
+        //                YOPZOO.Value = "";
+        //                MAXMARKSZOO.SelectedValue = "";
+        //                OBTMARKSZOO.Value = "";
+        //            }
 
 
-        protected void BotanyZoology()
-        {
-                try
-                {
-                    String LoginId = Session["LoginId"] as string;
+        //            String checkQuery = "SELECT COUNT(*) FROM PhysicsChemistry where LoginId = @LoginId";
+        //            SqlCommand checkcmd = new SqlCommand(checkQuery, con);
+        //            checkcmd.Parameters.AddWithValue("@LoginId", LoginId);
 
-                    using (SqlConnection con = new SqlConnection(strcon))
-                    {
+        //            con.Open();
+        //            int count = Convert.ToInt32(checkcmd.ExecuteScalar());
+        //            con.Close();
 
+        //            string query;
 
-                    if (checkbox1.Checked)
-                    {
-                        RNBIO.Value = "";
-                        MOPBIO.SelectedValue = "";
-                        YOPBIO.Value = "";
-                        MAXMARKSBIO.SelectedValue = "";
-                        OBTMARKSBIO.Value = "";
+        //            if (count > 0)
+        //            {
+        //                query = "UPDATE PhysicsChemistry SET RNPHY=@RNPHY,PHYSICSSUBJECT=@PHYSICSSUBJECT,MOPPHY=@MOPPHY,YOPPHY=@YOPPHY,MAXMARKSPHY=@MAXMARKSPHY,OBTMARKSPHY=@OBTMARKSPHY,CHEMISTRYSUBJECT=@CHEMISTRYSUBJECT,RNCHE=@RNCHE,MOPCHE=@MOPCHE,YOPCHE=@YOPCHE,MAXMARKSCHE=@MAXMARKSCHE,OBTMARKSCHE=@OBTMARKSCHE,ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
+        //            }
+        //            else
+        //            {
+        //                query = "INSERT INTO PhysicsChemistry(LoginId,PHYSICSSUBJECT,RNPHY,MOPPHY,YOPPHY,MAXMARKSPHY,OBTMARKSPHY,CHEMISTRYSUBJECT,RNCHE,MOPCHE,YOPCHE,MAXMARKSCHE,OBTMARKSCHE,ModifiedAt) VALUES(@LoginId,@PHYSICSSUBJECT,@RNPHY,@MOPPHY,@YOPPHY,@MAXMARKSPHY,@OBTMARKSPHY,@CHEMISTRYSUBJECT,@RNCHE,@MOPCHE,@YOPCHE,@MAXMARKSCHE,@OBTMARKSCHE,@ModifiedAt)";
+        //            }
 
-                        RNMATOTH.Value = "";
-                        MOPMATOTH.SelectedValue = "";
-                        YOPMATOTH.Value = "";
-                        MAXMARKSMATOTH.SelectedValue = "";
-                        OBTMARKSMATOTH.Value = "";
+        //            SqlCommand cmd = new SqlCommand(query, con);
 
-                    }
-                    else if (checkbox2.Checked)
-                    {
+        //            cmd.Parameters.AddWithValue("@LoginId", LoginId);
 
-                        RNBOT.Value = "";
-                        MOPBOT.SelectedValue = "";
-                        YOPBOT.Value = "";
-                        MAXMARKSBOT.SelectedValue = "";
-                        OBTMARKSBOT.Value = "";
+        //            cmd.Parameters.AddWithValue("@PHYSICSSUBJECT", PHYSICSSUBJECT.InnerHtml.Trim());
+        //            cmd.Parameters.AddWithValue("@RNPHY", RNPHY.Value.Trim());
+        //            cmd.Parameters.AddWithValue("@MOPPHY", MOPPHY.SelectedValue.Trim());
+        //            cmd.Parameters.AddWithValue("@YOPPHY", YOPPHY.Value.Trim());
+        //            cmd.Parameters.AddWithValue("@MAXMARKSPHY", MAXMARKSPHY.SelectedValue.Trim());
+        //            cmd.Parameters.AddWithValue("@OBTMARKSPHY", OBTMARKSPHY.Value.Trim());
 
-                        RNZOO.Value = "";
-                        MOPZOO.SelectedValue = "";
-                        YOPZOO.Value = "";
-                        MAXMARKSZOO.SelectedValue = "";
-                        OBTMARKSZOO.Value = "";
-                    }
+        //            cmd.Parameters.AddWithValue("@CHEMISTRYSUBJECT", CHEMISTRYSUBJECT.InnerHtml.Trim());
+        //            cmd.Parameters.AddWithValue("@RNCHE", RNCHE.Value.Trim());
+        //            cmd.Parameters.AddWithValue("@MOPCHE", MOPCHE.SelectedValue.Trim());
+        //            cmd.Parameters.AddWithValue("@YOPCHE", YOPCHE.Value.Trim());
+        //            cmd.Parameters.AddWithValue("@MAXMARKSCHE", MAXMARKSCHE.SelectedValue.Trim());
+        //            cmd.Parameters.AddWithValue("@OBTMARKSCHE", OBTMARKSCHE.Value.Trim());
 
-                    String checkQuery = "SELECT COUNT(*) FROM BotanyZoology where LoginId = @LoginId";
-                        SqlCommand checkcmd = new SqlCommand(checkQuery, con);
-                        checkcmd.Parameters.AddWithValue("@LoginId", LoginId);
-
-                        con.Open();
-                        int count = Convert.ToInt32(checkcmd.ExecuteScalar());
-                        con.Close();
-
-                        string query;
-
-                        if (count > 0)
-                        {
-                            query = "UPDATE BotanyZoology SET CHECKBOX1=@CHECKBOX1,BOTANYSUBJECT=@BOTANYSUBJECT,RNBOT=@RNBOT,MOPBOT=@MOPBOT,YOPBOT=@YOPBOT,MAXMARKSBOT=@MAXMARKSBOT,OBTMARKSBOT=@OBTMARKSBOT,ZOOLOGYSUBJECT=@ZOOLOGYSUBJECT,RNZOO=@RNZOO,MOPZOO=@MOPZOO,YOPZOO=@YOPZOO,MAXMARKSZOO=@MAXMARKSZOO,OBTMARKSZOO=@OBTMARKSZOO WHERE LoginId=@LoginId";
-                        }
-                        else
-                        {
-                            query = "INSERT INTO BotanyZoology(LoginId,CHECKBOX1,BOTANYSUBJECT,RNBOT,MOPBOT,YOPBOT,MAXMARKSBOT,OBTMARKSBOT,ZOOLOGYSUBJECT,RNZOO,MOPZOO,YOPZOO,MAXMARKSZOO,OBTMARKSZOO) VALUES(@LoginId,@CHECKBOX1,@BOTANYSUBJECT,@RNBOT,@MOPBOT,@YOPBOT,@MAXMARKSBOT,@OBTMARKSBOT,@ZOOLOGYSUBJECT,@RNZOO,@MOPZOO,@YOPZOO,@MAXMARKSZOO,@OBTMARKSZOO)";
-                        }
-
-                        SqlCommand cmd = new SqlCommand(query, con);
-
-                        cmd.Parameters.AddWithValue("@LoginId", LoginId);
-
-                        cmd.Parameters.AddWithValue("@CHECKBOX1", checkbox1.Checked);
-
-                        cmd.Parameters.AddWithValue("@BOTANYSUBJECT", BOTANYSUBJECT.InnerHtml.Trim());
-                        cmd.Parameters.AddWithValue("@RNBOT", RNBOT.Value.Trim());
-                        cmd.Parameters.AddWithValue("@MOPBOT", MOPBOT.SelectedValue.Trim());
-                        cmd.Parameters.AddWithValue("@YOPBOT", YOPBOT.Value.Trim());
-                        cmd.Parameters.AddWithValue("@MAXMARKSBOT", MAXMARKSBOT.SelectedValue.Trim());
-                        cmd.Parameters.AddWithValue("@OBTMARKSBOT", OBTMARKSBOT.Value.Trim());
-
-                        cmd.Parameters.AddWithValue("@ZOOLOGYSUBJECT", ZOOLOGYSUBJECT.InnerHtml.Trim());
-                        cmd.Parameters.AddWithValue("@RNZOO", RNZOO.Value.Trim());
-                        cmd.Parameters.AddWithValue("@MOPZOO", MOPZOO.SelectedValue.Trim());
-                        cmd.Parameters.AddWithValue("@YOPZOO", YOPZOO.Value.Trim());
-                        cmd.Parameters.AddWithValue("@MAXMARKSZOO", MAXMARKSZOO.SelectedValue.Trim());
-                        cmd.Parameters.AddWithValue("@OBTMARKSZOO", OBTMARKSZOO.Value.Trim());
-
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-
-                    }
-
-                }
-
-                catch (Exception ex)
-                {
-                    Response.Write("<script> alert('" + ex.Message + "') </script>");
-                }
-         }
+        //            cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
 
 
-        protected void BioloyMathsOthers()
-        {
-            try
-            {
-                String LoginId = Session["LoginId"] as string;
+        //            con.Open();
+        //            cmd.ExecuteNonQuery();
+        //            con.Close();       
 
-                using (SqlConnection con = new SqlConnection(strcon))
-                {
+        //        }
 
-                    if (checkbox1.Checked)
-                    {
-                        RNBIO.Value = "";
-                        MOPBIO.SelectedValue = "";
-                        YOPBIO.Value = "";
-                        MAXMARKSBIO.SelectedValue = "";
-                        OBTMARKSBIO.Value = "";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
+        //    }
+        //}
 
-                        RNMATOTH.Value = "";
-                        MOPMATOTH.SelectedValue = "";
-                        YOPMATOTH.Value = "";
-                        MAXMARKSMATOTH.SelectedValue = "";
-                        OBTMARKSMATOTH.Value = "";
 
-                    }
-                    else if (checkbox2.Checked)
-                    {
+        //protected void BotanyZoology()
+        //{
+        //        try
+        //        {
+        //            String LoginId = Session["LoginId"] as string;
+        //        string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
 
-                        RNBOT.Value = "";
-                        MOPBOT.SelectedValue = "";
-                        YOPBOT.Value = "";
-                        MAXMARKSBOT.SelectedValue = "";
-                        OBTMARKSBOT.Value = "";
 
-                        RNZOO.Value = "";
-                        MOPZOO.SelectedValue = "";
-                        YOPZOO.Value = "";
-                        MAXMARKSZOO.SelectedValue = "";
-                        OBTMARKSZOO.Value = "";
-                    }
+        //        using (SqlConnection con = new SqlConnection(strcon))
+        //            {
 
-                    String checkQuery = "SELECT COUNT(*) FROM BiologyMathsOthers where LoginId = @LoginId";
-                    SqlCommand checkcmd = new SqlCommand(checkQuery, con);
-                    checkcmd.Parameters.AddWithValue("@LoginId", LoginId);
 
-                    con.Open();
-                    int count = Convert.ToInt32(checkcmd.ExecuteScalar());
-                    con.Close();
+        //            if (checkbox1.Checked)
+        //            {
+        //                RNBIO.Value = "";
+        //                MOPBIO.SelectedValue = "";
+        //                YOPBIO.Value = "";
+        //                MAXMARKSBIO.SelectedValue = "";
+        //                OBTMARKSBIO.Value = "";
 
-                    string query;
+        //                RNMATOTH.Value = "";
+        //                MOPMATOTH.SelectedValue = "";
+        //                YOPMATOTH.Value = "";
+        //                MAXMARKSMATOTH.SelectedValue = "";
+        //                OBTMARKSMATOTH.Value = "";
 
-                    if (count > 0)
-                    {
-                        query = "UPDATE BiologyMathsOthers SET CHECKBOX2=@CHECKBOX2,BIOLOGYSUBJECT=@BIOLOGYSUBJECT,RNBIO=@RNBIO,MOPBIO=@MOPBIO,YOPBIO=@YOPBIO,MAXMARKSBIO=@MAXMARKSBIO,OBTMARKSBIO=@OBTMARKSBIO,MATHSOTHERSSUBJECT=@MATHSOTHERSSUBJECT,RNMATOTH=@RNMATOTH,MOPMATOTH=@MOPMATOTH,YOPMATOTH=@YOPMATOTH,MAXMARKSMATOTH=@MAXMARKSMATOTH,OBTMARKSMATOTH=@OBTMARKSMATOTH WHERE LoginId=@LoginId";
-                    }
-                    else
-                    {
-                        query = "INSERT INTO BiologyMathsOthers(LoginId,CHECKBOX2,BIOLOGYSUBJECT,RNBIO,MOPBIO,YOPBIO,MAXMARKSBIO,OBTMARKSBIO,MATHSOTHERSSUBJECT,RNMATOTH,MOPMATOTH,YOPMATOTH,MAXMARKSMATOTH,OBTMARKSMATOTH) VALUES(@LoginId,@CHECKBOX2,@BIOLOGYSUBJECT,@RNBIO,@MOPBIO,@YOPBIO,@MAXMARKSBIO,@OBTMARKSBIO,@MATHSOTHERSSUBJECT,@RNMATOTH,@MOPMATOTH,@YOPMATOTH,@MAXMARKSMATOTH,@OBTMARKSMATOTH)";
-                    }
+        //            }
+        //            else if (checkbox2.Checked)
+        //            {
 
-                    SqlCommand cmd = new SqlCommand(query, con);
+        //                RNBOT.Value = "";
+        //                MOPBOT.SelectedValue = "";
+        //                YOPBOT.Value = "";
+        //                MAXMARKSBOT.SelectedValue = "";
+        //                OBTMARKSBOT.Value = "";
 
-                    cmd.Parameters.AddWithValue("@LoginId", LoginId);
+        //                RNZOO.Value = "";
+        //                MOPZOO.SelectedValue = "";
+        //                YOPZOO.Value = "";
+        //                MAXMARKSZOO.SelectedValue = "";
+        //                OBTMARKSZOO.Value = "";
+        //            }
 
-                    cmd.Parameters.AddWithValue("@CHECKBOX2", checkbox2.Checked);
+        //            String checkQuery = "SELECT COUNT(*) FROM BotanyZoology where LoginId = @LoginId";
+        //                SqlCommand checkcmd = new SqlCommand(checkQuery, con);
+        //                checkcmd.Parameters.AddWithValue("@LoginId", LoginId);
 
-                    cmd.Parameters.AddWithValue("@BIOLOGYSUBJECT", BIOLOGYSUBJECT.InnerHtml.Trim());
-                    cmd.Parameters.AddWithValue("@RNBIO", RNBIO.Value.Trim());
-                    cmd.Parameters.AddWithValue("@MOPBIO", MOPBIO.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@YOPBIO", YOPBIO.Value.Trim());
-                    cmd.Parameters.AddWithValue("@MAXMARKSBIO", MAXMARKSBIO.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSBIO", OBTMARKSBIO.Value.Trim());
+        //                con.Open();
+        //                int count = Convert.ToInt32(checkcmd.ExecuteScalar());
+        //                con.Close();
 
-                    cmd.Parameters.AddWithValue("@MATHSOTHERSSUBJECT", MATHSOTHERSSUBJECT.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@RNMATOTH", RNMATOTH.Value.Trim());
-                    cmd.Parameters.AddWithValue("@MOPMATOTH", MOPMATOTH.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@YOPMATOTH", YOPMATOTH.Value.Trim());
-                    cmd.Parameters.AddWithValue("@MAXMARKSMATOTH", MAXMARKSMATOTH.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSMATOTH", OBTMARKSMATOTH.Value.Trim());
+        //                string query;
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
+        //                if (count > 0)
+        //                {
+        //                    query = "UPDATE BotanyZoology SET CHECKBOX1=@CHECKBOX1,BOTANYSUBJECT=@BOTANYSUBJECT,RNBOT=@RNBOT,MOPBOT=@MOPBOT,YOPBOT=@YOPBOT,MAXMARKSBOT=@MAXMARKSBOT,OBTMARKSBOT=@OBTMARKSBOT,ZOOLOGYSUBJECT=@ZOOLOGYSUBJECT,RNZOO=@RNZOO,MOPZOO=@MOPZOO,YOPZOO=@YOPZOO,MAXMARKSZOO=@MAXMARKSZOO,OBTMARKSZOO=@OBTMARKSZOO,ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
+        //                }
+        //                else
+        //                {
+        //                    query = "INSERT INTO BotanyZoology(LoginId,CHECKBOX1,BOTANYSUBJECT,RNBOT,MOPBOT,YOPBOT,MAXMARKSBOT,OBTMARKSBOT,ZOOLOGYSUBJECT,RNZOO,MOPZOO,YOPZOO,MAXMARKSZOO,OBTMARKSZOO,ModifiedAt) VALUES(@LoginId,@CHECKBOX1,@BOTANYSUBJECT,@RNBOT,@MOPBOT,@YOPBOT,@MAXMARKSBOT,@OBTMARKSBOT,@ZOOLOGYSUBJECT,@RNZOO,@MOPZOO,@YOPZOO,@MAXMARKSZOO,@OBTMARKSZOO,@ModifiedAt)";
+        //                }
 
-                }
+        //                SqlCommand cmd = new SqlCommand(query, con);
 
-            }
+        //                cmd.Parameters.AddWithValue("@LoginId", LoginId);
 
-            catch (Exception ex)
-            {
-                Response.Write("<script> alert('" + ex.Message + "') </script>");
-            }
-        }
+        //                cmd.Parameters.AddWithValue("@CHECKBOX1", checkbox1.Checked);
+
+        //                cmd.Parameters.AddWithValue("@BOTANYSUBJECT", BOTANYSUBJECT.InnerHtml.Trim());
+        //                cmd.Parameters.AddWithValue("@RNBOT", RNBOT.Value.Trim());
+        //                cmd.Parameters.AddWithValue("@MOPBOT", MOPBOT.SelectedValue.Trim());
+        //                cmd.Parameters.AddWithValue("@YOPBOT", YOPBOT.Value.Trim());
+        //                cmd.Parameters.AddWithValue("@MAXMARKSBOT", MAXMARKSBOT.SelectedValue.Trim());
+        //                cmd.Parameters.AddWithValue("@OBTMARKSBOT", OBTMARKSBOT.Value.Trim());
+
+        //                cmd.Parameters.AddWithValue("@ZOOLOGYSUBJECT", ZOOLOGYSUBJECT.InnerHtml.Trim());
+        //                cmd.Parameters.AddWithValue("@RNZOO", RNZOO.Value.Trim());
+        //                cmd.Parameters.AddWithValue("@MOPZOO", MOPZOO.SelectedValue.Trim());
+        //                cmd.Parameters.AddWithValue("@YOPZOO", YOPZOO.Value.Trim());
+        //                cmd.Parameters.AddWithValue("@MAXMARKSZOO", MAXMARKSZOO.SelectedValue.Trim());
+        //                cmd.Parameters.AddWithValue("@OBTMARKSZOO", OBTMARKSZOO.Value.Trim());
+
+        //                cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+
+
+        //            con.Open();
+        //                cmd.ExecuteNonQuery();
+        //                con.Close();
+
+        //            }
+
+        //        }
+
+        //        catch (Exception ex)
+        //        {
+        //            Response.Write("<script> alert('" + ex.Message + "') </script>");
+        //        }
+        // }
+
+
+        //protected void BioloyMathsOthers()
+        //{
+        //    try
+        //    {
+        //        String LoginId = Session["LoginId"] as string;
+        //        string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
+
+
+        //        using (SqlConnection con = new SqlConnection(strcon))
+        //        {
+
+        //            if (checkbox1.Checked)
+        //            {
+        //                RNBIO.Value = "";
+        //                MOPBIO.SelectedValue = "";
+        //                YOPBIO.Value = "";
+        //                MAXMARKSBIO.SelectedValue = "";
+        //                OBTMARKSBIO.Value = "";
+
+        //                RNMATOTH.Value = "";
+        //                MOPMATOTH.SelectedValue = "";
+        //                YOPMATOTH.Value = "";
+        //                MAXMARKSMATOTH.SelectedValue = "";
+        //                OBTMARKSMATOTH.Value = "";
+
+        //            }
+        //            else if (checkbox2.Checked)
+        //            {
+
+        //                RNBOT.Value = "";
+        //                MOPBOT.SelectedValue = "";
+        //                YOPBOT.Value = "";
+        //                MAXMARKSBOT.SelectedValue = "";
+        //                OBTMARKSBOT.Value = "";
+
+        //                RNZOO.Value = "";
+        //                MOPZOO.SelectedValue = "";
+        //                YOPZOO.Value = "";
+        //                MAXMARKSZOO.SelectedValue = "";
+        //                OBTMARKSZOO.Value = "";
+        //            }
+
+        //            String checkQuery = "SELECT COUNT(*) FROM BiologyMathsOthers where LoginId = @LoginId";
+        //            SqlCommand checkcmd = new SqlCommand(checkQuery, con);
+        //            checkcmd.Parameters.AddWithValue("@LoginId", LoginId);
+
+        //            con.Open();
+        //            int count = Convert.ToInt32(checkcmd.ExecuteScalar());
+        //            con.Close();
+
+        //            string query;
+
+        //            if (count > 0)
+        //            {
+        //                query = "UPDATE BiologyMathsOthers SET CHECKBOX2=@CHECKBOX2,BIOLOGYSUBJECT=@BIOLOGYSUBJECT,RNBIO=@RNBIO,MOPBIO=@MOPBIO,YOPBIO=@YOPBIO,MAXMARKSBIO=@MAXMARKSBIO,OBTMARKSBIO=@OBTMARKSBIO,MATHSOTHERSSUBJECT=@MATHSOTHERSSUBJECT,RNMATOTH=@RNMATOTH,MOPMATOTH=@MOPMATOTH,YOPMATOTH=@YOPMATOTH,MAXMARKSMATOTH=@MAXMARKSMATOTH,OBTMARKSMATOTH=@OBTMARKSMATOTH,ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
+        //            }
+        //            else
+        //            {
+        //                query = "INSERT INTO BiologyMathsOthers(LoginId,CHECKBOX2,BIOLOGYSUBJECT,RNBIO,MOPBIO,YOPBIO,MAXMARKSBIO,OBTMARKSBIO,MATHSOTHERSSUBJECT,RNMATOTH,MOPMATOTH,YOPMATOTH,MAXMARKSMATOTH,OBTMARKSMATOTH,ModifiedAt) VALUES(@LoginId,@CHECKBOX2,@BIOLOGYSUBJECT,@RNBIO,@MOPBIO,@YOPBIO,@MAXMARKSBIO,@OBTMARKSBIO,@MATHSOTHERSSUBJECT,@RNMATOTH,@MOPMATOTH,@YOPMATOTH,@MAXMARKSMATOTH,@OBTMARKSMATOTH,@ModifiedAt)";
+        //            }
+
+        //            SqlCommand cmd = new SqlCommand(query, con);
+
+        //            cmd.Parameters.AddWithValue("@LoginId", LoginId);
+
+        //            cmd.Parameters.AddWithValue("@CHECKBOX2", checkbox2.Checked);
+
+        //            cmd.Parameters.AddWithValue("@BIOLOGYSUBJECT", BIOLOGYSUBJECT.InnerHtml.Trim());
+        //            cmd.Parameters.AddWithValue("@RNBIO", RNBIO.Value.Trim());
+        //            cmd.Parameters.AddWithValue("@MOPBIO", MOPBIO.SelectedValue.Trim());
+        //            cmd.Parameters.AddWithValue("@YOPBIO", YOPBIO.Value.Trim());
+        //            cmd.Parameters.AddWithValue("@MAXMARKSBIO", MAXMARKSBIO.SelectedValue.Trim());
+        //            cmd.Parameters.AddWithValue("@OBTMARKSBIO", OBTMARKSBIO.Value.Trim());
+
+        //            cmd.Parameters.AddWithValue("@MATHSOTHERSSUBJECT", MATHSOTHERSSUBJECT.SelectedValue.Trim());
+        //            cmd.Parameters.AddWithValue("@RNMATOTH", RNMATOTH.Value.Trim());
+        //            cmd.Parameters.AddWithValue("@MOPMATOTH", MOPMATOTH.SelectedValue.Trim());
+        //            cmd.Parameters.AddWithValue("@YOPMATOTH", YOPMATOTH.Value.Trim());
+        //            cmd.Parameters.AddWithValue("@MAXMARKSMATOTH", MAXMARKSMATOTH.SelectedValue.Trim());
+        //            cmd.Parameters.AddWithValue("@OBTMARKSMATOTH", OBTMARKSMATOTH.Value.Trim());
+
+        //            cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+
+
+        //            con.Open();
+        //            cmd.ExecuteNonQuery();
+        //            con.Close();
+
+        //        }
+
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
+        //    }
+        //}
 
 
 
@@ -1090,54 +1294,73 @@ namespace MBBS_BDS_WEBSITE
 
         protected void BindMediumOfInstructionDropDown()
         {
-
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT MediumOfInstructionName FROM MediumOfInstruction ";
+                string query = "SELECT MediumOfInstructionId, MediumOfInstructionName FROM MediumOfInstruction";
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                ddlMediumOfInstruction.Items.Clear(); // Clear existing items
+                ddlMediumOfInstruction.Items.Add(new ListItem("-- Select Medium --", "")); // Default option
+
                 while (reader.Read())
                 {
-                    string mediumofinstruction = reader["MediumOfInstructionName"].ToString().Trim();
-                    ddlMediumOfInstruction.Items.Add(new ListItem(mediumofinstruction));
+                    int id = Convert.ToInt32(reader["MediumOfInstructionId"]); // Get ID
+                    string name = reader["MediumOfInstructionName"].ToString().Trim(); // Get Name
+
+                    ddlMediumOfInstruction.Items.Add(new ListItem(name, id.ToString())); // Set ID as value
                 }
+
+                reader.Close(); // Close reader
             }
         }
-
 
         protected void BindCivicSchoolDropDown()
         {
-
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT CivicSchoolName FROM CivicSchool ";
+                string query = "SELECT CivicSchoolId, CivicSchoolName FROM CivicSchool";
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                ddlCivicSchool.Items.Clear(); // Clear existing items
+                ddlCivicSchool.Items.Add(new ListItem("-- Select Civic School --", "")); // Default option
+
                 while (reader.Read())
                 {
-                    string civicschool = reader["CivicSchoolName"].ToString().Trim();
-                    ddlCivicSchool.Items.Add(new ListItem(civicschool));
+                    int id = Convert.ToInt32(reader["CivicSchoolId"]); // Get ID
+                    string name = reader["CivicSchoolName"].ToString().Trim(); // Get Name
+
+                    ddlCivicSchool.Items.Add(new ListItem(name, id.ToString())); // Set ID as value
                 }
+
+                reader.Close();
             }
         }
 
-
         protected void BindCivicNativeDropDown()
         {
-
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT CivicNativeName FROM CivicNative ";
+                string query = "SELECT CivicNativeId, CivicNativeName FROM CivicNative";
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                ddlCivicNative.Items.Clear(); // Clear existing items
+                ddlCivicNative.Items.Add(new ListItem("-- Select Civic Native --", "")); // Default option
+
                 while (reader.Read())
                 {
-                    string civicnative = reader["CivicNativeName"].ToString().Trim();
-                    ddlCivicNative.Items.Add(new ListItem(civicnative));
+                    int id = Convert.ToInt32(reader["CivicNativeId"]); // Get ID
+                    string name = reader["CivicNativeName"].ToString().Trim(); // Get Name
+
+                    ddlCivicNative.Items.Add(new ListItem(name, id.ToString())); // Set ID as value
                 }
+
+                reader.Close();
             }
         }
 
@@ -1163,7 +1386,86 @@ namespace MBBS_BDS_WEBSITE
         }
 
 
-       
+        protected void BindMaxMarksDropDown()
+        {
+            using (SqlConnection con = new SqlConnection(strcon))
+            {
+                string query = "SELECT MaxMarksId, MaxMark FROM MaxMarks"; // Fetch ID & Marks
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                // Clear existing items
+                MAXMARKSPHY.Items.Clear();
+                MAXMARKSCHE.Items.Clear();
+                MAXMARKSBOT.Items.Clear();
+                MAXMARKSZOO.Items.Clear();
+                MAXMARKSBIO.Items.Clear();
+                MAXMARKSMATOTH.Items.Clear();
+
+                // Add default option
+                MAXMARKSPHY.Items.Add(new ListItem("-- Select --", ""));
+                MAXMARKSCHE.Items.Add(new ListItem("-- Select --", ""));
+                MAXMARKSBOT.Items.Add(new ListItem("-- Select --", ""));
+                MAXMARKSZOO.Items.Add(new ListItem("-- Select --", ""));
+                MAXMARKSBIO.Items.Add(new ListItem("-- Select --", ""));
+                MAXMARKSMATOTH.Items.Add(new ListItem("-- Select --", ""));
+
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["MaxMarksId"]); // Get ID
+                    string marks = reader["MaxMark"].ToString().Trim(); // Get Marks
+
+                    // Set ID as value for both dropdowns
+                    MAXMARKSPHY.Items.Add(new ListItem(marks, id.ToString()));
+                    MAXMARKSCHE.Items.Add(new ListItem(marks, id.ToString()));
+                    MAXMARKSBOT.Items.Add(new ListItem(marks, id.ToString()));
+                    MAXMARKSZOO.Items.Add(new ListItem(marks, id.ToString()));
+                    MAXMARKSBIO.Items.Add(new ListItem(marks, id.ToString()));
+                    MAXMARKSMATOTH.Items.Add(new ListItem(marks, id.ToString()));
+                }
+            }
+        }
+
+        protected void BindMonthsDropDown()
+        {
+            using (SqlConnection con = new SqlConnection(strcon))
+            {
+                string query = "SELECT MonthId, MonthNames FROM Months"; // Fetch ID & Name
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                // Clear existing items
+                MOPPHY.Items.Clear();
+                MOPCHE.Items.Clear();
+                MOPBOT.Items.Clear();
+                MOPZOO.Items.Clear();
+                MOPBIO.Items.Clear();
+                MOPMATOTH.Items.Clear();
+
+                // Add default option
+                MOPPHY.Items.Add(new ListItem("-- Select --", ""));
+                MOPCHE.Items.Add(new ListItem("-- Select --", ""));
+                MOPBOT.Items.Add(new ListItem("-- Select --", ""));
+                MOPZOO.Items.Add(new ListItem("-- Select --", ""));
+                MOPBIO.Items.Add(new ListItem("-- Select --", ""));
+                MOPMATOTH.Items.Add(new ListItem("-- Select --", ""));
+
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["MonthId"]); // Get ID
+                    string month = reader["MonthNames"].ToString().Trim(); // Get Month Name
+
+                    MOPPHY.Items.Add(new ListItem(month, id.ToString())); // Set ID as value
+                    MOPCHE.Items.Add(new ListItem(month, id.ToString())); // Set ID as value
+                    MOPBOT.Items.Add(new ListItem(month, id.ToString())); // Set ID as value
+                    MOPZOO.Items.Add(new ListItem(month, id.ToString())); // Set ID as value
+                    MOPBIO.Items.Add(new ListItem(month, id.ToString())); // Set ID as value
+                    MOPMATOTH.Items.Add(new ListItem(month, id.ToString())); // Set ID as value
+                }
+            }
+        }
 
 
         // storing student mark details along with their application number 
@@ -1173,6 +1475,7 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
+                string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
@@ -1237,11 +1540,26 @@ namespace MBBS_BDS_WEBSITE
                     string query;
                     if (count > 0)
                     {
-                        query = "UPDATE StudentMarkDetails SET ApplicationNumber = @ApplicationNumber, Chemistry_Total_Mark = @Chemistry_Total_Mark, Chemistry_Obtained_Mark = @Chemistry_Obtained_Mark, Physics_Total_Mark = @Physics_Total_Mark, Physics_Obtained_Mark = @Physics_Obtained_Mark, Botany_Total_Mark = @Botany_Total_Mark, Botany_Obtained_Mark = @Botany_Obtained_Mark, Zoology_Total_Mark = @Zoology_Total_Mark, Zoology_Obtained_Mark = @Zoology_Obtained_Mark, Biology_Biotechnology_Total_Mark = @Biology_Biotechnology_Total_Mark, Biology_Biotechnology_Obtained_Mark = @Biology_Biotechnology_Obtained_Mark, Mathematics_Others_Total_Mark = @Mathematics_Others_Total_Mark, Mathematics_Others_Obtained_Mark = @Mathematics_Others_Obtained_Mark WHERE LoginId = @LoginId";
+                        query = "UPDATE StudentMarkDetails SET ApplicationNumber = @ApplicationNumber," +
+                            "RNPHY=@RNPHY,PHYSICSSUBJECT=@PHYSICSSUBJECT,MOPPHY=@MOPPHY,YOPPHY=@YOPPHY,MAXMARKSPHY=@MAXMARKSPHY,OBTMARKSPHY=@OBTMARKSPHY,CHEMISTRYSUBJECT=@CHEMISTRYSUBJECT,RNCHE=@RNCHE,MOPCHE=@MOPCHE,YOPCHE=@YOPCHE,MAXMARKSCHE=@MAXMARKSCHE,OBTMARKSCHE=@OBTMARKSCHE," +
+                            "CHECKBOX1=@CHECKBOX1,BOTANYSUBJECT=@BOTANYSUBJECT,RNBOT=@RNBOT,MOPBOT=@MOPBOT,YOPBOT=@YOPBOT,MAXMARKSBOT=@MAXMARKSBOT,OBTMARKSBOT=@OBTMARKSBOT,ZOOLOGYSUBJECT=@ZOOLOGYSUBJECT,RNZOO=@RNZOO,MOPZOO=@MOPZOO,YOPZOO=@YOPZOO,MAXMARKSZOO=@MAXMARKSZOO,OBTMARKSZOO=@OBTMARKSZOO," +
+                            "CHECKBOX2=@CHECKBOX2,BIOLOGYSUBJECT=@BIOLOGYSUBJECT,RNBIO=@RNBIO,MOPBIO=@MOPBIO,YOPBIO=@YOPBIO,MAXMARKSBIO=@MAXMARKSBIO,OBTMARKSBIO=@OBTMARKSBIO,MATHSOTHERSSUBJECT=@MATHSOTHERSSUBJECT,RNMATOTH=@RNMATOTH,MOPMATOTH=@MOPMATOTH,YOPMATOTH=@YOPMATOTH,MAXMARKSMATOTH=@MAXMARKSMATOTH,OBTMARKSMATOTH=@OBTMARKSMATOTH,ModifiedAt=@ModifiedAt" +
+                            " WHERE LoginId = @LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO StudentMarkDetails (LoginId, ApplicationNumber, Chemistry_Total_Mark, Chemistry_Obtained_Mark, Physics_Total_Mark, Physics_Obtained_Mark, Botany_Total_Mark, Botany_Obtained_Mark, Zoology_Total_Mark, Zoology_Obtained_Mark, Biology_Biotechnology_Total_Mark, Biology_Biotechnology_Obtained_Mark, Mathematics_Others_Total_Mark, Mathematics_Others_Obtained_Mark) VALUES (@LoginId, @ApplicationNumber, @Chemistry_Total_Mark, @Chemistry_Obtained_Mark, @Physics_Total_Mark, @Physics_Obtained_Mark, @Botany_Total_Mark, @Botany_Obtained_Mark, @Zoology_Total_Mark, @Zoology_Obtained_Mark, @Biology_Biotechnology_Total_Mark, @Biology_Biotechnology_Obtained_Mark, @Mathematics_Others_Total_Mark, @Mathematics_Others_Obtained_Mark)";
+                        query = "INSERT INTO StudentMarkDetails" +
+                            " (LoginId, ApplicationNumber," +
+                            "PHYSICSSUBJECT,RNPHY,MOPPHY,YOPPHY,MAXMARKSPHY,OBTMARKSPHY,CHEMISTRYSUBJECT,RNCHE,MOPCHE,YOPCHE,MAXMARKSCHE,OBTMARKSCHE," +
+                            "CHECKBOX1,BOTANYSUBJECT,RNBOT,MOPBOT,YOPBOT,MAXMARKSBOT,OBTMARKSBOT,ZOOLOGYSUBJECT,RNZOO,MOPZOO,YOPZOO,MAXMARKSZOO,OBTMARKSZOO," +
+                            "CHECKBOX2,BIOLOGYSUBJECT,RNBIO,MOPBIO,YOPBIO,MAXMARKSBIO,OBTMARKSBIO,MATHSOTHERSSUBJECT,RNMATOTH,MOPMATOTH,YOPMATOTH,MAXMARKSMATOTH,OBTMARKSMATOTH," +
+                            "ModifiedAt)" +
+                            " VALUES " +
+                            "(@LoginId, @ApplicationNumber," +
+                            "@PHYSICSSUBJECT,@RNPHY,@MOPPHY,@YOPPHY,@MAXMARKSPHY,@OBTMARKSPHY,@CHEMISTRYSUBJECT,@RNCHE,@MOPCHE,@YOPCHE,@MAXMARKSCHE,@OBTMARKSCHE," +
+                            "@CHECKBOX1,@BOTANYSUBJECT,@RNBOT,@MOPBOT,@YOPBOT,@MAXMARKSBOT,@OBTMARKSBOT,@ZOOLOGYSUBJECT,@RNZOO,@MOPZOO,@YOPZOO,@MAXMARKSZOO,@OBTMARKSZOO," +
+                            "@CHECKBOX2,@BIOLOGYSUBJECT,@RNBIO,@MOPBIO,@YOPBIO,@MAXMARKSBIO,@OBTMARKSBIO,@MATHSOTHERSSUBJECT,@RNMATOTH,@MOPMATOTH,@YOPMATOTH,@MAXMARKSMATOTH,@OBTMARKSMATOTH," +
+                            "@ModifiedAt)";
                     }
 
                     // Step 4: Prepare the SqlCommand for INSERT or UPDATE
@@ -1249,18 +1567,55 @@ namespace MBBS_BDS_WEBSITE
 
                     cmd.Parameters.AddWithValue("@LoginId", LoginId);
                     cmd.Parameters.AddWithValue("@ApplicationNumber", ApplicationNumber);
-                    cmd.Parameters.AddWithValue("@Chemistry_Total_Mark", MAXMARKSCHE.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@Chemistry_Obtained_Mark", OBTMARKSCHE.Value.Trim());
-                    cmd.Parameters.AddWithValue("@Physics_Total_Mark", MAXMARKSPHY.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@Physics_Obtained_Mark", OBTMARKSPHY.Value.Trim());
-                    cmd.Parameters.AddWithValue("@Botany_Total_Mark", MAXMARKSBOT.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@Botany_Obtained_Mark", OBTMARKSBOT.Value.Trim());
-                    cmd.Parameters.AddWithValue("@Zoology_Total_Mark", MAXMARKSZOO.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@Zoology_Obtained_Mark", OBTMARKSZOO.Value.Trim());
-                    cmd.Parameters.AddWithValue("@Biology_Biotechnology_Total_Mark", MAXMARKSBIO.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@Biology_Biotechnology_Obtained_Mark", OBTMARKSBIO.Value.Trim());
-                    cmd.Parameters.AddWithValue("@Mathematics_Others_Total_Mark", MAXMARKSMATOTH.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@Mathematics_Others_Obtained_Mark", OBTMARKSMATOTH.Value.Trim());
+
+                    cmd.Parameters.AddWithValue("@PHYSICSSUBJECT", PHYSICSSUBJECT.InnerHtml.Trim());
+                    cmd.Parameters.AddWithValue("@RNPHY", RNPHY.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MOPPHY", MOPPHY.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@YOPPHY", YOPPHY.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MAXMARKSPHY", MAXMARKSPHY.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSPHY", OBTMARKSPHY.Value.Trim());
+
+                    cmd.Parameters.AddWithValue("@CHEMISTRYSUBJECT", CHEMISTRYSUBJECT.InnerHtml.Trim());
+                    cmd.Parameters.AddWithValue("@RNCHE", RNCHE.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MOPCHE", MOPCHE.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@YOPCHE", YOPCHE.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MAXMARKSCHE", MAXMARKSCHE.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSCHE", OBTMARKSCHE.Value.Trim());
+
+                    cmd.Parameters.AddWithValue("@CHECKBOX1", checkbox1.Checked);
+
+                    cmd.Parameters.AddWithValue("@BOTANYSUBJECT", BOTANYSUBJECT.InnerHtml.Trim());
+                    cmd.Parameters.AddWithValue("@RNBOT", RNBOT.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MOPBOT", MOPBOT.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@YOPBOT", YOPBOT.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MAXMARKSBOT", MAXMARKSBOT.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSBOT", OBTMARKSBOT.Value.Trim());
+
+                    cmd.Parameters.AddWithValue("@ZOOLOGYSUBJECT", ZOOLOGYSUBJECT.InnerHtml.Trim());
+                    cmd.Parameters.AddWithValue("@RNZOO", RNZOO.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MOPZOO", MOPZOO.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@YOPZOO", YOPZOO.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MAXMARKSZOO", MAXMARKSZOO.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSZOO", OBTMARKSZOO.Value.Trim());
+
+                    cmd.Parameters.AddWithValue("@CHECKBOX2", checkbox2.Checked);
+
+                    cmd.Parameters.AddWithValue("@BIOLOGYSUBJECT", BIOLOGYSUBJECT.InnerHtml.Trim());
+                    cmd.Parameters.AddWithValue("@RNBIO", RNBIO.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MOPBIO", MOPBIO.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@YOPBIO", YOPBIO.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MAXMARKSBIO", MAXMARKSBIO.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSBIO", OBTMARKSBIO.Value.Trim());
+
+                    cmd.Parameters.AddWithValue("@MATHSOTHERSSUBJECT", MATHSOTHERSSUBJECT.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@RNMATOTH", RNMATOTH.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MOPMATOTH", MOPMATOTH.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@YOPMATOTH", YOPMATOTH.Value.Trim());
+                    cmd.Parameters.AddWithValue("@MAXMARKSMATOTH", MAXMARKSMATOTH.SelectedValue.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSMATOTH", OBTMARKSMATOTH.Value.Trim());
+
+                 
+                    cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
 
                     // Step 5: Execute the query
                     con.Open();

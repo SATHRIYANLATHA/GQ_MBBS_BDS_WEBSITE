@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBS.Master" AutoEventWireup="true" CodeBehind="home.aspx.cs" Inherits="MBBS_BDS_WEBSITE.home" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mbbs/MBBS.Master" AutoEventWireup="true" CodeFile="home.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.home" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">

@@ -10,7 +10,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ZXing;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class apppreview : System.Web.UI.Page
     {
@@ -22,7 +22,7 @@ namespace MBBS_BDS_WEBSITE
                 String loginId = Session["LoginId"] as string;
 
                 load_session_one(loginId);
-                load_session_two(loginId);
+               
 
                 loadapplicationnumber(loginId);
 
@@ -35,9 +35,11 @@ namespace MBBS_BDS_WEBSITE
                 load_userimage(loginId);
                 load_signimage(loginId);
 
-                load_physics_chemistry(loginId);
-                load_botany_zoology(loginId);
-                load_biology_mathematics(loginId);
+                load_studentmarkdetails(loginId);
+
+                //load_physics_chemistry(loginId);
+                //load_botany_zoology(loginId);
+                //load_biology_mathematics(loginId);
                 load_study_details(loginId);
 
 
@@ -197,23 +199,13 @@ namespace MBBS_BDS_WEBSITE
         }
 
 
-
-
-
-
-
-
-
-
-
-
         protected void load_session_one(string loginId)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
-                    string query = "SELECT * FROM BotanyZoology WHERE LoginId=@LoginId";
+                    string query = "SELECT * FROM StudentMarkDetails WHERE LoginId=@LoginId";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@LoginId", loginId);
 
@@ -236,37 +228,7 @@ namespace MBBS_BDS_WEBSITE
                                 Session["CHECKBOXONE"] = false;
                             }
 
-                        }
-                    }
 
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script> alert('" + ex.Message + "') </script>");
-            }
-        }
-
-        protected void load_session_two(string loginId)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(strcon))
-                {
-                    string query = "SELECT * FROM BiologyMathsOthers WHERE LoginId=@LoginId";
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@LoginId", loginId);
-
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-
-                            //   checkbox1.Checked = Convert.ToBoolean(dr["CHECKBOX1"]);
 
                             if (Convert.ToBoolean(dr["CHECKBOX2"]) == true)
                             {
@@ -288,6 +250,8 @@ namespace MBBS_BDS_WEBSITE
                 Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
         }
+
+      
 
         protected void loadapplicationnumber(string loginId)
         {
@@ -366,73 +330,25 @@ namespace MBBS_BDS_WEBSITE
         }
 
 
-        protected void load_6_13(string loginId)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(strcon))
-                {
-                    string query = "SELECT * FROM PersonalInformation WHERE LoginId=@LoginId";
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@LoginId", loginId);
-
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-
-                            app3.InnerHtml = dr["NameOfTheParent"].ToString().Trim().ToUpper();
-                            app6.InnerHtml = dr["Nationality"].ToString().Trim().ToUpper();
-                            app7.InnerHtml = dr["Religion"].ToString().Trim().ToUpper().ToUpper();
-                            app8.InnerHtml = dr["MotherTongue"].ToString().Trim().ToUpper();
-                            app9.InnerHtml = dr["Nativity"].ToString().Trim().ToUpper();
-                            app10.InnerHtml = dr["Community"].ToString().Trim().ToUpper();
-
-                            if (dr["Community"].ToString().Trim() == "OC")
-                            {
-                                app13a.InnerHtml = "-- NA --";
-                                app13b.InnerHtml = "-- NA --";
-                                app13c.InnerHtml = "-- NA --";
-                                app13d.InnerHtml = "-- NA --";
-                            }
-                            else
-                            {
-                                app13a.InnerHtml = dr["CertificateNumber"].ToString().Trim().ToUpper();
-                                app13b.InnerHtml = dr["IssuedTaluk"].ToString().Trim().ToUpper();
-                                app13c.InnerHtml = dr["IssuedBy"].ToString().Trim().ToUpper();
-                                app13d.InnerHtml = dr["IssuedDate"].ToString().Trim().ToUpper();
-                            }
-
-                            app11.InnerHtml = dr["SchoolingStudied"].ToString().Trim().ToUpper();
-                            app12.InnerHtml = dr["CasteWithSubCode"].ToString().Trim().ToUpper();
-                           
-
-
-                           
-
-                        }
-                    }
-
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script> alert('" + ex.Message + "') </script>");
-            }
-        }
-
-
+       
         protected void load_14_18(string loginId)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
-                    string query = "SELECT * FROM SpecialReservation WHERE LoginId=@LoginId";
+                    string query = @"
+                SELECT 
+                    spl.*, 
+                    q.QualifyingExaminationName, 
+                    b.BoardOfExaminationName, 
+                    c.CourseName
+                FROM SpecialReservation spl
+                LEFT JOIN QualifyingExamination q ON spl.QualifyingExamination = q.QualifyingExaminationId
+                LEFT JOIN BoardOfExamination b ON spl.BoardOfExamination = b.BoardOfExaminationId
+                LEFT JOIN Courses c ON spl.NameOfTheCourse = c.CourseId
+                WHERE spl.LoginId = @LoginId"; // Corrected alias for the LoginId
+
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@LoginId", loginId);
 
@@ -443,43 +359,45 @@ namespace MBBS_BDS_WEBSITE
                     {
                         while (dr.Read())
                         {
-                            
+                            // Set other fields
                             app14a.InnerHtml = dr["EXservicemen"].ToString().Trim().ToUpper();
                             app14b.InnerHtml = dr["DifferentlyAbledPerson"].ToString().Trim().ToUpper();
                             app14c.InnerHtml = dr["EminentSportsPerson"].ToString().Trim().ToUpper();
-                            app15.InnerHtml = dr["QualifyingExamination"].ToString().Trim().ToUpper();
+                            app15.InnerHtml = dr["QualifyingExaminationName"].ToString().Trim().ToUpper();
                             app16.InnerHtml = dr["HSCgroupcode"].ToString().Trim().ToUpper();
-                            app17.InnerHtml = dr["BoardOfExamination"].ToString().Trim().ToUpper();
-                            app18.InnerHtml = dr["CoursesUndergoingCompleted"].ToString().Trim().ToUpper();
 
-
-                          
-
-                            if (dr["NameOfTheCourse"].ToString().Trim() == "Others")
+                            // Correctly display board of examination name
+                            if (dr["BoardOfExamination"].ToString().Trim() == "14")
                             {
-                                app18a.InnerHtml = dr["NameOfTheOtherCourse"].ToString().Trim().ToUpper();
-
+                                app17.InnerHtml = dr["BoardOfExaminationOthers"].ToString().Trim().ToUpper();
                             }
                             else
                             {
-                                app18a.InnerHtml = dr["NameOfTheCourse"].ToString().Trim().ToUpper();
+                                app17.InnerHtml = dr["BoardOfExaminationName"].ToString().Trim().ToUpper();
+                            }
 
+                            app18.InnerHtml = dr["CoursesUndergoingCompleted"].ToString().Trim().ToUpper();
+
+                            // Handle Name of the Course (if "7", show "Other Course")
+                            if (dr["NameOfTheCourse"].ToString().Trim() == "7")
+                            {
+                                app18a.InnerHtml = dr["NameOfTheOtherCourse"].ToString().Trim().ToUpper();
+                            }
+                            else
+                            {
+                                app18a.InnerHtml = dr["CourseName"].ToString().Trim().ToUpper(); // Corrected column name
                             }
 
                             app18b.InnerHtml = dr["YearOfCompletion"].ToString().Trim().ToUpper();
 
-
-
+                            // If no courses are completed, set NA
                             if (dr["CoursesUndergoingCompleted"].ToString().Trim() == "No")
                             {
                                 app18a.InnerHtml = "-- NA --";
                                 app18b.InnerHtml = "-- NA --";
                             }
-
                         }
                     }
-
-
                 }
             }
             catch (Exception ex)
@@ -487,6 +405,8 @@ namespace MBBS_BDS_WEBSITE
                 Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
         }
+
+
 
 
         protected void load_19_23(string loginId)
@@ -495,7 +415,23 @@ namespace MBBS_BDS_WEBSITE
             {
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
-                    string query = "SELECT * FROM AcademicAndSchooling WHERE LoginId=@LoginId";
+                    string query = @"
+                SELECT 
+                    A.NumberOfHSCAttempt,
+                    A.MediumOfInstruction,
+                    A.CivicSchool,
+                    A.CivicNative,
+                    A.GovtSchool,
+                    A.RTE,
+                    M.MediumOfInstructionName,
+                    C.CivicSchoolName,
+                    N.CivicNativeName
+                FROM AcademicAndSchooling A
+                LEFT JOIN MediumOfInstruction M ON A.MediumOfInstruction = M.MediumOfInstructionId
+                LEFT JOIN CivicSchool C ON A.CivicSchool = C.CivicSchoolId
+                LEFT JOIN CivicNative N ON A.CivicNative = N.CivicNativeId
+                WHERE A.LoginId = @LoginId";
+
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@LoginId", loginId);
 
@@ -506,20 +442,15 @@ namespace MBBS_BDS_WEBSITE
                     {
                         while (dr.Read())
                         {
-
                             app19.InnerHtml = dr["NumberOfHSCAttempt"].ToString().Trim().ToUpper();
-                            app21.InnerHtml = dr["MediumOfInstruction"].ToString().Trim().ToUpper();
-                            app22.InnerHtml = dr["CivicSchool"].ToString().Trim().ToUpper();
-                            app23.InnerHtml = dr["CivicNative"].ToString().Trim().ToUpper();
-
+                            app21.InnerHtml = dr["MediumOfInstructionName"].ToString().Trim().ToUpper();  // Fetching the descriptive name
+                            app22.InnerHtml = dr["CivicSchoolName"].ToString().Trim().ToUpper();          // Fetching the descriptive name
+                            app23.InnerHtml = dr["CivicNativeName"].ToString().Trim().ToUpper();          // Fetching the descriptive name
 
                             appgovtschool.InnerHtml = dr["GovtSchool"].ToString().Trim().ToUpper();
                             apprte.InnerHtml = dr["RTE"].ToString().Trim().ToUpper();
-
                         }
                     }
-
-
                 }
             }
             catch (Exception ex)
@@ -528,13 +459,145 @@ namespace MBBS_BDS_WEBSITE
             }
         }
 
-        protected void load_physics_chemistry(string loginId)
+     
+
+        //protected void load_physics_chemistry(string loginId)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection con = new SqlConnection(strcon))
+        //        {
+        //            // Corrected SQL query with proper joins
+        //            string query = @"
+        //        SELECT 
+        //            pc.PHYSICSSUBJECT, 
+        //            pc.RNPHY, 
+        //            mop1.MonthNames AS MonthNamesPHY, 
+        //            pc.YOPPHY, 
+        //            marks1.MaxMark AS MaxMarkPHY, 
+        //            pc.OBTMARKSPHY, 
+        //            pc.CHEMISTRYSUBJECT, 
+        //            pc.RNCHE, 
+        //            mop2.MonthNames AS MonthNamesCHE, 
+        //            pc.YOPCHE, 
+        //            marks2.MaxMark AS MaxMarkCHE, 
+        //            pc.OBTMARKSCHE
+        //        FROM PhysicsChemistry pc
+        //        LEFT JOIN Months mop1 ON pc.MOPPHY = mop1.MonthId
+        //        LEFT JOIN Months mop2 ON pc.MOPCHE = mop2.MonthId
+        //        LEFT JOIN MaxMarks marks1 ON pc.MAXMARKSPHY = marks1.MaxMarksId
+        //        LEFT JOIN MaxMarks marks2 ON pc.MAXMARKSCHE = marks2.MaxMarksId
+        //        WHERE pc.LoginId = @LoginId";
+
+        //            SqlCommand cmd = new SqlCommand(query, con);
+        //            cmd.Parameters.AddWithValue("@LoginId", loginId);
+
+        //            con.Open();
+        //            SqlDataReader dr = cmd.ExecuteReader();
+
+        //            if (dr.HasRows)
+        //            {
+        //                while (dr.Read())
+        //                {
+        //                    // For Physics Subject Data
+        //                    phy.InnerHtml = dr["PHYSICSSUBJECT"].ToString().Trim().ToUpper();
+        //                    rnphy.InnerHtml = dr["RNPHY"].ToString().Trim().ToUpper();
+        //                    mopphy.InnerHtml = dr["MonthNamesPHY"].ToString().Trim().ToUpper();
+        //                    yopphy.InnerHtml = dr["YOPPHY"].ToString().Trim().ToUpper();
+        //                    maxphy.InnerHtml = dr["MaxMarkPHY"].ToString().Trim().ToUpper();
+        //                    obtphy.InnerHtml = dr["OBTMARKSPHY"].ToString().Trim().ToUpper();
+
+        //                    // For Chemistry Subject Data
+        //                    che.InnerHtml = dr["CHEMISTRYSUBJECT"].ToString().Trim().ToUpper();
+        //                    rnche.InnerHtml = dr["RNCHE"].ToString().Trim().ToUpper();
+        //                    mopche.InnerHtml = dr["MonthNamesCHE"].ToString().Trim().ToUpper();
+        //                    yopche.InnerHtml = dr["YOPCHE"].ToString().Trim().ToUpper();
+        //                    maxche.InnerHtml = dr["MaxMarkCHE"].ToString().Trim().ToUpper();
+        //                    obtche.InnerHtml = dr["OBTMARKSCHE"].ToString().Trim().ToUpper();
+        //                }
+        //            }
+        //            else
+        //            {
+        //                // Handle the case where no data is found (optional)
+        //                Response.Write("<script> alert('No data found for the selected LoginId.') </script>");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
+        //    }
+        //}
+
+
+        protected void load_studentmarkdetails(string loginId)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
-                    string query = "SELECT * FROM PhysicsChemistry WHERE LoginId=@LoginId";
+                    // Corrected SQL query with all required fields
+                    string query = @"
+                SELECT 
+                    smd.PHYSICSSUBJECT, 
+                    smd.RNPHY, 
+                    mop1.MonthNames AS MonthNamesPHY, 
+                    smd.YOPPHY, 
+                    marks1.MaxMark AS MaxMarkPHY, 
+                    smd.OBTMARKSPHY, 
+                    
+                    smd.CHEMISTRYSUBJECT, 
+                    smd.RNCHE, 
+                    mop2.MonthNames AS MonthNamesCHE, 
+                    smd.YOPCHE, 
+                    marks2.MaxMark AS MaxMarkCHE, 
+                    smd.OBTMARKSCHE, 
+                    
+                    smd.BOTANYSUBJECT, 
+                    smd.RNBOT, 
+                    mop3.MonthNames AS MonthNamesBOT, 
+                    smd.YOPBOT, 
+                    marks3.MaxMark AS MaxMarkBOT, 
+                    smd.OBTMARKSBOT, 
+                    
+                    smd.ZOOLOGYSUBJECT, 
+                    smd.RNZOO, 
+                    mop4.MonthNames AS MonthNamesZOO, 
+                    smd.YOPZOO, 
+                    marks4.MaxMark AS MaxMarkZOO, 
+                    smd.OBTMARKSZOO, 
+                    
+                    smd.BIOLOGYSUBJECT, 
+                    smd.RNBIO, 
+                    mop5.MonthNames AS MonthNamesBIO, 
+                    smd.YOPBIO, 
+                    marks5.MaxMark AS MaxMarkBIO, 
+                    smd.OBTMARKSBIO, 
+                    
+                    smd.MATHSOTHERSSUBJECT, 
+                    smd.RNMATOTH, 
+                    mop6.MonthNames AS MonthNamesMATOTH, 
+                    smd.YOPMATOTH, 
+                    marks6.MaxMark AS MaxMarkMATOTH, 
+                    smd.OBTMARKSMATOTH 
+                    
+                FROM StudentMarkDetails smd
+                LEFT JOIN Months mop1 ON smd.MOPPHY = mop1.MonthId
+                LEFT JOIN Months mop2 ON smd.MOPCHE = mop2.MonthId
+                LEFT JOIN Months mop3 ON smd.MOPBOT = mop3.MonthId
+                LEFT JOIN Months mop4 ON smd.MOPZOO = mop4.MonthId
+                LEFT JOIN Months mop5 ON smd.MOPBIO = mop5.MonthId
+                LEFT JOIN Months mop6 ON smd.MOPMATOTH = mop6.MonthId
+                
+                LEFT JOIN MaxMarks marks1 ON smd.MAXMARKSPHY = marks1.MaxMarksId
+                LEFT JOIN MaxMarks marks2 ON smd.MAXMARKSCHE = marks2.MaxMarksId
+                LEFT JOIN MaxMarks marks3 ON smd.MAXMARKSBOT = marks3.MaxMarksId
+                LEFT JOIN MaxMarks marks4 ON smd.MAXMARKSZOO = marks4.MaxMarksId
+                LEFT JOIN MaxMarks marks5 ON smd.MAXMARKSBIO = marks5.MaxMarksId
+                LEFT JOIN MaxMarks marks6 ON smd.MAXMARKSMATOTH = marks6.MaxMarksId
+                
+                WHERE smd.LoginId = @LoginId";
+
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@LoginId", loginId);
 
@@ -545,75 +608,59 @@ namespace MBBS_BDS_WEBSITE
                     {
                         while (dr.Read())
                         {
+                            // Physics
                             phy.InnerHtml = dr["PHYSICSSUBJECT"].ToString().Trim().ToUpper();
                             rnphy.InnerHtml = dr["RNPHY"].ToString().Trim().ToUpper();
-                            mopphy.InnerHtml = dr["MOPPHY"].ToString().Trim().ToUpper();
+                            mopphy.InnerHtml = dr["MonthNamesPHY"].ToString().Trim().ToUpper();
                             yopphy.InnerHtml = dr["YOPPHY"].ToString().Trim().ToUpper();
-                            maxphy.InnerHtml = dr["MAXMARKSPHY"].ToString().Trim().ToUpper();
+                            maxphy.InnerHtml = dr["MaxMarkPHY"].ToString().Trim().ToUpper();
                             obtphy.InnerHtml = dr["OBTMARKSPHY"].ToString().Trim().ToUpper();
 
+                            // Chemistry
                             che.InnerHtml = dr["CHEMISTRYSUBJECT"].ToString().Trim().ToUpper();
                             rnche.InnerHtml = dr["RNCHE"].ToString().Trim().ToUpper();
-                            mopche.InnerHtml = dr["MOPCHE"].ToString().Trim().ToUpper();
+                            mopche.InnerHtml = dr["MonthNamesCHE"].ToString().Trim().ToUpper();
                             yopche.InnerHtml = dr["YOPCHE"].ToString().Trim().ToUpper();
-                            maxche.InnerHtml = dr["MAXMARKSCHE"].ToString().Trim().ToUpper();
+                            maxche.InnerHtml = dr["MaxMarkCHE"].ToString().Trim().ToUpper();
                             obtche.InnerHtml = dr["OBTMARKSCHE"].ToString().Trim().ToUpper();
 
-
-
-                           
-
-                        }
-                    }
-
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script> alert('" + ex.Message + "') </script>");
-            }
-        }
-
-
-        protected void load_botany_zoology(string loginId)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(strcon))
-                {
-                    string query = "SELECT * FROM BotanyZoology WHERE LoginId=@LoginId";
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@LoginId", loginId);
-
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
-
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
+                            // Botany
                             bot.InnerHtml = dr["BOTANYSUBJECT"].ToString().Trim().ToUpper();
                             rnbot.InnerHtml = dr["RNBOT"].ToString().Trim().ToUpper();
-                            mopbot.InnerHtml = dr["MOPBOT"].ToString().Trim().ToUpper();
+                            mopbot.InnerHtml = dr["MonthNamesBOT"].ToString().Trim().ToUpper();
                             yopbot.InnerHtml = dr["YOPBOT"].ToString().Trim().ToUpper();
-                            maxbot.InnerHtml = dr["MAXMARKSBOT"].ToString().Trim().ToUpper();
+                            maxbot.InnerHtml = dr["MaxMarkBOT"].ToString().Trim().ToUpper();
                             obtbot.InnerHtml = dr["OBTMARKSBOT"].ToString().Trim().ToUpper();
 
+                            // Zoology
                             zoo.InnerHtml = dr["ZOOLOGYSUBJECT"].ToString().Trim().ToUpper();
                             rnzoo.InnerHtml = dr["RNZOO"].ToString().Trim().ToUpper();
-                            mopzoo.InnerHtml = dr["MOPZOO"].ToString().Trim().ToUpper();
+                            mopzoo.InnerHtml = dr["MonthNamesZOO"].ToString().Trim().ToUpper();
                             yopzoo.InnerHtml = dr["YOPZOO"].ToString().Trim().ToUpper();
-                            maxzoo.InnerHtml = dr["MAXMARKSZOO"].ToString().Trim().ToUpper();
+                            maxzoo.InnerHtml = dr["MaxMarkZOO"].ToString().Trim().ToUpper();
                             obtzoo.InnerHtml = dr["OBTMARKSZOO"].ToString().Trim().ToUpper();
 
+                            // Biology
+                            bio.InnerHtml = dr["BIOLOGYSUBJECT"].ToString().Trim().ToUpper();
+                            rnbio.InnerHtml = dr["RNBIO"].ToString().Trim().ToUpper();
+                            mopbio.InnerHtml = dr["MonthNamesBIO"].ToString().Trim().ToUpper();
+                            yopbio.InnerHtml = dr["YOPBIO"].ToString().Trim().ToUpper();
+                            maxbio.InnerHtml = dr["MaxMarkBIO"].ToString().Trim().ToUpper();
+                            obtbio.InnerHtml = dr["OBTMARKSBIO"].ToString().Trim().ToUpper();
 
-
-
+                            // Maths/Others
+                            matoth.InnerHtml = dr["MATHSOTHERSSUBJECT"].ToString().Trim().ToUpper();
+                            rnmatoth.InnerHtml = dr["RNMATOTH"].ToString().Trim().ToUpper();
+                            mopmatoth.InnerHtml = dr["MonthNamesMATOTH"].ToString().Trim().ToUpper();
+                            yopmatoth.InnerHtml = dr["YOPMATOTH"].ToString().Trim().ToUpper();
+                            maxmatoth.InnerHtml = dr["MaxMarkMATOTH"].ToString().Trim().ToUpper();
+                            obtmatoth.InnerHtml = dr["OBTMARKSMATOTH"].ToString().Trim().ToUpper();
                         }
                     }
-
-
+                    else
+                    {
+                        Response.Write("<script> alert('No data found for the selected LoginId.') </script>");
+                    }
                 }
             }
             catch (Exception ex)
@@ -623,52 +670,100 @@ namespace MBBS_BDS_WEBSITE
         }
 
 
-        protected void load_biology_mathematics(string loginId)
-        {
-            try
-            {
-                using (SqlConnection con = new SqlConnection(strcon))
-                {
-                    string query = "SELECT * FROM BiologyMathsOthers WHERE LoginId=@LoginId";
-                    SqlCommand cmd = new SqlCommand(query, con);
-                    cmd.Parameters.AddWithValue("@LoginId", loginId);
 
-                    con.Open();
-                    SqlDataReader dr = cmd.ExecuteReader();
+        //protected void load_botany_zoology(string loginId)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection con = new SqlConnection(strcon))
+        //        {
+        //            string query = "SELECT * FROM BotanyZoology WHERE LoginId=@LoginId";
+        //            SqlCommand cmd = new SqlCommand(query, con);
+        //            cmd.Parameters.AddWithValue("@LoginId", loginId);
 
-                    if (dr.HasRows)
-                    {
-                        while (dr.Read())
-                        {
-                            bio.InnerHtml = dr["BIOLOGYSUBJECT"].ToString().Trim().ToUpper();
-                            rnbio.InnerHtml = dr["RNBIO"].ToString().Trim().ToUpper();
-                            mopbio.InnerHtml = dr["MOPBIO"].ToString().Trim().ToUpper();
-                            yopbio.InnerHtml = dr["YOPBIO"].ToString().Trim().ToUpper();
-                            maxbio.InnerHtml = dr["MAXMARKSBIO"].ToString().Trim().ToUpper();
-                            obtbio.InnerHtml = dr["OBTMARKSBIO"].ToString().Trim().ToUpper();
+        //            con.Open();
+        //            SqlDataReader dr = cmd.ExecuteReader();
 
-                            matoth.InnerHtml = dr["MATHSOTHERSSUBJECT"].ToString().Trim().ToUpper();
-                            rnmatoth.InnerHtml = dr["RNMATOTH"].ToString().Trim().ToUpper();
-                            mopmatoth.InnerHtml = dr["MOPMATOTH"].ToString().Trim().ToUpper();
-                            yopmatoth.InnerHtml = dr["YOPMATOTH"].ToString().Trim().ToUpper();
-                            maxmatoth.InnerHtml = dr["MAXMARKSMATOTH"].ToString().Trim().ToUpper();
-                            obtmatoth.InnerHtml = dr["OBTMARKSMATOTH"].ToString().Trim().ToUpper();
+        //            if (dr.HasRows)
+        //            {
+        //                while (dr.Read())
+        //                {
+        //                    bot.InnerHtml = dr["BOTANYSUBJECT"].ToString().Trim().ToUpper();
+        //                    rnbot.InnerHtml = dr["RNBOT"].ToString().Trim().ToUpper();
+        //                    mopbot.InnerHtml = dr["MOPBOT"].ToString().Trim().ToUpper();
+        //                    yopbot.InnerHtml = dr["YOPBOT"].ToString().Trim().ToUpper();
+        //                    maxbot.InnerHtml = dr["MAXMARKSBOT"].ToString().Trim().ToUpper();
+        //                    obtbot.InnerHtml = dr["OBTMARKSBOT"].ToString().Trim().ToUpper();
+
+        //                    zoo.InnerHtml = dr["ZOOLOGYSUBJECT"].ToString().Trim().ToUpper();
+        //                    rnzoo.InnerHtml = dr["RNZOO"].ToString().Trim().ToUpper();
+        //                    mopzoo.InnerHtml = dr["MOPZOO"].ToString().Trim().ToUpper();
+        //                    yopzoo.InnerHtml = dr["YOPZOO"].ToString().Trim().ToUpper();
+        //                    maxzoo.InnerHtml = dr["MAXMARKSZOO"].ToString().Trim().ToUpper();
+        //                    obtzoo.InnerHtml = dr["OBTMARKSZOO"].ToString().Trim().ToUpper();
+
+
+
+
+        //                }
+        //            }
+
+
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
+        //    }
+        //}
+
+
+        //protected void load_biology_mathematics(string loginId)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection con = new SqlConnection(strcon))
+        //        {
+        //            string query = "SELECT * FROM BiologyMathsOthers WHERE LoginId=@LoginId";
+        //            SqlCommand cmd = new SqlCommand(query, con);
+        //            cmd.Parameters.AddWithValue("@LoginId", loginId);
+
+        //            con.Open();
+        //            SqlDataReader dr = cmd.ExecuteReader();
+
+        //            if (dr.HasRows)
+        //            {
+        //                while (dr.Read())
+        //                {
+        //                    bio.InnerHtml = dr["BIOLOGYSUBJECT"].ToString().Trim().ToUpper();
+        //                    rnbio.InnerHtml = dr["RNBIO"].ToString().Trim().ToUpper();
+        //                    mopbio.InnerHtml = dr["MOPBIO"].ToString().Trim().ToUpper();
+        //                    yopbio.InnerHtml = dr["YOPBIO"].ToString().Trim().ToUpper();
+        //                    maxbio.InnerHtml = dr["MAXMARKSBIO"].ToString().Trim().ToUpper();
+        //                    obtbio.InnerHtml = dr["OBTMARKSBIO"].ToString().Trim().ToUpper();
+
+        //                    matoth.InnerHtml = dr["MATHSOTHERSSUBJECT"].ToString().Trim().ToUpper();
+        //                    rnmatoth.InnerHtml = dr["RNMATOTH"].ToString().Trim().ToUpper();
+        //                    mopmatoth.InnerHtml = dr["MOPMATOTH"].ToString().Trim().ToUpper();
+        //                    yopmatoth.InnerHtml = dr["YOPMATOTH"].ToString().Trim().ToUpper();
+        //                    maxmatoth.InnerHtml = dr["MAXMARKSMATOTH"].ToString().Trim().ToUpper();
+        //                    obtmatoth.InnerHtml = dr["OBTMARKSMATOTH"].ToString().Trim().ToUpper();
 
 
 
                            
 
-                        }
-                    }
+        //                }
+        //            }
 
 
-                }
-            }
-            catch (Exception ex)
-            {
-                Response.Write("<script> alert('" + ex.Message + "') </script>");
-            }
-        }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
+        //    }
+        //}
 
 
         protected void load_study_details(string loginId)
@@ -751,13 +846,30 @@ namespace MBBS_BDS_WEBSITE
         }
 
 
-        protected void load_25_34(string loginId)
+        protected void load_6_13(string loginId)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
-                    string query = "SELECT * FROM AdditionalInformation WHERE LoginId=@LoginId";
+                    string query = @"
+                SELECT 
+                    p.*, 
+                    n.NationalityName, 
+                    r.ReligionName, 
+                    m.MotherTongueName, 
+                    nat.NativityName, 
+                    c.CommunityName, 
+                    caste.CasteName
+                FROM PersonalInformation p
+                LEFT JOIN Nationality n ON p.Nationality = n.NationalityId
+                LEFT JOIN Religion r ON p.Religion = r.ReligionId
+                LEFT JOIN MotherTongue m ON p.MotherTongue = m.MotherTongueId
+                LEFT JOIN Nativity nat ON p.Nativity = nat.NativityId
+                LEFT JOIN Community c ON p.Community = c.CommunityId
+                LEFT JOIN Caste caste ON p.CasteWithSubCode = caste.CasteId
+                WHERE p.LoginId = @LoginId";
+
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@LoginId", loginId);
 
@@ -768,26 +880,32 @@ namespace MBBS_BDS_WEBSITE
                     {
                         while (dr.Read())
                         {
+                            app3.InnerHtml = dr["NameOfTheParent"].ToString().Trim().ToUpper();
+                            app6.InnerHtml = dr["NationalityName"].ToString().Trim().ToUpper();
+                            app7.InnerHtml = dr["ReligionName"].ToString().Trim().ToUpper();
+                            app8.InnerHtml = dr["MotherTongueName"].ToString().Trim().ToUpper();
+                            app9.InnerHtml = dr["NativityName"].ToString().Trim().ToUpper();
+                            app10.InnerHtml = dr["CommunityName"].ToString().Trim().ToUpper();
+                            app12.InnerHtml = dr["CasteName"].ToString().Trim().ToUpper();
 
-                            app25.InnerHtml = dr["FGApplicant"].ToString().Trim().ToUpper();
-                            app26.InnerHtml = dr["ParentOccupation"].ToString().Trim().ToUpper();
-                            app27.InnerHtml = dr["ParentAnnualIncome"].ToString().Trim().ToUpper();
-                            app28.InnerHtml = dr["AddressForCorrespondence"].ToString().Trim().ToUpper();
-                            app29.InnerHtml = dr["NativeDistrict"].ToString().Trim().ToUpper();
-                            app30.InnerHtml = dr["NativeState"].ToString().Trim().ToUpper();
-                            app31.InnerHtml = dr["IdentificationMarks"].ToString().Trim().ToUpper();
-                            app32.InnerHtml = dr["AadharNumber"].ToString().Trim().ToUpper();
-                            app33.InnerHtml = dr["EmailId"].ToString().Trim().ToUpper();
-                            app34.InnerHtml = dr["PhoneNumber"].ToString().Trim().ToUpper();
+                            if (dr["Community"].ToString().Trim() == "1")
+                            {
+                                app13a.InnerHtml = "-- NA --";
+                                app13b.InnerHtml = "-- NA --";
+                                app13c.InnerHtml = "-- NA --";
+                                app13d.InnerHtml = "-- NA --";
+                            }
+                            else
+                            {
+                                app13a.InnerHtml = dr["CertificateNumber"].ToString().Trim().ToUpper();
+                                app13b.InnerHtml = dr["IssuedTaluk"].ToString().Trim().ToUpper();
+                                app13c.InnerHtml = dr["IssuedBy"].ToString().Trim().ToUpper();
+                                app13d.InnerHtml = dr["IssuedDate"].ToString().Trim().ToUpper();
+                            }
 
-
-
-                           
-
+                            app11.InnerHtml = dr["SchoolingStudied"].ToString().Trim().ToUpper();
                         }
                     }
-
-
                 }
             }
             catch (Exception ex)
@@ -795,6 +913,70 @@ namespace MBBS_BDS_WEBSITE
                 Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
         }
+
+
+
+        protected void load_25_34(string loginId)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(strcon))
+                {
+                    string query = @"
+            SELECT 
+                ai.LoginId,
+                ai.FGApplicant,
+                po.ParentsOccupationName, 
+                inco.AnnualIncomeRange, 
+                s.StateName AS NativeStateName, 
+                d.DistrictName AS NativeDistrictName,
+                ai.IdentificationMarks,
+                ai.AadharNumber,
+                ai.EmailId,
+                ai.PhoneNumber,
+                ai.AddressForCorrespondence
+            FROM AdditionalInformation ai
+            LEFT JOIN ParentsOccupation po ON ai.ParentOccupation = po.ParentsOccupationId
+            LEFT JOIN AnnualIncome inco ON ai.ParentAnnualIncome = inco.AnnualIncomeId
+            LEFT JOIN States s ON ai.NativeState = s.StateId
+            LEFT JOIN District d ON ai.NativeDistrict = d.DistrictId
+            WHERE ai.LoginId = @LoginId";
+
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@LoginId", loginId);
+
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            app25.InnerHtml = dr["FGApplicant"].ToString().Trim().ToUpper();
+                            app26.InnerHtml = dr["ParentsOccupationName"].ToString().Trim().ToUpper();
+                            app27.InnerHtml = dr["AnnualIncomeRange"].ToString().Trim().ToUpper();
+                            app28.InnerHtml = dr["AddressForCorrespondence"].ToString().Trim().ToUpper();
+                            app29.InnerHtml = dr["NativeDistrictName"].ToString().Trim().ToUpper();
+                            app30.InnerHtml = dr["NativeStateName"].ToString().Trim().ToUpper();
+                            app31.InnerHtml = dr["IdentificationMarks"].ToString().Trim().ToUpper();
+                            app32.InnerHtml = dr["AadharNumber"].ToString().Trim().ToUpper();
+                            app33.InnerHtml = dr["EmailId"].ToString().Trim().ToUpper();
+                            app34.InnerHtml = dr["PhoneNumber"].ToString().Trim().ToUpper();
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("<script> alert('No data found for this LoginId') </script>");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script> alert('" + ex.Message.Replace("'", "\\'") + "') </script>");
+            }
+        }
+
+
 
 
         protected void load_userimage(string loginId)

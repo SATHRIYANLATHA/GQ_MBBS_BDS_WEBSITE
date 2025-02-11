@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="splres.aspx.cs" Inherits="MBBS_BDS_WEBSITE.splres" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="splres.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.splres" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <script type="text/javascript">
@@ -58,7 +58,7 @@
             var boardExamTextBox = document.getElementById('<%= boardofexamothers.ClientID %>'); // Get the TextBox
 
             // Check if "Others" is selected
-            if (boardExamOptions.value === "Others") {
+            if (boardExamOptions.value === "14") {
                 boardExamTextBox.style.display = 'block'; // Show the TextBox
                 boardExamTextBox.setAttribute('required', 'required');
             } else {
@@ -93,7 +93,7 @@
              var othercoursetextbox = document.getElementById('<%= othercourse.ClientID %>'); // Get the TextBox
 
              // Check if "Others" is selected
-             if (courseoptions.value === "Others") {
+             if (courseoptions.value === "7") {
                  othercoursetextbox.style.display = 'block'; // Show the TextBox
                  othercoursetextbox.setAttribute('required', 'required');
              } else {
@@ -259,7 +259,7 @@
 
                        <br />
 
-                       <asp:TextBox ID="boardofexamothers" runat="server" Style="width: 20%;display:none;" class="custom-textbox mb-2 ms-3 mt-2" ></asp:TextBox>
+                       <asp:TextBox ID="boardofexamothers" runat="server" Style="width: 70%;display:none;" class="custom-textbox mb-2 ms-3 mt-2" ></asp:TextBox>
 
                    </div>
 
@@ -293,18 +293,10 @@
                                </div>
 
                                <div class="col-7 mt-3">
-                                   <asp:DropDownList ID="ddlcourselist" runat="server" Style="width: 40%; height: 30px" CssClass="custom-textbox ms-3"   EnableViewState="true"
-                                       AutoPostBack="false" onchange="toggleothercoursebox();">
-                                       <asp:ListItem Value="" Disabled="True" Selected="True">-- Select --</asp:ListItem>
-                                       <asp:ListItem Value="B.SC AGRICULTURE" >B.SC AGRICULTURE</asp:ListItem>
-                                       <asp:ListItem Value="BDS" >BDS</asp:ListItem>
-                                       <asp:ListItem Value="B.E/BTECH" >B.E/BTECH </asp:ListItem>
-                                       <asp:ListItem Value="DIET" >DIET</asp:ListItem>
-                                       <asp:ListItem Value="MBBS" >MBBS</asp:ListItem>
-                                       <asp:ListItem Value="PARAMEDICAL DEGREE COURSES">PARAMEDICAL DEGREE COURSES</asp:ListItem>
-                                       <asp:ListItem Value="Others">Others</asp:ListItem>
+                                  
 
-                                   </asp:DropDownList>
+                                   <asp:DropDownList ID="ddlcourselist" runat="server" AutoPostBack="false" onchange="toggleothercoursebox();"  Style="width: 40%; height: 30px" CssClass="custom-textbox ms-3"   EnableViewState="true"></asp:DropDownList>
+
 
                                     <asp:TextBox ID="othercourse" runat="server" style="width:60%;display:none" class="custom-textbox mb-2 mt-2"    ></asp:TextBox>
                                </div>

@@ -2270,7 +2270,6 @@
     <Content Include="fontawesome\svgs\solid\yen-sign.svg" />
     <Content Include="fontawesome\svgs\solid\yin-yang.svg" />
     <Content Include="fontawesome\svgs\solid\z.svg" />
-    <Content Include="hello.aspx" />
     <Content Include="home.aspx" />
     <Content Include="login.aspx" />
     <Content Include="pdfdownload.aspx" />
@@ -2292,8 +2291,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="sos.aspx" />
     <Content Include="splres.aspx" />
-    <Content Include="test.aspx" />
-    <Content Include="testingpage.aspx" />
     <Content Include="upload.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -2318,13 +2315,6 @@
     </Compile>
     <Compile Include="AppSubmit.aspx.designer.cs">
       <DependentUpon>AppSubmit.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="hello.aspx.cs">
-      <DependentUpon>hello.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="hello.aspx.designer.cs">
-      <DependentUpon>hello.aspx</DependentUpon>
     </Compile>
     <Compile Include="home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>
@@ -2389,20 +2379,6 @@
     </Compile>
     <Compile Include="splres.aspx.designer.cs">
       <DependentUpon>splres.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="test.aspx.cs">
-      <DependentUpon>test.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="test.aspx.designer.cs">
-      <DependentUpon>test.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="testingpage.aspx.cs">
-      <DependentUpon>testingpage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="testingpage.aspx.designer.cs">
-      <DependentUpon>testingpage.aspx</DependentUpon>
     </Compile>
     <Compile Include="upload.aspx.cs">
       <DependentUpon>upload.aspx</DependentUpon>

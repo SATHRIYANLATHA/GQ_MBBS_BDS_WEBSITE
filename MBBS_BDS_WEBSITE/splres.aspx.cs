@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class splres : System.Web.UI.Page
     {
@@ -17,7 +17,9 @@ namespace MBBS_BDS_WEBSITE
             if (!IsPostBack)
             {
                 BindQualifyingExaminationDropDown(); // dropdown for qualifying examination ...
+                BindCoursesDropDown(); // dropdown for courses ...
                 BindBoardOfExaminationDropDown(); // dropdown for board of examination ...
+
 
                 String loginId = Session["LoginId"] as string;
                 loaduserdetails(loginId);
@@ -29,10 +31,11 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
+                String ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"); // Store current timestamp
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
-                    String checkQuery = "SELECT COUNT(*) FROM SpecialReservation where LoginId = @LoginId";
+                    String checkQuery = "SELECT COUNT(*) FROM SpecialReservation WHERE LoginId = @LoginId";
                     SqlCommand checkcmd = new SqlCommand(checkQuery, con);
                     checkcmd.Parameters.AddWithValue("@LoginId", LoginId);
 
@@ -44,11 +47,11 @@ namespace MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE SpecialReservation SET EminentSportsPerson=@EminentSportsPerson,EXservicemen=@EXservicemen,DifferentlyAbledPerson=@DifferentlyAbledPerson,QualifyingExamination=@QualifyingExamination,HSCgroupcode=@HSCgroupcode,HSCgroupcodeOthers=@HSCgroupcodeOthers,BoardOfExamination=@BoardOfExamination,BoardOfExaminationOthers=@BoardOfExaminationOthers,CoursesUndergoingCompleted=@CoursesUndergoingCompleted,NameOfTheCourse=@NameOfTheCourse,NameOfTheOtherCourse=@NameOfTheOtherCourse,YearOfCompletion=@YearOfCompletion WHERE LoginId=@LoginId";
+                        query = "UPDATE SpecialReservation SET EminentSportsPerson=@EminentSportsPerson, EXservicemen=@EXservicemen, DifferentlyAbledPerson=@DifferentlyAbledPerson, QualifyingExamination=@QualifyingExamination, HSCgroupcode=@HSCgroupcode, HSCgroupcodeOthers=@HSCgroupcodeOthers, BoardOfExamination=@BoardOfExamination, BoardOfExaminationOthers=@BoardOfExaminationOthers, CoursesUndergoingCompleted=@CoursesUndergoingCompleted, NameOfTheCourse=@NameOfTheCourse, NameOfTheOtherCourse=@NameOfTheOtherCourse, YearOfCompletion=@YearOfCompletion, ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO SpecialReservation(LoginId,EminentSportsPerson,EXservicemen,DifferentlyAbledPerson,QualifyingExamination,HSCgroupcode,HSCgroupcodeOthers,BoardOfExamination,BoardOfExaminationOthers,CoursesUndergoingCompleted,NameOfTheCourse,NameOfTheOtherCourse,YearOfCompletion) VALUES (@LoginId,@EminentSportsPerson,@EXservicemen,@DifferentlyAbledPerson,@QualifyingExamination,@HSCgroupcode,@HSCgroupcodeOthers,@BoardOfExamination,@BoardOfExaminationOthers,@CoursesUndergoingCompleted,@NameOfTheCourse,@NameOfTheOtherCourse,@YearOfCompletion)";
+                        query = "INSERT INTO SpecialReservation(LoginId, EminentSportsPerson, EXservicemen, DifferentlyAbledPerson, QualifyingExamination, HSCgroupcode, HSCgroupcodeOthers, BoardOfExamination, BoardOfExaminationOthers, CoursesUndergoingCompleted, NameOfTheCourse, NameOfTheOtherCourse, YearOfCompletion, ModifiedAt) VALUES (@LoginId, @EminentSportsPerson, @EXservicemen, @DifferentlyAbledPerson, @QualifyingExamination, @HSCgroupcode, @HSCgroupcodeOthers, @BoardOfExamination, @BoardOfExaminationOthers, @CoursesUndergoingCompleted, @NameOfTheCourse, @NameOfTheOtherCourse, @YearOfCompletion, @ModifiedAt)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
@@ -59,31 +62,25 @@ namespace MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@DifferentlyAbledPerson", DifferentlyAbledPersonOptions.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@QualifyingExamination", ddlQualifyingExamination.SelectedValue.Trim());
 
-
                     cmd.Parameters.AddWithValue("@HSCgroupcode", HscGroupOptions.SelectedValue.Trim());
 
-                    if(HscGroupOptions.SelectedValue.Trim() == "No")
+                    if (HscGroupOptions.SelectedValue.Trim() == "No")
                     {
                         txthscgroup.Text = "";
                     }
                     cmd.Parameters.AddWithValue("@HSCgroupcodeOthers", txthscgroup.Text.Trim());
 
-
-
-
                     cmd.Parameters.AddWithValue("@BoardOfExamination", ddlBoardOfExamination.SelectedValue.Trim());
 
-                    if(ddlBoardOfExamination.SelectedValue.Trim() != "Others")
+                    if (ddlBoardOfExamination.SelectedValue.Trim() != "14")
                     {
                         boardofexamothers.Text = "";
                     }
                     cmd.Parameters.AddWithValue("@BoardOfExaminationOthers", boardofexamothers.Text.Trim());
 
-
-
                     cmd.Parameters.AddWithValue("@CoursesUndergoingCompleted", ProfessionalCourseOptions.SelectedValue.Trim());
 
-                    if(ProfessionalCourseOptions.SelectedValue.Trim() == "No")
+                    if (ProfessionalCourseOptions.SelectedValue.Trim() == "No")
                     {
                         ddlcourselist.SelectedValue = "";
                         othercourse.Text = "";
@@ -92,7 +89,7 @@ namespace MBBS_BDS_WEBSITE
 
                     cmd.Parameters.AddWithValue("@NameOfTheCourse", ddlcourselist.SelectedValue.Trim());
 
-                    if(ddlcourselist.SelectedValue.Trim() != "Others")
+                    if (ddlcourselist.SelectedValue.Trim() != "7")
                     {
                         othercourse.Text = "";
                     }
@@ -100,17 +97,14 @@ namespace MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@NameOfTheOtherCourse", othercourse.Text.Trim());
                     cmd.Parameters.AddWithValue("@YearOfCompletion", yoc.Text.Trim());
 
+                    cmd.Parameters.AddWithValue("@ModifiedAt", ModifiedAt); // Add timestamp
 
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
-
-
                 }
 
-
                 Session["SpecialReservationComplete"] = true;
-
                 setuserstatus();
 
                 // Redirect to the next page (e.g., sos.aspx)
@@ -121,6 +115,7 @@ namespace MBBS_BDS_WEBSITE
                 Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
         }
+
 
         protected void loaduserdetails(string loginId)
         {
@@ -164,10 +159,13 @@ namespace MBBS_BDS_WEBSITE
 
 
 
-                            if (ddlQualifyingExamination.Items.FindByValue(dr["QualifyingExamination"].ToString().Trim()) != null)
+                            // Load Qualifying Examination
+                            string qualifyingExamination = dr["QualifyingExamination"].ToString().Trim();
+                            if (ddlQualifyingExamination.Items.FindByValue(qualifyingExamination) != null)
                             {
-                                ddlQualifyingExamination.SelectedValue = dr["QualifyingExamination"].ToString().Trim();
+                                ddlQualifyingExamination.SelectedValue = qualifyingExamination;
                             }
+
 
 
                             if (HscGroupOptions.Items.FindByValue(dr["HSCgroupcode"].ToString().Trim()) != null)
@@ -178,11 +176,11 @@ namespace MBBS_BDS_WEBSITE
 
                             txthscgroup.Text = dr["HSCgroupcodeOthers"].ToString().Trim();
 
-
-                            if (ddlBoardOfExamination.Items.FindByValue(dr["BoardOfExamination"].ToString().Trim()) != null)
+                            // Load Board of Examination
+                            string boardExamination = dr["BoardOfExamination"].ToString().Trim();
+                            if (ddlBoardOfExamination.Items.FindByValue(boardExamination) != null)
                             {
-                                ddlBoardOfExamination.SelectedValue = dr["BoardOfExamination"].ToString().Trim();
-
+                                ddlBoardOfExamination.SelectedValue = boardExamination;
                             }
 
                             boardofexamothers.Text = dr["BoardOfExaminationOthers"].ToString().Trim();
@@ -194,11 +192,13 @@ namespace MBBS_BDS_WEBSITE
 
                             }
 
-                            if (ddlcourselist.Items.FindByValue(dr["NameOfTheCourse"].ToString().Trim()) != null)
+                            // Load Course Name
+                            string courseName = dr["NameOfTheCourse"].ToString().Trim();
+                            if (ddlcourselist.Items.FindByValue(courseName) != null)
                             {
-                                ddlcourselist.SelectedValue = dr["NameOfTheCourse"].ToString().Trim();
-
+                                ddlcourselist.SelectedValue = courseName;
                             }
+
 
                             othercourse.Text = dr["NameOfTheOtherCourse"].ToString().Trim();
 
@@ -260,37 +260,87 @@ namespace MBBS_BDS_WEBSITE
 
         protected void BindQualifyingExaminationDropDown()
         {
-
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT QualifyingExaminationName FROM QualifyingExamination ";
+                string query = "SELECT QualifyingExaminationId, QualifyingExaminationName FROM QualifyingExamination";
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                ddlQualifyingExamination.Items.Clear();
+                ddlQualifyingExamination.Items.Add(new ListItem("-- Select --", ""));
+
                 while (reader.Read())
                 {
-                    string qualifyingexamination = reader["QualifyingExaminationName"].ToString().Trim();
-                    ddlQualifyingExamination.Items.Add(new ListItem(qualifyingexamination));
+                    int id = Convert.ToInt32(reader["QualifyingExaminationId"]);
+                    string qualifyingExamination = reader["QualifyingExaminationName"].ToString().Trim().ToUpper();
+
+                    ddlQualifyingExamination.Items.Add(new ListItem(qualifyingExamination, id.ToString()));
                 }
             }
         }
 
         protected void BindBoardOfExaminationDropDown()
         {
-
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                string query = "SELECT BoardOfExaminationName FROM  BoardOfExamination";
+                string query = "SELECT BoardOfExaminationId, BoardOfExaminationName FROM BoardOfExamination";
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                ddlBoardOfExamination.Items.Clear();
+                ddlBoardOfExamination.Items.Add(new ListItem("-- Select --", ""));
+
                 while (reader.Read())
                 {
-                    string boardofexamination = reader["BoardOfExaminationName"].ToString().Trim();
-                    ddlBoardOfExamination.Items.Add(new ListItem(boardofexamination));
+                    int id = Convert.ToInt32(reader["BoardOfExaminationId"]);
+                    string boardOfExamination = reader["BoardOfExaminationName"].ToString().Trim().ToUpper();
+
+                    ddlBoardOfExamination.Items.Add(new ListItem(boardOfExamination, id.ToString()));
                 }
             }
         }
+
+        protected void BindCoursesDropDown()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(strcon))
+                {
+                    string query = "SELECT CourseId, CourseName FROM Courses";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    con.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    ddlcourselist.Items.Clear();  // Clear existing items
+                    ddlcourselist.Items.Add(new ListItem("-- Select --", ""));  // Default item
+
+                    while (reader.Read())
+                    {
+                        int id = Convert.ToInt32(reader["CourseId"]);
+                        string courselist = reader["CourseName"].ToString().Trim().ToUpper();
+
+                        ddlcourselist.Items.Add(new ListItem(courselist, id.ToString()));
+                    }
+                }
+            }
+            catch (SqlException sqlEx)
+            {
+                // Handle SQL-specific exceptions
+                string errorMessage = "SQL Error: " + sqlEx.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('" + errorMessage + "');", true);
+            }
+            catch (Exception ex)
+            {
+                // Handle general exceptions
+                string errorMessage = "Error: " + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert", "alert('" + errorMessage + "');", true);
+            }
+        }
+
+
+
 
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBS.Master" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="MBBS_BDS_WEBSITE.login" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mbbs/MBBS.Master" AutoEventWireup="true" CodeFile="login.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.login" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
      <script type="text/javascript">

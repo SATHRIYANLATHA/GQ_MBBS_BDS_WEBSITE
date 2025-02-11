@@ -1,4 +1,4 @@
-﻿using mbbs_MBBS_BDS_WEBSITE;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,7 +11,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class register : System.Web.UI.Page
     {
@@ -206,18 +206,21 @@ namespace MBBS_BDS_WEBSITE
         {
             using (SqlConnection con = new SqlConnection(strcon))
             {
-                String query = "SELECT QualifyingExaminationName FROM QualifyingExamination";
+                string query = "SELECT QualifyingExaminationId, QualifyingExaminationName FROM QualifyingExamination";
                 SqlCommand cmd = new SqlCommand(query, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
+                ddlQualifyingExamination.Items.Clear();
+                ddlQualifyingExamination.Items.Add(new ListItem("-- Select --", ""));
+
                 while (reader.Read())
                 {
-                    String qualifyingexamination = reader["QualifyingExaminationName"].ToString();
+                    int id = Convert.ToInt32(reader["QualifyingExaminationId"]);
+                    string qualifyingExamination = reader["QualifyingExaminationName"].ToString().Trim().ToUpper();
 
-                    ddlQualifyingExamination.Items.Add(new ListItem(qualifyingexamination));
+                    ddlQualifyingExamination.Items.Add(new ListItem(qualifyingExamination, id.ToString()));
                 }
-
             }
         }
 

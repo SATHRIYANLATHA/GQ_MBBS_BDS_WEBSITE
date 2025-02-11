@@ -1,4 +1,4 @@
-﻿<%@ Page Title=""  EnableEventValidation="false" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="sos.aspx.cs" Inherits="MBBS_BDS_WEBSITE.sos" %>
+﻿<%@ Page Title=""  EnableEventValidation="false" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="sos.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.sos" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <script type="text/javascript">
@@ -777,18 +777,7 @@
 
                             <asp:DropDownList ID="MOPPHY" runat="server" Style="width: 70%; height: 30px" class="custom-textbox" required="required">
                                 <asp:ListItem Value="" Disabled="True" Selected="True">Select</asp:ListItem>
-                                <asp:ListItem Value="January">January</asp:ListItem>
-                                <asp:ListItem Value="February">February</asp:ListItem>
-                                <asp:ListItem Value="March">March</asp:ListItem>
-                                <asp:ListItem Value="April">April</asp:ListItem>
-                                <asp:ListItem Value="May">May</asp:ListItem>
-                                <asp:ListItem Value="June">June</asp:ListItem>
-                                <asp:ListItem Value="July">July</asp:ListItem>
-                                <asp:ListItem Value="August">August</asp:ListItem>
-                                <asp:ListItem Value="September">September</asp:ListItem>
-                                <asp:ListItem Value="October">October</asp:ListItem>
-                                <asp:ListItem Value="November">November</asp:ListItem>
-                                <asp:ListItem Value="December">December</asp:ListItem>
+                              
                             </asp:DropDownList>
                             &nbsp;<i class="fa fa-copy" onclick="monthofpassedcopy();" style="cursor:pointer;"></i>
 
@@ -799,13 +788,7 @@
                         <td>
                             <asp:DropDownList ID="MAXMARKSPHY" runat="server" Style="width: 80%; height: 30px" class="custom-textbox" required="required">
                                 <asp:ListItem Value="" Disabled="True" Selected="True">Select </asp:ListItem>
-                                <asp:ListItem Value="100">100</asp:ListItem>
-                                <asp:ListItem Value="150">150</asp:ListItem>
-                                <asp:ListItem Value="200">200</asp:ListItem>
-                                <asp:ListItem Value="250">250</asp:ListItem>
-                                <asp:ListItem Value="300">300</asp:ListItem>
-                                <asp:ListItem Value="350">350</asp:ListItem>
-                                <asp:ListItem Value="400">400</asp:ListItem>
+                               
                             </asp:DropDownList>
 
                         </td>
@@ -826,18 +809,7 @@
 
                             <asp:DropDownList ID="MOPCHE" runat="server" Style="width: 70%; height: 30px" class="custom-textbox" required="required">
                                 <asp:ListItem Value="" Disabled="True" Selected="True">Select</asp:ListItem>
-                                <asp:ListItem Value="January">January</asp:ListItem>
-                                <asp:ListItem Value="February">February</asp:ListItem>
-                                <asp:ListItem Value="March">March</asp:ListItem>
-                                <asp:ListItem Value="April">April</asp:ListItem>
-                                <asp:ListItem Value="May">May</asp:ListItem>
-                                <asp:ListItem Value="June">June</asp:ListItem>
-                                <asp:ListItem Value="July">July</asp:ListItem>
-                                <asp:ListItem Value="August">August</asp:ListItem>
-                                <asp:ListItem Value="September">September</asp:ListItem>
-                                <asp:ListItem Value="October">October</asp:ListItem>
-                                <asp:ListItem Value="November">November</asp:ListItem>
-                                <asp:ListItem Value="December">December</asp:ListItem>
+                               
                             </asp:DropDownList>
 
 
@@ -848,13 +820,7 @@
                         <td>
                             <asp:DropDownList ID="MAXMARKSCHE" runat="server" Style="width: 80%; height: 30px" class="custom-textbox" required="required">
                                 <asp:ListItem Value="" Disabled="True" Selected="True">Select </asp:ListItem>
-                                <asp:ListItem Value="100">100</asp:ListItem>
-                                <asp:ListItem Value="150">150</asp:ListItem>
-                                <asp:ListItem Value="200">200</asp:ListItem>
-                                <asp:ListItem Value="250">250</asp:ListItem>
-                                <asp:ListItem Value="300">300</asp:ListItem>
-                                <asp:ListItem Value="350">350</asp:ListItem>
-                                <asp:ListItem Value="400">400</asp:ListItem>
+                              
                             </asp:DropDownList>
 
                         </td>
@@ -876,18 +842,7 @@
 
                             <asp:DropDownList ID="MOPBOT" runat="server" Style="width: 70%; height: 30px"  disabled="disabled" class="custom-textbox" required="required">
                                 <asp:ListItem Value="" Disabled="True" Selected="True">Select</asp:ListItem>
-                                <asp:ListItem Value="January">January</asp:ListItem>
-                                <asp:ListItem Value="February">February</asp:ListItem>
-                                <asp:ListItem Value="March">March</asp:ListItem>
-                                <asp:ListItem Value="April">April</asp:ListItem>
-                                <asp:ListItem Value="May">May</asp:ListItem>
-                                <asp:ListItem Value="June">June</asp:ListItem>
-                                <asp:ListItem Value="July">July</asp:ListItem>
-                                <asp:ListItem Value="August">August</asp:ListItem>
-                                <asp:ListItem Value="September">September</asp:ListItem>
-                                <asp:ListItem Value="October">October</asp:ListItem>
-                                <asp:ListItem Value="November">November</asp:ListItem>
-                                <asp:ListItem Value="December">December</asp:ListItem>
+                               
                             </asp:DropDownList>
 
 
@@ -898,13 +853,7 @@
                         <td>
                             <asp:DropDownList ID="MAXMARKSBOT" runat="server" Style="width: 80%; height: 30px"  disabled="disabled" class="custom-textbox" required="required">
                                 <asp:ListItem Value="" Disabled="True" Selected="True">Select </asp:ListItem>
-                                <asp:ListItem Value="100">100</asp:ListItem>
-                                <asp:ListItem Value="150">150</asp:ListItem>
-                                <asp:ListItem Value="200">200</asp:ListItem>
-                                <asp:ListItem Value="250">250</asp:ListItem>
-                                <asp:ListItem Value="300">300</asp:ListItem>
-                                <asp:ListItem Value="350">350</asp:ListItem>
-                                <asp:ListItem Value="400">400</asp:ListItem>
+                              
                             </asp:DropDownList>
 
                         </td>
@@ -925,18 +874,7 @@
 
                             <asp:DropDownList ID="MOPZOO" runat="server" Style="width: 70%; height: 30px"  disabled="disabled" class="custom-textbox" required="required">
                                 <asp:ListItem Value="" Disabled="True" Selected="True">Select</asp:ListItem>
-                                <asp:ListItem Value="January">January</asp:ListItem>
-                                <asp:ListItem Value="February">February</asp:ListItem>
-                                <asp:ListItem Value="March">March</asp:ListItem>
-                                <asp:ListItem Value="April">April</asp:ListItem>
-                                <asp:ListItem Value="May">May</asp:ListItem>
-                                <asp:ListItem Value="June">June</asp:ListItem>
-                                <asp:ListItem Value="July">July</asp:ListItem>
-                                <asp:ListItem Value="August">August</asp:ListItem>
-                                <asp:ListItem Value="September">September</asp:ListItem>
-                                <asp:ListItem Value="October">October</asp:ListItem>
-                                <asp:ListItem Value="November">November</asp:ListItem>
-                                <asp:ListItem Value="December">December</asp:ListItem>
+                               
                             </asp:DropDownList>
 
 
@@ -947,13 +885,7 @@
                         <td>
                             <asp:DropDownList ID="MAXMARKSZOO" runat="server" Style="width: 80%; height: 30px"  disabled="disabled" class="custom-textbox" required="required">
                                 <asp:ListItem Value="" Disabled="True" Selected="True">Select </asp:ListItem>
-                                <asp:ListItem Value="100">100</asp:ListItem>
-                                <asp:ListItem Value="150">150</asp:ListItem>
-                                <asp:ListItem Value="200">200</asp:ListItem>
-                                <asp:ListItem Value="250">250</asp:ListItem>
-                                <asp:ListItem Value="300">300</asp:ListItem>
-                                <asp:ListItem Value="350">350</asp:ListItem>
-                                <asp:ListItem Value="400">400</asp:ListItem>
+                               
                             </asp:DropDownList>
 
                         </td>
@@ -976,18 +908,7 @@
 
              <asp:DropDownList ID="MOPBIO" runat="server" Style="width: 70%; height: 30px"  disabled="disabled" class="custom-textbox" required="required">
                  <asp:ListItem Value="" Disabled="True" Selected="True">Select</asp:ListItem>
-                 <asp:ListItem Value="January">January</asp:ListItem>
-                 <asp:ListItem Value="February">February</asp:ListItem>
-                 <asp:ListItem Value="March">March</asp:ListItem>
-                 <asp:ListItem Value="April">April</asp:ListItem>
-                 <asp:ListItem Value="May">May</asp:ListItem>
-                 <asp:ListItem Value="June">June</asp:ListItem>
-                 <asp:ListItem Value="July">July</asp:ListItem>
-                 <asp:ListItem Value="August">August</asp:ListItem>
-                 <asp:ListItem Value="September">September</asp:ListItem>
-                 <asp:ListItem Value="October">October</asp:ListItem>
-                 <asp:ListItem Value="November">November</asp:ListItem>
-                 <asp:ListItem Value="December">December</asp:ListItem>
+                
              </asp:DropDownList>
 
 
@@ -998,13 +919,7 @@
          <td>
              <asp:DropDownList ID="MAXMARKSBIO" runat="server" Style="width: 80%; height: 30px"  disabled="disabled " class="custom-textbox" required="required">
                  <asp:ListItem Value="" Disabled="True" Selected="True">Select </asp:ListItem>
-                 <asp:ListItem Value="100">100</asp:ListItem>
-                 <asp:ListItem Value="150">150</asp:ListItem>
-                 <asp:ListItem Value="200">200</asp:ListItem>
-                 <asp:ListItem Value="250">250</asp:ListItem>
-                 <asp:ListItem Value="300">300</asp:ListItem>
-                 <asp:ListItem Value="350">350</asp:ListItem>
-                 <asp:ListItem Value="400">400</asp:ListItem>
+                 
              </asp:DropDownList>
 
          </td>
@@ -1028,18 +943,7 @@
 
              <asp:DropDownList ID="MOPMATOTH" runat="server" Style="width: 70%; height: 30px"  disabled="disabled" class="custom-textbox" required="required">
                  <asp:ListItem Value="" Disabled="True" Selected="True">Select</asp:ListItem>
-                 <asp:ListItem Value="January">January</asp:ListItem>
-                 <asp:ListItem Value="February">February</asp:ListItem>
-                 <asp:ListItem Value="March">March</asp:ListItem>
-                 <asp:ListItem Value="April">April</asp:ListItem>
-                 <asp:ListItem Value="May">May</asp:ListItem>
-                 <asp:ListItem Value="June">June</asp:ListItem>
-                 <asp:ListItem Value="July">July</asp:ListItem>
-                 <asp:ListItem Value="August">August</asp:ListItem>
-                 <asp:ListItem Value="September">September</asp:ListItem>
-                 <asp:ListItem Value="October">October</asp:ListItem>
-                 <asp:ListItem Value="November">November</asp:ListItem>
-                 <asp:ListItem Value="December">December</asp:ListItem>
+                
              </asp:DropDownList>
 
 
@@ -1050,13 +954,7 @@
          <td>
              <asp:DropDownList ID="MAXMARKSMATOTH" runat="server" Style="width: 80%; height: 30px"  disabled="disabled" class="custom-textbox" required="required">
                  <asp:ListItem Value="" Disabled="True" Selected="True">Select </asp:ListItem>
-                 <asp:ListItem Value="100">100</asp:ListItem>
-                 <asp:ListItem Value="150">150</asp:ListItem>
-                 <asp:ListItem Value="200">200</asp:ListItem>
-                 <asp:ListItem Value="250">250</asp:ListItem>
-                 <asp:ListItem Value="300">300</asp:ListItem>
-                 <asp:ListItem Value="350">350</asp:ListItem>
-                 <asp:ListItem Value="400">400</asp:ListItem>
+                
              </asp:DropDownList>
 
          </td>
