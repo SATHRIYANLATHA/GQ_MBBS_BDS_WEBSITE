@@ -14,11 +14,11 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ZXing;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class pdfdownload : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
 
 
         protected void Page_Load(object sender, EventArgs e)

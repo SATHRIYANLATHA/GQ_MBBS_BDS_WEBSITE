@@ -38,7 +38,15 @@
 
     <script type="text/javascript">
 
+        document.addEventListener("DOMContentLoaded", function () {
+            var txtLoginid = document.getElementById('<%= txtLoginid.ClientID %>');
 
+             txtLoginid.addEventListener("input", function () {
+                 if (this.value.length > 14) {
+                     this.value = this.value.substring(0, 14); // Limit to 14 characters
+                 }
+             });
+         });
 
         $(function () {
             $("#<%= txtDOB.ClientID %>").datepicker({
@@ -369,6 +377,7 @@
                                     <asp:ListItem Value="2022">2022</asp:ListItem>
                                     <asp:ListItem Value="2023">2023</asp:ListItem>
                                     <asp:ListItem Value="2024">2024</asp:ListItem>
+                                    <asp:ListItem Value="2025">2025</asp:ListItem>
                                 </asp:DropDownList>
                                 
 

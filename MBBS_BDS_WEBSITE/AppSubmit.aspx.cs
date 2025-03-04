@@ -7,14 +7,20 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class AppSubmit : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                }
+            }
         }
 
         protected void SUBMIT_CLICK(object sender, EventArgs e)

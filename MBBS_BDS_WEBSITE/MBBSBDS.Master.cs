@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class MBBSBDS : System.Web.UI.MasterPage
     {
@@ -87,8 +87,10 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
                 }
 
+
+                checkErrorPage();
             }
-                
+           
         }
 
         protected void lbPersonalInformtion_Click(object sender, EventArgs e)
@@ -127,5 +129,17 @@ namespace mbbs_MBBS_BDS_WEBSITE
             Response.Redirect("AppSubmit.aspx");
         }
 
+        protected void checkErrorPage()
+        {
+            if (Request.Url.AbsolutePath.EndsWith("error.aspx"))
+            {
+                Particulars.Visible = false;
+               
+            }
+            else
+            {
+                Particulars.Visible = true;
+            }
+        }
     }
 }

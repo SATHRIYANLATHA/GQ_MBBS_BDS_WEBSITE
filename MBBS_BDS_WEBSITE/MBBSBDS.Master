@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MBBSBDS.master.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.MBBSBDS" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MBBSBDS.master.cs" Inherits="MBBS_BDS_WEBSITE.MBBSBDS"  %>
 
 <!DOCTYPE html>
 
@@ -99,7 +99,7 @@
 
             <div class="row" style="margin: 0;">
                 <!-- Set row margin to 0 -->
-                <div class="col-3" style="padding: 0; position: fixed;">
+                <div class="col-3" style="padding: 0; position: fixed;" id="Particulars" runat="server">
                     <!-- Set padding to 0 for column -->
 
                     <div style="background-color: #405f7d; color: white; height: 100vh;" class="ps-4 pt-3">

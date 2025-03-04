@@ -7,11 +7,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class splres : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -23,6 +23,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
                 String loginId = Session["LoginId"] as string;
                 loaduserdetails(loginId);
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                }
             }
         }
 
@@ -31,7 +36,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
-                String ModifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"); // Store current timestamp
+              
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
@@ -47,11 +52,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE SpecialReservation SET EminentSportsPerson=@EminentSportsPerson, EXservicemen=@EXservicemen, DifferentlyAbledPerson=@DifferentlyAbledPerson, QualifyingExamination=@QualifyingExamination, HSCgroupcode=@HSCgroupcode, HSCgroupcodeOthers=@HSCgroupcodeOthers, BoardOfExamination=@BoardOfExamination, BoardOfExaminationOthers=@BoardOfExaminationOthers, CoursesUndergoingCompleted=@CoursesUndergoingCompleted, NameOfTheCourse=@NameOfTheCourse, NameOfTheOtherCourse=@NameOfTheOtherCourse, YearOfCompletion=@YearOfCompletion, ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
+                        query = "UPDATE SpecialReservation SET EminentSportsPerson=@EminentSportsPerson, EXservicemen=@EXservicemen, DifferentlyAbledPerson=@DifferentlyAbledPerson, QualifyingExamination=@QualifyingExamination, HSCgroupcode=@HSCgroupcode, HSCgroupcodeOthers=@HSCgroupcodeOthers, BoardOfExamination=@BoardOfExamination, BoardOfExaminationOthers=@BoardOfExaminationOthers, CoursesUndergoingCompleted=@CoursesUndergoingCompleted, NameOfTheCourse=@NameOfTheCourse, NameOfTheOtherCourse=@NameOfTheOtherCourse, YearOfCompletion=@YearOfCompletion, ModifiedAt=getdate(), ModifiedUserID=@ModifiedUserID WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO SpecialReservation(LoginId, EminentSportsPerson, EXservicemen, DifferentlyAbledPerson, QualifyingExamination, HSCgroupcode, HSCgroupcodeOthers, BoardOfExamination, BoardOfExaminationOthers, CoursesUndergoingCompleted, NameOfTheCourse, NameOfTheOtherCourse, YearOfCompletion, ModifiedAt) VALUES (@LoginId, @EminentSportsPerson, @EXservicemen, @DifferentlyAbledPerson, @QualifyingExamination, @HSCgroupcode, @HSCgroupcodeOthers, @BoardOfExamination, @BoardOfExaminationOthers, @CoursesUndergoingCompleted, @NameOfTheCourse, @NameOfTheOtherCourse, @YearOfCompletion, @ModifiedAt)";
+                        query = "INSERT INTO SpecialReservation(LoginId, EminentSportsPerson, EXservicemen, DifferentlyAbledPerson, QualifyingExamination, HSCgroupcode, HSCgroupcodeOthers, BoardOfExamination, BoardOfExaminationOthers, CoursesUndergoingCompleted, NameOfTheCourse, NameOfTheOtherCourse, YearOfCompletion, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @EminentSportsPerson, @EXservicemen, @DifferentlyAbledPerson, @QualifyingExamination, @HSCgroupcode, @HSCgroupcodeOthers, @BoardOfExamination, @BoardOfExaminationOthers, @CoursesUndergoingCompleted, @NameOfTheCourse, @NameOfTheOtherCourse, @YearOfCompletion, getdate(), @ModifiedUserID)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
@@ -97,7 +102,10 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@NameOfTheOtherCourse", othercourse.Text.Trim());
                     cmd.Parameters.AddWithValue("@YearOfCompletion", yoc.Text.Trim());
 
-                    cmd.Parameters.AddWithValue("@ModifiedAt", ModifiedAt); // Add timestamp
+                
+
+                    cmd.Parameters.AddWithValue("@ModifiedUserID", LoginId);
+
 
                     con.Open();
                     cmd.ExecuteNonQuery();

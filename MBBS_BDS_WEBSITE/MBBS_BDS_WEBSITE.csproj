@@ -184,6 +184,7 @@
     <Content Include="bootstrap\js\jquery-3.7.1.min.js" />
     <Content Include="bootstrap\js\popper.min.js" />
     <Content Include="CSS\customstylesheet.css" />
+    <Content Include="error.aspx" />
     <Content Include="fontawesome\css\all.css" />
     <Content Include="fontawesome\css\all.min.css" />
     <Content Include="fontawesome\css\brands.css" />
@@ -2315,6 +2316,13 @@
     </Compile>
     <Compile Include="AppSubmit.aspx.designer.cs">
       <DependentUpon>AppSubmit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="error.aspx.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="error.aspx.designer.cs">
+      <DependentUpon>error.aspx</DependentUpon>
     </Compile>
     <Compile Include="home.aspx.cs">
       <DependentUpon>home.aspx</DependentUpon>

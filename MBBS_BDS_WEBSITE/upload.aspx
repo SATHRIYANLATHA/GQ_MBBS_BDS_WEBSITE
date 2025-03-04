@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="upload.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.upload" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="upload.aspx.cs" Inherits="MBBS_BDS_WEBSITE.upload" MaintainScrollPositionOnPostback="true"  %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -67,7 +67,7 @@
                  <h6 style="color: #172e81">LATEST PASSPORT SIZE PHOTO  </h6>
                  <span style="background-color: pink; font-size: small">Image 35mm X 45mm JPG format and filesize should be between </span>
                  <br />
-                 <span style="background-color: pink; font-size: small">50KB and 100KB</span>
+                 <span style="background-color: pink; font-size: small">10KB and 100KB</span>
                  
                  <br />
                  <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="#" Target="_blank"
@@ -255,6 +255,46 @@
                  </div>
 
              </div>
+
+
+
+        <!-- 18  -->
+
+           <div class="border border-dark " id="R18" runat="server" style="display: none;">
+
+               <div class="container-fluid">
+
+                   <div class="row">
+
+                       <div class="col-6 pt-1 pb-1">
+                           <h6 style="color: #172e81">FG APPLICANT CERTIFICATE </h6>
+                           <span style="background-color: pink; font-size: small">File in PDF format and file size should not exceeds 3MB </span>
+
+
+                           <br />
+                           <asp:HyperLink ID="HyperLink18" runat="server" NavigateUrl="#" Target="_blank"
+                               Text="[VIEW PDF]" Style="color: blue; font-size: small;" Visible="false">
+                           </asp:HyperLink>
+                       </div>
+
+                       <div class="col-6 pt-1 ">
+
+                           <asp:FileUpload ID="FileUpload18" runat="server" />
+                           <asp:LinkButton ID="LinkButton18" runat="server" Text="Upload"
+                               OnClick="btnFGapplicantCertificateUploadFile_Click"
+                               Style="display: inline-block; padding: 5px 10px; border: 1px solid; text-align: center; cursor: pointer; text-decoration: none; color: black; background-color: #f0f0f0; border-radius: 4px;" />
+
+                           <p id="success18" runat="server" class="mt-4 ms-4" style="color: green" visible="false"></p>
+                           <p id="error18" runat="server" class="mt-4 ms-4" style="color: red" visible="false"></p>
+
+                       </div>
+
+                   </div>
+
+
+               </div>
+
+           </div>
 
 
      <!-- 7 -->
@@ -668,7 +708,7 @@
                 <h6 style="color: #172e81">SIGNATURE OF THE APPLICANT </h6>
                 <span style="background-color: pink; font-size: small">Image 140mm X 90mm JPG format and filesize should be between </span>
                 <br />
-                <span style="background-color: pink; font-size: small">100KB and 300KB</span>
+                <span style="background-color: pink; font-size: small">10KB and 300KB</span>
                 
                 <br />
                 <asp:HyperLink ID="HyperLink17" runat="server" NavigateUrl="#" Target="_blank"

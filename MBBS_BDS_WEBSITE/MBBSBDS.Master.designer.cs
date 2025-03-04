@@ -51,6 +51,15 @@ namespace MBBS_BDS_WEBSITE
         protected global::System.Web.UI.WebControls.LinkButton btnLogout;
 
         /// <summary>
+        /// Particulars control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Particulars;
+
+        /// <summary>
         /// lbPersonalInformation control.
         /// </summary>
         /// <remarks>

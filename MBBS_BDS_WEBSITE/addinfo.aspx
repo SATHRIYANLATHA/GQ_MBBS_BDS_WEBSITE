@@ -1,5 +1,8 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="addinfo.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.addinfo" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="addinfo.aspx.cs" Inherits="MBBS_BDS_WEBSITE.addinfo" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -89,7 +92,7 @@
 
                    <div class="col-7 mt-3">
 
-                       <asp:DropDownList ID="ddlNativeState" runat="server" Style="width: 35%; height: 30px;" CssClass="custom-textbox" required="required">
+                       <asp:DropDownList ID="ddlNativeState" runat="server" Style="width: 35%; height: 30px;" CssClass="custom-textbox" required="required" >
 
                            <asp:ListItem Value="" Disabled="True" Selected="True">-- Select  </asp:ListItem>
                          
@@ -106,12 +109,13 @@
                    <div class="col-5">
 
                        <h6 style="color: #172e81; margin-bottom: 4px;" class="pt-3">NATIVE DISTRICT </h6>
+                       <asp:HiddenField  ID="hdnNativeDistrict" runat="server"/>
 
                    </div>
 
                    <div class="col-7 mt-3">
 
-                       <asp:DropDownList ID="ddlNativeDistrict" runat="server" Style="width: 35%;height:30px" CssClass="custom-textbox" required="required">
+                       <asp:DropDownList ID="ddlNativeDistrict" runat="server" Style="width: 35%;height:30px" CssClass="custom-textbox" required="required" >
                            <asp:ListItem Value="" Disabled="True" Selected="True">-- Select </asp:ListItem>
                           
                        </asp:DropDownList>

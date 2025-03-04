@@ -11,7 +11,7 @@ namespace MBBS_BDS_WEBSITE
 {
     public partial class login : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
 

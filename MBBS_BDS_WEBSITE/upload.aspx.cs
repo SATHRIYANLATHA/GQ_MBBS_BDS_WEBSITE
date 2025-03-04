@@ -7,17 +7,18 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class upload : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
 
-                load_session();
+                load_session_one();
+                load_session_two();
 
                 // EX SERVICEMEN SESSION 
 
@@ -52,6 +53,15 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     R6.Attributes["style"] = "display:none;";
                 }
 
+                if (Session["fg"] != null && (bool)Session["fg"] == true)
+                {
+                    R18.Attributes["style"] = "display:block;";
+                }
+                else
+                {
+                    R18.Attributes["style"] = "display:none;";
+                }
+
 
 
                 LoadLeftThumbImpression();  // 1
@@ -71,12 +81,18 @@ namespace mbbs_MBBS_BDS_WEBSITE
                 LoadParentStudyCertificate(); // 15
                 LoadParentAddressProof(); // 16
                 LoadSignatureOfTheApplicant(); // 17
+                LoadFGapplicant(); // 18
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                }
 
             }
 
         }
 
-        protected void load_session()
+        protected void load_session_one()
         {
             try
             {
@@ -123,6 +139,47 @@ namespace mbbs_MBBS_BDS_WEBSITE
                             else
                             {
                                 Session["splthree"] = false;
+                            }
+
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script> alert('" + ex.Message + "') </script>");
+            }
+        }
+
+        protected void load_session_two()
+        {
+            try
+            {
+                string loginId = Session["LoginId"] as string;
+
+                using (SqlConnection con = new SqlConnection(strcon))
+                {
+                    string query = "SELECT * FROM AdditionalInformation WHERE LoginId=@LoginId";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@LoginId", loginId);
+
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+
+
+                            if ((dr["FGApplicant"].ToString().Trim()) == "Yes")
+                            {
+                                Session["fg"] = true;
+                            }
+                            else
+                            {
+                                Session["fg"] = false;
                             }
 
 
@@ -227,6 +284,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload1.HasFile)
                 {
@@ -293,17 +351,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE LeftThumbImpressionFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE LeftThumbImpressionFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath,ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO LeftThumbImpressionFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO LeftThumbImpressionFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                               
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -441,6 +501,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload2.HasFile)
                 {
@@ -508,17 +569,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE PassPortSizePhotoFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE PassPortSizePhotoFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO PassPortSizePhotoFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO PassPortSizePhotoFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                               
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -653,6 +716,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload3.HasFile)
                 {
@@ -721,17 +785,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE PostCardSizePhotoFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE PostCardSizePhotoFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO PostCardSizePhotoFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO PostCardSizePhotoFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                               
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -867,6 +933,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload4.HasFile)
                 {
@@ -932,17 +999,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE ExServicemenFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE ExServicemenFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO ExServicemenFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO ExServicemenFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                               
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -1073,6 +1142,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload5.HasFile)
                 {
@@ -1128,13 +1198,15 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 con.Close();
 
                                 string query = count > 0
-                                    ? "UPDATE EminentSportsPersonFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId"
-                                    : "INSERT INTO EminentSportsPersonFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    ? "UPDATE EminentSportsPersonFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId"
+                                    : "INSERT INTO EminentSportsPersonFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                              
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -1269,6 +1341,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+                
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload6.HasFile)
                 {
@@ -1334,17 +1407,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE DifferentlyAbledPersonFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE DifferentlyAbledPersonFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO DifferentlyAbledPersonFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO DifferentlyAbledPersonFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                              
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -1388,6 +1463,221 @@ namespace mbbs_MBBS_BDS_WEBSITE
                 HyperLink6.Visible = false;
             }
         }
+
+
+
+
+        //...................... FG APPLICANT CERTIFICATE .........................18
+        private void LoadFGapplicant()
+        {
+            try
+            {
+                string loginId = Session["LoginId"] as string;
+
+                if (!string.IsNullOrEmpty(loginId))
+                {
+                    using (SqlConnection con = new SqlConnection(strcon))
+                    {
+                        // Query to get the ApplicationNumber for the given LoginId
+                        string appNumberQuery = "SELECT ApplicationNumber FROM Applications WHERE LoginId = @LoginId";
+                        SqlCommand appNumberCmd = new SqlCommand(appNumberQuery, con);
+                        appNumberCmd.Parameters.AddWithValue("@LoginId", loginId);
+
+                        con.Open();
+                        object result = appNumberCmd.ExecuteScalar();
+                        string applicationNumber = result != null ? result.ToString() : string.Empty;
+
+                        con.Close();
+
+                        if (!string.IsNullOrEmpty(applicationNumber))
+                        {
+                            // Construct the folder path for the specific application number
+                            string folderPath = Server.MapPath(string.Format("~/UploadedFiles/{0}/", applicationNumber));
+                            if (!Directory.Exists(folderPath))
+                            {
+                                Directory.CreateDirectory(folderPath);
+                            }
+
+                            // Construct the file path
+                            string leftThumbFilePath = string.Format("{0}{1}_FGapplicant", folderPath, applicationNumber);
+
+                            // Query to get file details for the given LoginId
+                            string fileQuery = "SELECT NameOfTheFile, PathOfTheFile FROM FGapplicantFilesUpload WHERE LoginId = @LoginId";
+                            SqlCommand fileCmd = new SqlCommand(fileQuery, con);
+                            fileCmd.Parameters.AddWithValue("@LoginId", loginId);
+
+                            con.Open();
+                            SqlDataReader reader = fileCmd.ExecuteReader();
+
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                string fileName = reader["NameOfTheFile"].ToString();
+                                string filePath = reader["PathOfTheFile"].ToString();
+
+                                success18.Visible = true;
+                                error18.Visible = false;
+                                success18.InnerHtml = "File already uploaded.";
+                                // Set the link to view the image
+                                HyperLink18.NavigateUrl = ResolveUrl(filePath);
+                                HyperLink18.Visible = true; // Make the link visible
+                            }
+                            else
+                            {
+                                HyperLink18.Visible = false; // Hide the link if no file is uploaded
+                            }
+
+                            reader.Close();
+                        }
+                        else
+                        {
+                            HyperLink18.Visible = false; // Hide the link if ApplicationNumber is not found
+                        }
+                    }
+                }
+                else
+                {
+                    HyperLink18.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                error18.Visible = true;
+                error18.InnerHtml = string.Format("Error loading user details: {0}", ex.Message);
+                success18.Visible = false;
+                HyperLink18.Visible = false;
+            }
+        }
+
+        protected void btnFGapplicantCertificateUploadFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string loginId = Session["LoginId"] as string;
+
+
+                if (!string.IsNullOrEmpty(loginId) && FileUpload18.HasFile)
+                {
+                    // Validate file type and size
+                    string fileContentType = FileUpload18.PostedFile.ContentType;
+                    if (fileContentType == "application/pdf" &&
+                        FileUpload18.PostedFile.ContentLength <= 3145728)
+                    {
+                        using (SqlConnection con = new SqlConnection(strcon))
+                        {
+                            // Query to get the ApplicationNumber for the given LoginId
+                            string appNumberQuery = "SELECT ApplicationNumber FROM Applications WHERE LoginId = @LoginId";
+                            SqlCommand appNumberCmd = new SqlCommand(appNumberQuery, con);
+                            appNumberCmd.Parameters.AddWithValue("@LoginId", loginId);
+
+                            con.Open();
+                            object result = appNumberCmd.ExecuteScalar();
+                            string applicationNumber = result != null ? result.ToString() : string.Empty;
+
+                            con.Close();
+
+                            if (!string.IsNullOrEmpty(applicationNumber))
+                            {
+                                // Construct the folder path for the specific application number
+                                string folderPath = Server.MapPath(string.Format("~/UploadedFiles/{0}/", applicationNumber));
+                                if (!Directory.Exists(folderPath))
+                                {
+                                    Directory.CreateDirectory(folderPath);
+                                }
+
+                                // Get the file extension (e.g., .jpeg)
+                                string fileExtension = Path.GetExtension(FileUpload18.FileName).ToLower();
+                                string fileName = string.Format("{0}_FGapplicant{1}", applicationNumber, fileExtension);
+                                string filePath = Path.Combine(folderPath, fileName);
+
+                                // Delete the existing file, if it exists
+                                if (File.Exists(filePath))
+                                {
+                                    try
+                                    {
+                                        File.Delete(filePath);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        error18.Visible = true;
+                                        error18.InnerHtml = string.Format("Error deleting existing file: {0}", ex.Message);
+                                        return;
+                                    }
+                                }
+
+                                // Save the new file and overwrite the old one
+                                FileUpload18.SaveAs(filePath);
+
+                                // Check if the file already exists in the database
+                                string checkQuery = "SELECT COUNT(*) FROM FGapplicantFilesUpload WHERE LoginId = @LoginId";
+                                SqlCommand checkCmd = new SqlCommand(checkQuery, con);
+                                checkCmd.Parameters.AddWithValue("@LoginId", loginId);
+
+                                con.Open();
+                                int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                                con.Close();
+
+                                string query;
+                                if (count > 0)
+                                {
+                                    query = "UPDATE FGapplicantFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
+                                }
+                                else
+                                {
+                                    query = "INSERT INTO FGapplicantFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
+                                }
+
+                                SqlCommand cmd = new SqlCommand(query, con);
+                                cmd.Parameters.AddWithValue("@LoginId", loginId);
+                                cmd.Parameters.AddWithValue("@FileName", fileName);
+                                cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
+
+                                con.Open();
+                                cmd.ExecuteNonQuery();
+                                con.Close();
+
+                                success18.Visible = true;
+                                success18.InnerHtml = "File uploaded successfully.";
+                                error18.Visible = false;
+                                HyperLink18.NavigateUrl = ResolveUrl(string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                                HyperLink18.Visible = true; // Show the [VIEW IMAGE] link after uploading
+                            }
+                            else
+                            {
+                                error18.Visible = true;
+                                error18.InnerHtml = "Application number not found.";
+                                success18.Visible = false;
+                                HyperLink18.Visible = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        success18.Visible = false;
+                        error18.Visible = true;
+                        error18.InnerHtml = "Invalid file type or size. Please upload a PDF file within 3 MB.";
+                        HyperLink18.Visible = false;
+                    }
+                }
+                else
+                {
+                    error18.Visible = true;
+                    error18.InnerHtml = "Please select a file to upload.";
+                    success18.Visible = false;
+                    HyperLink18.Visible = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                error18.Visible = true;
+                error18.InnerHtml = string.Format("File upload failed: {0}", ex.Message);
+                HyperLink18.Visible = false;
+            }
+        }
+
+
 
 
 
@@ -1478,6 +1768,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload7.HasFile)
                 {
@@ -1543,17 +1834,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE SSLCMarkSheetFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE SSLCMarkSheetFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO SSLCMarkSheetFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO SSLCMarkSheetFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                               
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -1687,6 +1980,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+             
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload8.HasFile)
                 {
@@ -1754,17 +2048,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE HSCMarkSheetFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE HSCMarkSheetFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO HSCMarkSheetFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO HSCMarkSheetFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                                
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -1899,6 +2195,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+              
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload9.HasFile)
                 {
@@ -1966,17 +2263,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE NEETScoreCardFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE NEETScoreCardFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO NEETScoreCardFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO NEETScoreCardFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                              
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -2111,6 +2410,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+                
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload10.HasFile)
                 {
@@ -2178,17 +2478,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE TransferCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE TransferCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO TransferCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO TransferCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                              
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -2322,6 +2624,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload11.HasFile)
                 {
@@ -2389,17 +2692,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE BonafideCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE BonafideCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO BonafideCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO BonafideCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                              
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -2532,6 +2837,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+              
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload12.HasFile)
                 {
@@ -2599,17 +2905,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = string.Format("UPDATE CommunityCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId");
+                                    query = string.Format("UPDATE CommunityCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId");
                                 }
                                 else
                                 {
-                                    query = string.Format("INSERT INTO CommunityCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)");
+                                    query = string.Format("INSERT INTO CommunityCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)");
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                            
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -2745,6 +3053,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload13.HasFile)
                 {
@@ -2812,17 +3121,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = string.Format("UPDATE NativityCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId");
+                                    query = string.Format("UPDATE NativityCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId");
                                 }
                                 else
                                 {
-                                    query = string.Format("INSERT INTO NativityCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)");
+                                    query = string.Format("INSERT INTO NativityCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)");
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                                
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -2958,6 +3269,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+                
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload14.HasFile)
                 {
@@ -3025,17 +3337,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE ParentCommunityCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE ParentCommunityCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO ParentCommunityCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO ParentCommunityCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                               
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -3169,6 +3483,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload15.HasFile)
                 {
@@ -3236,17 +3551,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE ParentStudyCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE ParentStudyCertificateFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO ParentStudyCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO ParentStudyCertificateFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                               
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -3382,6 +3699,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+               
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload16.HasFile)
                 {
@@ -3449,17 +3767,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE ParentAddressProofFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE ParentAddressProofFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO ParentAddressProofFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO ParentAddressProofFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                             
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -3597,13 +3917,14 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+              
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload17.HasFile)
                 {
                     // Validate file type and size
                     string fileContentType = FileUpload17.PostedFile.ContentType;
                     if (fileContentType == "image/jpeg" &&
-                        FileUpload17.PostedFile.ContentLength >= 102400 && // Minimum 10KB
+                        FileUpload17.PostedFile.ContentLength >= 10240 && // Minimum 10KB
                         FileUpload17.PostedFile.ContentLength <= 307200)  // Maximum 50KB
                     {
                         using (SqlConnection con = new SqlConnection(strcon))
@@ -3665,17 +3986,19 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 string query;
                                 if (count > 0)
                                 {
-                                    query = "UPDATE SignatureOfTheApplicantFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath WHERE LoginId = @LoginId";
+                                    query = "UPDATE SignatureOfTheApplicantFilesUpload SET NameOfTheFile = @FileName, PathOfTheFile = @FilePath, ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId = @LoginId";
                                 }
                                 else
                                 {
-                                    query = "INSERT INTO SignatureOfTheApplicantFilesUpload (LoginId, NameOfTheFile, PathOfTheFile) VALUES (@LoginId, @FileName, @FilePath)";
+                                    query = "INSERT INTO SignatureOfTheApplicantFilesUpload (LoginId, NameOfTheFile, PathOfTheFile, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @FileName, @FilePath, getdate(), @ModifiedUserID)";
                                 }
 
                                 SqlCommand cmd = new SqlCommand(query, con);
                                 cmd.Parameters.AddWithValue("@LoginId", loginId);
                                 cmd.Parameters.AddWithValue("@FileName", fileName);
                                 cmd.Parameters.AddWithValue("@FilePath", string.Format("~/UploadedFiles/{0}/{1}", applicationNumber, fileName));
+                              
+                                cmd.Parameters.AddWithValue("@ModifiedUserID", loginId);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -3734,12 +4057,14 @@ namespace mbbs_MBBS_BDS_WEBSITE
             bool isR4Visible = R4.Attributes["style"] != null && !R4.Attributes["style"].Contains("display:none");
             bool isR5Visible = R5.Attributes["style"] != null && !R5.Attributes["style"].Contains("display:none");
             bool isR6Visible = R6.Attributes["style"] != null && !R6.Attributes["style"].Contains("display:none");
+            bool isR18Visible = R18.Attributes["style"] != null && !R18.Attributes["style"].Contains("display:none");
 
             // If R4 is visible, include HyperLink4 in the checks; if not, only check other hyperlinks
             if (HyperLink1.Visible && HyperLink2.Visible && HyperLink3.Visible &&
                 (!isR4Visible || (isR4Visible && HyperLink4.Visible)) &&
                 (!isR5Visible || (isR5Visible && HyperLink5.Visible)) &&
                 (!isR6Visible || (isR6Visible && HyperLink6.Visible)) &&
+                (!isR18Visible || (isR18Visible && HyperLink18.Visible)) &&
                 HyperLink7.Visible && HyperLink8.Visible && HyperLink9.Visible &&
                 HyperLink10.Visible && HyperLink11.Visible && HyperLink12.Visible &&
                 HyperLink13.Visible && HyperLink14.Visible && HyperLink15.Visible &&

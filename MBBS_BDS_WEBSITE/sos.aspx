@@ -1,5 +1,20 @@
-﻿<%@ Page Title=""  EnableEventValidation="false" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="sos.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.sos" %>
+﻿<%@ Page Title=""  EnableEventValidation="false" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="sos.aspx.cs" Inherits="MBBS_BDS_WEBSITE.sos" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <style>
+        /* For Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+    </style>
 
     <script type="text/javascript">
         function toggleCheckbox(clickedCheckbox) {
@@ -662,7 +677,78 @@
             }
         };
 
+        function checkmarksPhysics() {
+            var dropdown = document.getElementById('<%= MAXMARKSPHY.ClientID %>');
+    var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
 
+            var obtmarkInput = document.getElementById('<%= OBTMARKSPHY.ClientID %>');
+            var obtmark = parseInt(obtmarkInput.value, 10);
+
+            if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
+                obtmarkInput.value = ""; // Clear input field
+            }
+        }
+
+
+        function checkmarksChemistry() {
+            var dropdown = document.getElementById('<%= MAXMARKSCHE.ClientID %>');
+var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+
+                var obtmarkInput = document.getElementById('<%= OBTMARKSCHE.ClientID %>');
+                var obtmark = parseInt(obtmarkInput.value, 10);
+
+                if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
+                    obtmarkInput.value = ""; // Clear input field
+                }
+            }
+
+        function checkmarksBotany() {
+            var dropdown = document.getElementById('<%= MAXMARKSBOT.ClientID %>');
+var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+
+                        var obtmarkInput = document.getElementById('<%= OBTMARKSBOT.ClientID %>');
+                        var obtmark = parseInt(obtmarkInput.value, 10);
+
+                        if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
+                            obtmarkInput.value = ""; // Clear input field
+                        }
+        }
+
+        function checkmarksZoology() {
+            var dropdown = document.getElementById('<%= MAXMARKSZOO.ClientID %>');
+var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+
+                    var obtmarkInput = document.getElementById('<%= OBTMARKSZOO.ClientID %>');
+                    var obtmark = parseInt(obtmarkInput.value, 10);
+
+                    if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
+                        obtmarkInput.value = ""; // Clear input field
+                    }
+        }
+
+        function checkmarksBiology() {
+            var dropdown = document.getElementById('<%= MAXMARKSBIO.ClientID %>');
+var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+
+                    var obtmarkInput = document.getElementById('<%= OBTMARKSBIO.ClientID %>');
+                    var obtmark = parseInt(obtmarkInput.value, 10);
+
+                    if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
+                        obtmarkInput.value = ""; // Clear input field
+                    }
+        }
+
+        function checkmarksMathsOthers() {
+            var dropdown = document.getElementById('<%= MAXMARKSMATOTH.ClientID %>');
+var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+
+                    var obtmarkInput = document.getElementById('<%= OBTMARKSMATOTH.ClientID %>');
+                    var obtmark = parseInt(obtmarkInput.value, 10);
+
+                    if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
+                        obtmarkInput.value = ""; // Clear input field
+                    }
+                }
 
     </script>
 
@@ -793,7 +879,7 @@
 
                         </td>
                         <td>
-                            <input id="OBTMARKSPHY" runat="server" style="width: 50%;" class="custom-textbox" required="required" />
+                            <input id="OBTMARKSPHY" runat="server" style="width: 50%;" class="custom-textbox" required="required"  onchange="checkmarksPhysics()"/>
                         </td>
                     </tr>
 
@@ -825,7 +911,7 @@
 
                         </td>
                         <td>
-                            <input id="OBTMARKSCHE" runat="server" style="width: 50%;" class="custom-textbox" required="required" />
+                            <input id="OBTMARKSCHE" runat="server" style="width: 50%;" class="custom-textbox" required="required" onchange="checkmarksChemistry()" />
                         </td>
                     </tr>
                             <!-- BOTANY ZOOLOGY -->
@@ -858,7 +944,7 @@
 
                         </td>
                         <td>
-                            <input id="OBTMARKSBOT" runat="server" style="width: 50%;"  disabled="disabled"  class="custom-textbox" required="required"/>
+                            <input id="OBTMARKSBOT" runat="server" style="width: 50%;"  disabled="disabled"   class="custom-textbox" required="required" onchange="checkmarksBotany()"/>
                         </td>
                     </tr>
 
@@ -890,7 +976,7 @@
 
                         </td>
                         <td>
-                            <input id="OBTMARKSZOO" runat="server" style="width: 50%;"   disabled="disabled" class="custom-textbox" required="required"/>
+                            <input id="OBTMARKSZOO" runat="server" style="width: 50%;"   disabled="disabled"   class="custom-textbox" required="required" onchange="checkmarksZoology()"/>
                         </td>
                     </tr>
 
@@ -924,7 +1010,7 @@
 
          </td>
          <td>
-             <input id="OBTMARKSBIO" runat="server" style="width: 50%;"  disabled="disabled"  class="custom-textbox" required="required"/>
+             <input id="OBTMARKSBIO" runat="server" style="width: 50%;"  disabled="disabled"   class="custom-textbox" required="required" onchange="checkmarksBiology()"/>
          </td>
      </tr>
 
@@ -941,7 +1027,7 @@
          </td>
          <td>
 
-             <asp:DropDownList ID="MOPMATOTH" runat="server" Style="width: 70%; height: 30px"  disabled="disabled" class="custom-textbox" required="required">
+             <asp:DropDownList ID="MOPMATOTH" runat="server" Style="width: 70%; height: 30px"  disabled="disabled" class="custom-textbox"  required="required">
                  <asp:ListItem Value="" Disabled="True" Selected="True">Select</asp:ListItem>
                 
              </asp:DropDownList>
@@ -959,7 +1045,7 @@
 
          </td>
          <td>
-             <input id="OBTMARKSMATOTH" runat="server" style="width: 50%;"   disabled="disabled" class="custom-textbox" required="required"/>
+             <input id="OBTMARKSMATOTH" runat="server" style="width: 50%;"   disabled="disabled" class="custom-textbox" required="required" onchange="checkmarksMathsOthers()"/>
          </td>
      </tr>
 

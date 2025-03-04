@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="pdfdownload.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.pdfdownload" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="pdfdownload.aspx.cs" Inherits="MBBS_BDS_WEBSITE.pdfdownload"  %>
 
 <!DOCTYPE html>
 

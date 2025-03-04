@@ -2,17 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class pinfo : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -39,6 +40,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
                 }
                 loaduserdetails(loginId);
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                }
             }
         }
 
@@ -60,7 +66,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
-                string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
+               
+
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
@@ -76,11 +83,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE PersonalInformation SET NameOfTheParent=@NameOfTheParent, Nationality=@Nationality, MotherTongue=@MotherTongue, SchoolingStudied=@SchoolingStudied, Religion=@Religion, Nativity=@Nativity, Community=@Community, CasteWithSubCode=@CasteWithSubCode, CertificateNumber=@CertificateNumber, IssuedBy=@IssuedBy, IssuedTaluk=@IssuedTaluk, CommDistrict=@CommDistrict, IssuedDate=@IssuedDate, ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
+                        query = "UPDATE PersonalInformation SET NameOfTheParent=@NameOfTheParent, Nationality=@Nationality, MotherTongue=@MotherTongue, SchoolingStudied=@SchoolingStudied, Religion=@Religion, Nativity=@Nativity, Community=@Community, CasteWithSubCode=@CasteWithSubCode, CertificateNumber=@CertificateNumber, IssuedBy=@IssuedBy, IssuedTaluk=@IssuedTaluk, CommDistrict=@CommDistrict, IssuedDate=@IssuedDate, ModifiedAt=getdate(), ModifiedUserId=@ModifiedUserID WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO PersonalInformation(LoginId, NameOfTheParent, Nationality, MotherTongue, SchoolingStudied, Religion, Nativity, Community, CasteWithSubCode, CertificateNumber, IssuedBy, IssuedTaluk, CommDistrict, IssuedDate, ModifiedAt) VALUES (@LoginId, @NameOfTheParent, @Nationality, @MotherTongue, @SchoolingStudied, @Religion, @Nativity, @Community, @CasteWithSubCode, @CertificateNumber, @IssuedBy, @IssuedTaluk, @CommDistrict, @IssuedDate, @ModifiedAt)";
+                        query = "INSERT INTO PersonalInformation(LoginId, NameOfTheParent, Nationality, MotherTongue, SchoolingStudied, Religion, Nativity, Community, CasteWithSubCode, CertificateNumber, IssuedBy, IssuedTaluk, CommDistrict, IssuedDate, ModifiedAt, ModifiedUserID) VALUES (@LoginId, @NameOfTheParent, @Nationality, @MotherTongue, @SchoolingStudied, @Religion, @Nativity, @Community, @CasteWithSubCode, @CertificateNumber, @IssuedBy, @IssuedTaluk, @CommDistrict, @IssuedDate, getdate(), @ModifiedUserID)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
@@ -108,7 +115,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@IssuedTaluk", txtIssuedTaluk.Text.Trim());
                     cmd.Parameters.AddWithValue("@CommDistrict", ddlDistrict.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@IssuedDate", txtDate.Text.Trim());
-                    cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+
+                    //cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+
+
+                    cmd.Parameters.AddWithValue("@ModifiedUserID", LoginId);
 
                     con.Open();
                     cmd.ExecuteNonQuery();

@@ -9,12 +9,15 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using ZXing;
+using ZXing.Common;
+using ZXing.QrCode;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+
+namespace MBBS_BDS_WEBSITE
 {
     public partial class apppreview : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -95,6 +98,12 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     appsubmit.Visible = false;
                     btnSaveContinue.Visible = true;
                 }
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                }
+
             }
             
         }
@@ -313,7 +322,6 @@ namespace mbbs_MBBS_BDS_WEBSITE
                             neetregno.InnerHtml = dr["NEETRegNumber"].ToString().Trim().ToUpper();
                             neetrollno.InnerHtml = dr["NEETRollNumber"].ToString().Trim().ToUpper();
                             neetmarks.InnerHtml = dr["NEETMarks"].ToString().Trim().ToUpper();
-
 
 
 

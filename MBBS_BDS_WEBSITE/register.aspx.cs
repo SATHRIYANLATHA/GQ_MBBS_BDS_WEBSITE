@@ -15,12 +15,14 @@ namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class register : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 BindQualifyingExaminationDropDown(); // dropdown for qualifying examination
+
+                
             }
 
 
@@ -139,7 +141,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             {
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
-                    string query = "INSERT INTO UserRegister (UserName,Email,Gender,Mobile,DateOfBirth,PlusOnePassed,HSCRollNumber,NEETRollNumber,NEETRegNumber,QualifyingExamination,QualifiedYear,NEETMarks,LoginId,UserPassword) values (@UserName, @Email, @Gender, @Mobile, @DateOfBirth, @PlusOnePassed, @HSCRollNumber, @NEETRollNumber,@NEETRegNumber, @QualifyingExamination, @QualifiedYear, @NEETMarks, @LoginId, @UserPassword)";
+                    string query = "INSERT INTO UserRegister (UserName,Email,Gender,Mobile,DateOfBirth,PlusOnePassed,HSCRollNumber,NEETRollNumber,NEETRegNumber,QualifyingExamination,QualifiedYear,NEETMarks,LoginId,UserPassword,ModifiedAt) values (@UserName, @Email, @Gender, @Mobile, @DateOfBirth, @PlusOnePassed, @HSCRollNumber, @NEETRollNumber,@NEETRegNumber, @QualifyingExamination, @QualifiedYear, @NEETMarks, @LoginId, @UserPassword, getdate())";
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@UserName", txtName.Text.Trim());
                     cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());

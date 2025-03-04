@@ -7,16 +7,16 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class addinfo : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                BindDistrictDropDown(); // dropdown for district ...
+                BindDistrictDropDown();
                 BindStateDropDown(); // dropdown for states ...
                 BindAnnualIncomeDropDown(); // dropdown for annual income ...
                 BindParentsOccupationDropDown(); // dropdown for parents occupation ...
@@ -25,6 +25,10 @@ namespace mbbs_MBBS_BDS_WEBSITE
                 String loginId = Session["LoginId"] as string;
                 loaduserdetails(loginId);
 
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                }
             }
 
         }
@@ -68,6 +72,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 ddlNativeState.SelectedValue = dr["NativeState"].ToString().Trim();
                             }
 
+
+
                             if (ddlNativeDistrict.Items.FindByValue(dr["NativeDistrict"].ToString().Trim()) != null)
                             {
                                 ddlNativeDistrict.SelectedValue = dr["NativeDistrict"].ToString().Trim();
@@ -102,7 +108,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
-                string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
+             
 
 
                 using (SqlConnection con = new SqlConnection(strcon))
@@ -119,11 +125,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE AdditionalInformation SET FGApplicant=@FGApplicant,ParentOccupation=@ParentOccupation,ParentAnnualIncome=@ParentAnnualIncome,NativeState=@NativeState,NativeDistrict=@NativeDistrict,IdentificationMarks=@IdentificationMarks,AadharNumber=@AadharNumber,EmailId=@EmailId,PhoneNumber=@PhoneNumber,AddressForCorrespondence=@AddressForCorrespondence,ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
+                        query = "UPDATE AdditionalInformation SET FGApplicant=@FGApplicant,ParentOccupation=@ParentOccupation,ParentAnnualIncome=@ParentAnnualIncome,NativeState=@NativeState,NativeDistrict=@NativeDistrict,IdentificationMarks=@IdentificationMarks,AadharNumber=@AadharNumber,EmailId=@EmailId,PhoneNumber=@PhoneNumber,AddressForCorrespondence=@AddressForCorrespondence,ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO AdditionalInformation(LoginId,FGApplicant,ParentOccupation,ParentAnnualIncome,NativeState,NativeDistrict,IdentificationMarks,AadharNumber,EmailId,PhoneNumber,AddressForCorrespondence,ModifiedAt) VALUES (@LoginId,@FGApplicant,@ParentOccupation,@ParentAnnualIncome,@NativeState,@NativeDistrict,@IdentificationMarks,@AadharNumber,@EmailId,@PhoneNumber,@AddressForCorrespondence,@ModifiedAt)";
+                        query = "INSERT INTO AdditionalInformation(LoginId,FGApplicant,ParentOccupation,ParentAnnualIncome,NativeState,NativeDistrict,IdentificationMarks,AadharNumber,EmailId,PhoneNumber,AddressForCorrespondence,ModifiedAt,ModifiedUserID) VALUES (@LoginId,@FGApplicant,@ParentOccupation,@ParentAnnualIncome,@NativeState,@NativeDistrict,@IdentificationMarks,@AadharNumber,@EmailId,@PhoneNumber,@AddressForCorrespondence,getdate(),@ModifiedUserID)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
@@ -133,14 +139,24 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@ParentOccupation", ddlParentsOccupation.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@ParentAnnualIncome", ddlAnnualIncome.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@NativeState", ddlNativeState.SelectedValue.Trim());
+
+                    //string district = hdnNativeDistrict.Value;  // Get the value from the hidden field
+
+                   
+
+                    //// Proceed with saving the district value to the database
+                    //cmd.Parameters.AddWithValue("@NativeDistrict", district);
+
                     cmd.Parameters.AddWithValue("@NativeDistrict", ddlNativeDistrict.SelectedValue.Trim());
+
                     cmd.Parameters.AddWithValue("@IdentificationMarks", IDENTMARKS.InnerText.Trim());
                     cmd.Parameters.AddWithValue("@AadharNumber", AADHARNO.Value.Trim());
                     cmd.Parameters.AddWithValue("@EmailId", EMAILID.Value.Trim());
                     cmd.Parameters.AddWithValue("@PhoneNumber", PHONENO.Value.Trim());
                     cmd.Parameters.AddWithValue("@AddressForCorrespondence", Text1.InnerText.Trim());
 
-                    cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+                   
+                    cmd.Parameters.AddWithValue("@ModifiedUserID", LoginId);
 
 
 
@@ -216,27 +232,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
         // ............: DROPDOWN :...................
 
         // Bind District Dropdown using IDs as values
-        protected void BindDistrictDropDown()
-        {
-            using (SqlConnection con = new SqlConnection(strcon))
-            {
-                string query = "SELECT DistrictId, DistrictName FROM District"; // Fetch ID & Name
-                SqlCommand cmd = new SqlCommand(query, con);
-                con.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                ddlNativeDistrict.Items.Clear(); // Clear existing items
-                ddlNativeDistrict.Items.Add(new ListItem("-- Select District --", "")); // Default option
-
-                while (reader.Read())
-                {
-                    int id = Convert.ToInt32(reader["DistrictId"]); // Get ID
-                    string district = reader["DistrictName"].ToString().Trim(); // Get DistrictName
-
-                    ddlNativeDistrict.Items.Add(new ListItem(district, id.ToString())); // Set ID as value
-                }
-            }
-        }
+      
 
 
 
@@ -258,6 +254,30 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     string state = reader["StateName"].ToString().Trim(); // Get State Name
 
                     ddlNativeState.Items.Add(new ListItem(state, id.ToString())); // Set ID as value
+                }
+
+                reader.Close(); // Close reader
+            }
+        }
+
+        protected void BindDistrictDropDown()
+        {
+            using (SqlConnection con = new SqlConnection(strcon))
+            {
+                string query = "SELECT DistrictId, DistrictName FROM District"; // Fetch State ID & Name
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                ddlNativeDistrict.Items.Clear(); // Clear existing items
+                ddlNativeDistrict.Items.Add(new ListItem("-- Select State --", "")); // Default option
+
+                while (reader.Read())
+                {
+                    int id = Convert.ToInt32(reader["DistrictId"]); // Get ID
+                    string district = reader["DistrictName"].ToString().Trim(); // Get State Name
+
+                    ddlNativeDistrict.Items.Add(new ListItem(district, id.ToString())); // Set ID as value
                 }
 
                 reader.Close(); // Close reader

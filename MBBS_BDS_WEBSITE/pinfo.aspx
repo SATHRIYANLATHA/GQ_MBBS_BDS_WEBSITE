@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="pinfo.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.pinfo" MaintainScrollPositionOnPostback="true" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="pinfo.aspx.cs" Inherits="MBBS_BDS_WEBSITE.pinfo" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

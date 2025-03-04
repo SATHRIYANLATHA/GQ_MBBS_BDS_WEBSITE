@@ -8,11 +8,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace mbbs_MBBS_BDS_WEBSITE
+namespace MBBS_BDS_WEBSITE
 {
     public partial class sos : System.Web.UI.Page
     {
-        String strcon = ConfigurationManager.ConnectionStrings["con"].ConnectionString;
+        String strcon = ConfigurationManager.ConnectionStrings["DBConnMbbsGovt"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -42,6 +42,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
                 //loadphysicschemistry(loginId);
                 //loadbotanyzoology(loginId);
                 //loadbiologymathsothers(loginId);
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                }
 
 
             }
@@ -530,7 +535,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 MAXMARKSPHY.SelectedValue = dr["MAXMARKSPHY"].ToString().Trim();
                             }
 
-                            OBTMARKSPHY.Value = dr["OBTMARKSPHY"].ToString().Trim();
+                            OBTMARKSPHY.Value = Convert.ToInt32(dr["OBTMARKSPHY"]).ToString();
 
 
                             // CHEMISTRY.......
@@ -551,8 +556,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 MAXMARKSCHE.SelectedValue = dr["MAXMARKSCHE"].ToString().Trim();
                             }
 
-                            OBTMARKSCHE.Value = dr["OBTMARKSCHE"].ToString().Trim();
-
+                            OBTMARKSCHE.Value = Convert.ToInt32(dr["OBTMARKSCHE"]).ToString();
+                            
 
 
                             checkbox1.Checked = Convert.ToBoolean(dr["CHECKBOX1"]);
@@ -576,7 +581,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 MAXMARKSBOT.SelectedValue = dr["MAXMARKSBOT"].ToString().Trim();
                             }
 
-                            OBTMARKSBOT.Value = dr["OBTMARKSBOT"].ToString().Trim();
+                            OBTMARKSBOT.Value = Convert.ToInt32(dr["OBTMARKSBOT"]).ToString();
 
 
 
@@ -599,7 +604,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 MAXMARKSZOO.SelectedValue = dr["MAXMARKSZOO"].ToString().Trim();
                             }
 
-                            OBTMARKSZOO.Value = dr["OBTMARKSZOO"].ToString().Trim();
+                            OBTMARKSZOO.Value = Convert.ToInt32(dr["OBTMARKSZOO"]).ToString();
 
 
 
@@ -624,7 +629,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 MAXMARKSBIO.SelectedValue = dr["MAXMARKSBIO"].ToString().Trim();
                             }
 
-                            OBTMARKSBIO.Value = dr["OBTMARKSBIO"].ToString().Trim();
+                            OBTMARKSBIO.Value = Convert.ToInt32(dr["OBTMARKSBIO"]).ToString();
 
 
 
@@ -650,7 +655,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
                                 MAXMARKSMATOTH.SelectedValue = dr["MAXMARKSMATOTH"].ToString().Trim();
                             }
 
-                            OBTMARKSMATOTH.Value = dr["OBTMARKSMATOTH"].ToString().Trim();
+                            OBTMARKSMATOTH.Value = Convert.ToInt32(dr["OBTMARKSMATOTH"]).ToString();
 
 
 
@@ -669,11 +674,9 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
         protected void btnSaveContinue_Click(object sender, EventArgs e)
         {
-            //OtherDetails();
-            //StudyDetails();
-            //PhysicsChemistry();
-            //BotanyZoology();
-            //BioloyMathsOthers();
+            OtherDetails();
+            StudyDetails();
+           
             try
             {
                 StudentMarkDetails();
@@ -683,11 +686,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
                 Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
 
-            //Session["AcademicAndSchoolingComplete"] = true;
+            Session["AcademicAndSchoolingComplete"] = true;
 
-            //setuserstatus();
+            setuserstatus();
 
-            //Response.Redirect("addinfo.aspx");
+            Response.Redirect("addinfo.aspx");
 
         }
 
@@ -737,7 +740,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
-                string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
+                
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
@@ -753,11 +756,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE AcademicAndSchooling SET NumberOfHSCAttempt=@NumberOfHSCAttempt,MediumOfInstruction=@MediumOfInstruction,CivicSchool=@CivicSchool,CivicNative=@CivicNative,NumberOfNEETAttempt=@NumberOfNEETAttempt,NEETCoaching=@NEETCoaching,NEETstate=@NEETstate,NEETaddress=@NEETaddress,GovtSchool=@GovtSchool,RTE=@RTE,ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
+                        query = "UPDATE AcademicAndSchooling SET NumberOfHSCAttempt=@NumberOfHSCAttempt,MediumOfInstruction=@MediumOfInstruction,CivicSchool=@CivicSchool,CivicNative=@CivicNative,NumberOfNEETAttempt=@NumberOfNEETAttempt,NEETCoaching=@NEETCoaching,NEETstate=@NEETstate,NEETaddress=@NEETaddress,GovtSchool=@GovtSchool,RTE=@RTE,ModifiedAt=getdate(), ModifiedUserID=@ModifiedUserID WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO AcademicAndSchooling(LoginId,NumberOfHSCAttempt,MediumOfInstruction,CivicSchool,CivicNative,NumberOfNEETAttempt,NEETCoaching,NEETstate,NEETaddress,GovtSchool,RTE,ModifiedAt) VALUES (@LoginId,@NumberOfHSCAttempt,@MediumOfInstruction,@CivicSchool,@CivicNative,@NumberOfNEETAttempt,@NEETCoaching,@NEETstate,@NEETaddress,@GovtSchool,@RTE,@ModifiedAt)";
+                        query = "INSERT INTO AcademicAndSchooling(LoginId,NumberOfHSCAttempt,MediumOfInstruction,CivicSchool,CivicNative,NumberOfNEETAttempt,NEETCoaching,NEETstate,NEETaddress,GovtSchool,RTE,ModifiedAt,ModifiedUserID) VALUES (@LoginId,@NumberOfHSCAttempt,@MediumOfInstruction,@CivicSchool,@CivicNative,@NumberOfNEETAttempt,@NEETCoaching,@NEETstate,@NEETaddress,@GovtSchool,@RTE,getdate(), @ModifiedUserID)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
@@ -780,14 +783,16 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     }
                     cmd.Parameters.AddWithValue("@NEETstate", STATEneet.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@NEETaddress", neetaddress.Text.Trim());
-                    cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+                   
+                    cmd.Parameters.AddWithValue("@ModifiedUserID", LoginId);
+
 
 
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
 
-                    Response.Write("<script> alert(' academic and schooling added. ') </script>");
+                   
 
 
 
@@ -807,7 +812,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
-                string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
+               
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
@@ -823,11 +828,11 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
                     if (count > 0)
                     {
-                        query = "UPDATE StudyDetails SET YOP6=@YOP6,NOTS6=@NOTS6,STATE6=@STATE6,DISTRICT6=@DISTRICT6,YOP7=@YOP7,NOTS7=@NOTS7,STATE7=@STATE7,DISTRICT7=@DISTRICT7,YOP8=@YOP8,NOTS8=@NOTS8,STATE8=@STATE8,DISTRICT8=@DISTRICT8,YOP9=@YOP9,NOTS9=@NOTS9,STATE9=@STATE9,DISTRICT9=@DISTRICT9,YOP10=@YOP10,NOTS10=@NOTS10,STATE10=@STATE10,DISTRICT10=@DISTRICT10,YOP11=@YOP11,NOTS11=@NOTS11,STATE11=@STATE11,DISTRICT11=@DISTRICT11,YOP12=@YOP12,NOTS12=@NOTS12,STATE12=@STATE12,DISTRICT12=@DISTRICT12,ModifiedAt=@ModifiedAt WHERE LoginId=@LoginId";
+                        query = "UPDATE StudyDetails SET YOP6=@YOP6,NOTS6=@NOTS6,STATE6=@STATE6,DISTRICT6=@DISTRICT6,YOP7=@YOP7,NOTS7=@NOTS7,STATE7=@STATE7,DISTRICT7=@DISTRICT7,YOP8=@YOP8,NOTS8=@NOTS8,STATE8=@STATE8,DISTRICT8=@DISTRICT8,YOP9=@YOP9,NOTS9=@NOTS9,STATE9=@STATE9,DISTRICT9=@DISTRICT9,YOP10=@YOP10,NOTS10=@NOTS10,STATE10=@STATE10,DISTRICT10=@DISTRICT10,YOP11=@YOP11,NOTS11=@NOTS11,STATE11=@STATE11,DISTRICT11=@DISTRICT11,YOP12=@YOP12,NOTS12=@NOTS12,STATE12=@STATE12,DISTRICT12=@DISTRICT12,ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID WHERE LoginId=@LoginId";
                     }
                     else
                     {
-                        query = "INSERT INTO StudyDetails(LoginId,YOP6,NOTS6,STATE6,DISTRICT6,YOP7,NOTS7,STATE7,DISTRICT7,YOP8,NOTS8,STATE8,DISTRICT8,YOP9,NOTS9,STATE9,DISTRICT9,YOP10,NOTS10,STATE10,DISTRICT10,YOP11,NOTS11,STATE11,DISTRICT11,YOP12,NOTS12,STATE12,DISTRICT12,@ModifiedAt) VALUES(@LoginId,@YOP6,@NOTS6,@STATE6,@DISTRICT6,@YOP7,@NOTS7,@STATE7,@DISTRICT7,@YOP8,@NOTS8,@STATE8,@DISTRICT8,@YOP9,@NOTS9,@STATE9,@DISTRICT9,@YOP10,@NOTS10,@STATE10,@DISTRICT10,@YOP11,@NOTS11,@STATE11,@DISTRICT11,@YOP12,@NOTS12,@STATE12,@DISTRICT12,@ModifiedAt)";
+                        query = "INSERT INTO StudyDetails(LoginId,YOP6,NOTS6,STATE6,DISTRICT6,YOP7,NOTS7,STATE7,DISTRICT7,YOP8,NOTS8,STATE8,DISTRICT8,YOP9,NOTS9,STATE9,DISTRICT9,YOP10,NOTS10,STATE10,DISTRICT10,YOP11,NOTS11,STATE11,DISTRICT11,YOP12,NOTS12,STATE12,DISTRICT12,ModifiedAt,ModifiedUserID) VALUES(@LoginId,@YOP6,@NOTS6,@STATE6,@DISTRICT6,@YOP7,@NOTS7,@STATE7,@DISTRICT7,@YOP8,@NOTS8,@STATE8,@DISTRICT8,@YOP9,@NOTS9,@STATE9,@DISTRICT9,@YOP10,@NOTS10,@STATE10,@DISTRICT10,@YOP11,@NOTS11,@STATE11,@DISTRICT11,@YOP12,@NOTS12,@STATE12,@DISTRICT12,getdate(),@ModifiedUserID)";
                     }
 
                     SqlCommand cmd = new SqlCommand(query, con);
@@ -972,7 +977,10 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     // Proceed with saving the district value to the database
                     cmd.Parameters.AddWithValue("@DISTRICT12", district12);
 
-                    cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+                  
+
+                    cmd.Parameters.AddWithValue("@ModifiedUserID", LoginId);
+
 
 
 
@@ -1475,7 +1483,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
-                string modifiedAt = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt");
+              
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
@@ -1543,7 +1551,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
                         query = "UPDATE StudentMarkDetails SET ApplicationNumber = @ApplicationNumber," +
                             "RNPHY=@RNPHY,PHYSICSSUBJECT=@PHYSICSSUBJECT,MOPPHY=@MOPPHY,YOPPHY=@YOPPHY,MAXMARKSPHY=@MAXMARKSPHY,OBTMARKSPHY=@OBTMARKSPHY,CHEMISTRYSUBJECT=@CHEMISTRYSUBJECT,RNCHE=@RNCHE,MOPCHE=@MOPCHE,YOPCHE=@YOPCHE,MAXMARKSCHE=@MAXMARKSCHE,OBTMARKSCHE=@OBTMARKSCHE," +
                             "CHECKBOX1=@CHECKBOX1,BOTANYSUBJECT=@BOTANYSUBJECT,RNBOT=@RNBOT,MOPBOT=@MOPBOT,YOPBOT=@YOPBOT,MAXMARKSBOT=@MAXMARKSBOT,OBTMARKSBOT=@OBTMARKSBOT,ZOOLOGYSUBJECT=@ZOOLOGYSUBJECT,RNZOO=@RNZOO,MOPZOO=@MOPZOO,YOPZOO=@YOPZOO,MAXMARKSZOO=@MAXMARKSZOO,OBTMARKSZOO=@OBTMARKSZOO," +
-                            "CHECKBOX2=@CHECKBOX2,BIOLOGYSUBJECT=@BIOLOGYSUBJECT,RNBIO=@RNBIO,MOPBIO=@MOPBIO,YOPBIO=@YOPBIO,MAXMARKSBIO=@MAXMARKSBIO,OBTMARKSBIO=@OBTMARKSBIO,MATHSOTHERSSUBJECT=@MATHSOTHERSSUBJECT,RNMATOTH=@RNMATOTH,MOPMATOTH=@MOPMATOTH,YOPMATOTH=@YOPMATOTH,MAXMARKSMATOTH=@MAXMARKSMATOTH,OBTMARKSMATOTH=@OBTMARKSMATOTH,ModifiedAt=@ModifiedAt" +
+                            "CHECKBOX2=@CHECKBOX2,BIOLOGYSUBJECT=@BIOLOGYSUBJECT,RNBIO=@RNBIO,MOPBIO=@MOPBIO,YOPBIO=@YOPBIO,MAXMARKSBIO=@MAXMARKSBIO,OBTMARKSBIO=@OBTMARKSBIO,MATHSOTHERSSUBJECT=@MATHSOTHERSSUBJECT,RNMATOTH=@RNMATOTH,MOPMATOTH=@MOPMATOTH,YOPMATOTH=@YOPMATOTH,MAXMARKSMATOTH=@MAXMARKSMATOTH,OBTMARKSMATOTH=@OBTMARKSMATOTH,ModifiedAt=getdate(),ModifiedUserID=@ModifiedUserID" +
                             " WHERE LoginId = @LoginId";
                     }
                     else
@@ -1553,13 +1561,13 @@ namespace mbbs_MBBS_BDS_WEBSITE
                             "PHYSICSSUBJECT,RNPHY,MOPPHY,YOPPHY,MAXMARKSPHY,OBTMARKSPHY,CHEMISTRYSUBJECT,RNCHE,MOPCHE,YOPCHE,MAXMARKSCHE,OBTMARKSCHE," +
                             "CHECKBOX1,BOTANYSUBJECT,RNBOT,MOPBOT,YOPBOT,MAXMARKSBOT,OBTMARKSBOT,ZOOLOGYSUBJECT,RNZOO,MOPZOO,YOPZOO,MAXMARKSZOO,OBTMARKSZOO," +
                             "CHECKBOX2,BIOLOGYSUBJECT,RNBIO,MOPBIO,YOPBIO,MAXMARKSBIO,OBTMARKSBIO,MATHSOTHERSSUBJECT,RNMATOTH,MOPMATOTH,YOPMATOTH,MAXMARKSMATOTH,OBTMARKSMATOTH," +
-                            "ModifiedAt)" +
+                            "ModifiedAt,ModifiedUserID)" +
                             " VALUES " +
                             "(@LoginId, @ApplicationNumber," +
                             "@PHYSICSSUBJECT,@RNPHY,@MOPPHY,@YOPPHY,@MAXMARKSPHY,@OBTMARKSPHY,@CHEMISTRYSUBJECT,@RNCHE,@MOPCHE,@YOPCHE,@MAXMARKSCHE,@OBTMARKSCHE," +
                             "@CHECKBOX1,@BOTANYSUBJECT,@RNBOT,@MOPBOT,@YOPBOT,@MAXMARKSBOT,@OBTMARKSBOT,@ZOOLOGYSUBJECT,@RNZOO,@MOPZOO,@YOPZOO,@MAXMARKSZOO,@OBTMARKSZOO," +
                             "@CHECKBOX2,@BIOLOGYSUBJECT,@RNBIO,@MOPBIO,@YOPBIO,@MAXMARKSBIO,@OBTMARKSBIO,@MATHSOTHERSSUBJECT,@RNMATOTH,@MOPMATOTH,@YOPMATOTH,@MAXMARKSMATOTH,@OBTMARKSMATOTH," +
-                            "@ModifiedAt)";
+                            "getdate(),@ModifiedUserID)";
                     }
 
                     // Step 4: Prepare the SqlCommand for INSERT or UPDATE
@@ -1615,7 +1623,8 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@OBTMARKSMATOTH", OBTMARKSMATOTH.Value.Trim());
 
                  
-                    cmd.Parameters.AddWithValue("@ModifiedAt", modifiedAt);
+                    
+                    cmd.Parameters.AddWithValue("@ModifiedUserID", LoginId);
 
                     // Step 5: Execute the query
                     con.Open();
