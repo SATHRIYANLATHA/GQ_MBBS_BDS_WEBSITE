@@ -35,6 +35,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
             if (EmailValid == "invalid")
             {
+               
                 emailError.InnerHtml = "enter a valid email";
                 return;
             }
@@ -49,6 +50,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
             if (MobileValid == "invalid")
             {
+                
                 mobileError.InnerHtml = "enter a valid mobile number";
                 return;
             }
@@ -62,6 +64,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
             if (passwordStrength == "none" || passwordStrength == "weak" || passwordStrength == "invalid")
             {
+                
                 errorPassword.InnerHtml = "Password does not match the conditions.";
                 return; // Exit the method to prevent form submission
             }
@@ -73,15 +76,33 @@ namespace mbbs_MBBS_BDS_WEBSITE
 
 
 
+
+            if (txtLoginid.Text.Trim().Length < 6)
+            {
+               
+                errorLoginID.InnerHtml = "LOGIN ID MUST BE AT LEAST 6 CHARACTERS LONG!";
+                return;
+            }
+
+            if (txtLoginid.Text.Trim().Contains(" "))
+            {
+               
+                errorLoginID.InnerHtml = "NO EMPTY SPACES ARE ALLOWED !";
+                return;
+            }
+
+
+
             if (txtPassword.Text.Trim() == txtConfpassword.Text.Trim())
             {
                 if (checkuserexists())
                 {
+                    
                     errorLoginID.InnerHtml = "user already exists with the id, try with different id";
                 }
                 else
                 {
-
+                   
                     newuserregister();
                     setapplicationnumber();
                     beforelogin.Visible = false;
@@ -91,7 +112,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
             }
             else
             {
-                
+               
                 errorPassword.InnerHtml = "Password and confirm password are wrong. ";
 
             }
@@ -282,7 +303,7 @@ namespace mbbs_MBBS_BDS_WEBSITE
                     string applicationNumber = "25UG" + GetNextApplicationNumber().ToString();
 
                     // Insert a new record with generated application number
-                    string insertQuery = "INSERT INTO Applications (LoginId, ApplicationNumber) VALUES (@LoginId, @ApplicationNumber)";
+                    string insertQuery = "INSERT INTO Applications (LoginId, ApplicationNumber, ModifiedAt) VALUES (@LoginId, @ApplicationNumber, getdate())";
                     SqlCommand insertCmd = new SqlCommand(insertQuery, con);
                     insertCmd.Parameters.AddWithValue("@LoginId", loginId);
                     insertCmd.Parameters.AddWithValue("@ApplicationNumber", applicationNumber);

@@ -204,6 +204,57 @@
         }
 
 
+        function dummyMAINdownloadAppPrintAsPDF() {
+            var iframe = document.createElement('iframe');
+            iframe.style.position = 'absolute';
+            iframe.style.left = '-9999px';
+            iframe.src = 'pdfdownload.aspx';
+            document.body.appendChild(iframe);
+
+            iframe.onload = function () {
+                var iframeDocument = iframe.contentWindow.document;
+                var content1 = iframeDocument.querySelector('.content1');
+                var content2 = iframeDocument.querySelector('.content2');
+                var spanElement = iframeDocument.querySelector('#prino'); // Application Number Element
+
+                if (content1 && content2 && spanElement) {
+                    var appNumber = spanElement.innerHTML.trim(); // ✅ Extract Application Number
+                    var fileName = appNumber + "_Application.pdf"; // ✅ Dynamic File Name
+
+                    html2canvas(content1, { useCORS: true, scale: 3 }).then(canvas1 => {
+                        const imgData1 = canvas1.toDataURL("image/png");
+                        const pdf = new jspdf.jsPDF("p", "mm", "a4");
+                        pdf.addImage(imgData1, "PNG", 0, 5, 210, 280);
+
+                        setTimeout(() => {
+                            html2canvas(content2, { useCORS: true, scale: 3 }).then(canvas2 => {
+                                const imgData2 = canvas2.toDataURL("image/png");
+                                pdf.addPage();
+                                pdf.addImage(imgData2, "PNG", 0, 5, 210, 280);
+
+                                var pdfBlob = pdf.output("blob");  // Convert PDF to Blob
+
+                                // ✅ Upload PDF to backend with Application Number
+                                var formData = new FormData();
+                                formData.append("pdfFile", pdfBlob, fileName);
+                                formData.append("appNumber", appNumber); // ✅ Send Application Number
+
+                                fetch("pdfdownload.aspx", {
+                                    method: "POST",
+                                    body: formData
+                                })
+                                    .then(response => response.text())
+                                    .then(result => console.log(result))
+                                    .catch(error => console.error("Upload error:", error));
+
+                                pdf.save(fileName); // ✅ Save as {ApplicationNumber}_Application.pdf
+                                document.body.removeChild(iframe);
+                            });
+                        }, 500);
+                    });
+                }
+            };
+        }
 
 
 
@@ -236,6 +287,8 @@
     <div style="box-shadow: 0px 0px 50px grey; padding-top: 1px; padding-bottom: 1px;" class="mt-2 ms-3 mb-2 me-3">
         
         <h2 style="color:green;text-align:center" id="appsubmit" runat="server" visible="false">YOUR APPLICATION HAS BEEN  SUBMITTED </h2>
+
+                       
 
         <!-- table heading -->
           <div class="border border-info ms-2 mt-1 me-2" style="border-radius: 5px;">

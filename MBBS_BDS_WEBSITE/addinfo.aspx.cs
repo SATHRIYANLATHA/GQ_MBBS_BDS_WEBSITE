@@ -270,7 +270,7 @@ namespace MBBS_BDS_WEBSITE
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 ddlNativeDistrict.Items.Clear(); // Clear existing items
-                ddlNativeDistrict.Items.Add(new ListItem("-- Select State --", "")); // Default option
+                ddlNativeDistrict.Items.Add(new ListItem("-- Select District --", "")); // Default option
 
                 while (reader.Read())
                 {

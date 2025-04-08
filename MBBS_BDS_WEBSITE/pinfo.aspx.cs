@@ -219,7 +219,7 @@ namespace MBBS_BDS_WEBSITE
                             }
 
                             // If OC and Tamilnadu selected, hide certificate details
-                            if (ddlNativity.Text.Trim() == "Tamilnadu" && ddlCommunity.Text.Trim() == "OC")
+                            if (ddlNativity.SelectedValue.Trim() == "1" && ddlCommunity.SelectedValue.Trim() == "1")
                             {
                                 commmunity_certificate_detail.Visible = false;
 

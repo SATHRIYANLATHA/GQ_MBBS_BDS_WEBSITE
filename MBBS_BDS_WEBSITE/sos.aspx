@@ -692,10 +692,10 @@ input[type="number"] {
 
         function checkmarksChemistry() {
             var dropdown = document.getElementById('<%= MAXMARKSCHE.ClientID %>');
-var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+            var maxmark = parseFloat(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
 
                 var obtmarkInput = document.getElementById('<%= OBTMARKSCHE.ClientID %>');
-                var obtmark = parseInt(obtmarkInput.value, 10);
+            var obtmark = parseFloat(obtmarkInput.value, 10);
 
                 if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
                     obtmarkInput.value = ""; // Clear input field
@@ -704,10 +704,10 @@ var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Ge
 
         function checkmarksBotany() {
             var dropdown = document.getElementById('<%= MAXMARKSBOT.ClientID %>');
-var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+            var maxmark = parseFloat(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
 
                         var obtmarkInput = document.getElementById('<%= OBTMARKSBOT.ClientID %>');
-                        var obtmark = parseInt(obtmarkInput.value, 10);
+            var obtmark = parseFloat(obtmarkInput.value, 10);
 
                         if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
                             obtmarkInput.value = ""; // Clear input field
@@ -716,10 +716,10 @@ var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Ge
 
         function checkmarksZoology() {
             var dropdown = document.getElementById('<%= MAXMARKSZOO.ClientID %>');
-var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+            var maxmark = parseFloat(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
 
                     var obtmarkInput = document.getElementById('<%= OBTMARKSZOO.ClientID %>');
-                    var obtmark = parseInt(obtmarkInput.value, 10);
+            var obtmark = parseFloat(obtmarkInput.value, 10);
 
                     if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
                         obtmarkInput.value = ""; // Clear input field
@@ -728,10 +728,10 @@ var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Ge
 
         function checkmarksBiology() {
             var dropdown = document.getElementById('<%= MAXMARKSBIO.ClientID %>');
-var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+            var maxmark = parseFloat(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
 
                     var obtmarkInput = document.getElementById('<%= OBTMARKSBIO.ClientID %>');
-                    var obtmark = parseInt(obtmarkInput.value, 10);
+            var obtmark = parseFloat(obtmarkInput.value, 10);
 
                     if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
                         obtmarkInput.value = ""; // Clear input field
@@ -740,10 +740,10 @@ var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Ge
 
         function checkmarksMathsOthers() {
             var dropdown = document.getElementById('<%= MAXMARKSMATOTH.ClientID %>');
-var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+            var maxmark = parseFloat(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
 
                     var obtmarkInput = document.getElementById('<%= OBTMARKSMATOTH.ClientID %>');
-                    var obtmark = parseInt(obtmarkInput.value, 10);
+            var obtmark = parseFloat(obtmarkInput.value, 10);
 
                     if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
                         obtmarkInput.value = ""; // Clear input field

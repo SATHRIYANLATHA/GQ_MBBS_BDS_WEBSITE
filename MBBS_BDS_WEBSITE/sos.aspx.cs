@@ -535,7 +535,17 @@ namespace MBBS_BDS_WEBSITE
                                 MAXMARKSPHY.SelectedValue = dr["MAXMARKSPHY"].ToString().Trim();
                             }
 
+
                             OBTMARKSPHY.Value = Convert.ToInt32(dr["OBTMARKSPHY"]).ToString();
+                           
+                            double dchk;
+                            int ichk;
+                            dchk = Convert.ToDouble(dr["OBTMARKSPHY"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                OBTMARKSPHY.Value = Convert.ToInt32(dr["OBTMARKSPHY"]).ToString();
+                            else
+                                OBTMARKSPHY.Value = Convert.ToDecimal(dr["OBTMARKSPHY"]).ToString();
 
 
                             // CHEMISTRY.......
@@ -558,6 +568,13 @@ namespace MBBS_BDS_WEBSITE
 
                             OBTMARKSCHE.Value = Convert.ToInt32(dr["OBTMARKSCHE"]).ToString();
                             
+                             
+                            dchk = Convert.ToDouble(dr["OBTMARKSCHE"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                OBTMARKSCHE.Value = Convert.ToInt32(dr["OBTMARKSCHE"]).ToString();
+                            else
+                                OBTMARKSCHE.Value = Convert.ToDecimal(dr["OBTMARKSCHE"]).ToString();
 
 
                             checkbox1.Checked = Convert.ToBoolean(dr["CHECKBOX1"]);
@@ -583,6 +600,12 @@ namespace MBBS_BDS_WEBSITE
 
                             OBTMARKSBOT.Value = Convert.ToInt32(dr["OBTMARKSBOT"]).ToString();
 
+                            dchk = Convert.ToDouble(dr["OBTMARKSBOT"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                OBTMARKSBOT.Value = Convert.ToInt32(dr["OBTMARKSBOT"]).ToString();
+                            else
+                                OBTMARKSBOT.Value = Convert.ToDecimal(dr["OBTMARKSBOT"]).ToString();
 
 
 
@@ -605,6 +628,12 @@ namespace MBBS_BDS_WEBSITE
                             }
 
                             OBTMARKSZOO.Value = Convert.ToInt32(dr["OBTMARKSZOO"]).ToString();
+                            dchk = Convert.ToDouble(dr["OBTMARKSZOO"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                OBTMARKSZOO.Value = Convert.ToInt32(dr["OBTMARKSZOO"]).ToString();
+                            else
+                                OBTMARKSZOO.Value = Convert.ToDecimal(dr["OBTMARKSZOO"]).ToString();
 
 
 
@@ -630,6 +659,12 @@ namespace MBBS_BDS_WEBSITE
                             }
 
                             OBTMARKSBIO.Value = Convert.ToInt32(dr["OBTMARKSBIO"]).ToString();
+                            dchk = Convert.ToDouble(dr["OBTMARKSBIO"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                OBTMARKSBIO.Value = Convert.ToInt32(dr["OBTMARKSBIO"]).ToString();
+                            else
+                                OBTMARKSBIO.Value = Convert.ToDecimal(dr["OBTMARKSBIO"]).ToString();
 
 
 
@@ -656,7 +691,12 @@ namespace MBBS_BDS_WEBSITE
                             }
 
                             OBTMARKSMATOTH.Value = Convert.ToInt32(dr["OBTMARKSMATOTH"]).ToString();
-
+                            dchk = Convert.ToDouble(dr["OBTMARKSMATOTH"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                OBTMARKSMATOTH.Value = Convert.ToInt32(dr["OBTMARKSMATOTH"]).ToString();
+                            else
+                                OBTMARKSMATOTH.Value = Convert.ToDecimal(dr["OBTMARKSMATOTH"]).ToString();
 
 
 
@@ -676,7 +716,7 @@ namespace MBBS_BDS_WEBSITE
         {
             OtherDetails();
             StudyDetails();
-           
+
             try
             {
                 StudentMarkDetails();
@@ -1494,13 +1534,13 @@ namespace MBBS_BDS_WEBSITE
                         MOPBIO.SelectedValue = "";
                         YOPBIO.Value = "";
                         MAXMARKSBIO.SelectedValue = "";
-                        OBTMARKSBIO.Value = "";
+                        OBTMARKSBIO.Value = "0";
 
                         RNMATOTH.Value = "";
                         MOPMATOTH.SelectedValue = "";
                         YOPMATOTH.Value = "";
                         MAXMARKSMATOTH.SelectedValue = "";
-                        OBTMARKSMATOTH.Value = "";
+                        OBTMARKSMATOTH.Value = "0";
 
                     }else if (checkbox2.Checked)
                     {
@@ -1509,13 +1549,13 @@ namespace MBBS_BDS_WEBSITE
                         MOPBOT.SelectedValue = "";
                         YOPBOT.Value = "";
                         MAXMARKSBOT.SelectedValue = "";
-                        OBTMARKSBOT.Value = "";
+                        OBTMARKSBOT.Value = "0";
 
                         RNZOO.Value = "";
                         MOPZOO.SelectedValue = "";
                         YOPZOO.Value = "";
                         MAXMARKSZOO.SelectedValue = "";
-                        OBTMARKSZOO.Value = "";
+                        OBTMARKSZOO.Value = "0";
                     }
 
 
@@ -1581,14 +1621,14 @@ namespace MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@MOPPHY", MOPPHY.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@YOPPHY", YOPPHY.Value.Trim());
                     cmd.Parameters.AddWithValue("@MAXMARKSPHY", MAXMARKSPHY.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSPHY", OBTMARKSPHY.Value.Trim());
-
+                    cmd.Parameters.AddWithValue("@OBTMARKSPHY", Convert.ToDouble (OBTMARKSPHY.Value.Trim())); //OBTMARKSPHY.Value.Trim()
+                    
                     cmd.Parameters.AddWithValue("@CHEMISTRYSUBJECT", CHEMISTRYSUBJECT.InnerHtml.Trim());
                     cmd.Parameters.AddWithValue("@RNCHE", RNCHE.Value.Trim());
                     cmd.Parameters.AddWithValue("@MOPCHE", MOPCHE.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@YOPCHE", YOPCHE.Value.Trim());
                     cmd.Parameters.AddWithValue("@MAXMARKSCHE", MAXMARKSCHE.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSCHE", OBTMARKSCHE.Value.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSCHE", Convert.ToDouble(OBTMARKSCHE.Value.Trim()));
 
                     cmd.Parameters.AddWithValue("@CHECKBOX1", checkbox1.Checked);
 
@@ -1597,14 +1637,14 @@ namespace MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@MOPBOT", MOPBOT.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@YOPBOT", YOPBOT.Value.Trim());
                     cmd.Parameters.AddWithValue("@MAXMARKSBOT", MAXMARKSBOT.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSBOT", OBTMARKSBOT.Value.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSBOT", Convert.ToDouble(OBTMARKSBOT.Value.Trim()));
 
                     cmd.Parameters.AddWithValue("@ZOOLOGYSUBJECT", ZOOLOGYSUBJECT.InnerHtml.Trim());
                     cmd.Parameters.AddWithValue("@RNZOO", RNZOO.Value.Trim());
                     cmd.Parameters.AddWithValue("@MOPZOO", MOPZOO.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@YOPZOO", YOPZOO.Value.Trim());
                     cmd.Parameters.AddWithValue("@MAXMARKSZOO", MAXMARKSZOO.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSZOO", OBTMARKSZOO.Value.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSZOO", Convert.ToDouble(OBTMARKSZOO.Value.Trim()));
 
                     cmd.Parameters.AddWithValue("@CHECKBOX2", checkbox2.Checked);
 
@@ -1613,14 +1653,14 @@ namespace MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@MOPBIO", MOPBIO.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@YOPBIO", YOPBIO.Value.Trim());
                     cmd.Parameters.AddWithValue("@MAXMARKSBIO", MAXMARKSBIO.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSBIO", OBTMARKSBIO.Value.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSBIO", Convert.ToDouble(OBTMARKSBIO.Value.Trim()));
 
                     cmd.Parameters.AddWithValue("@MATHSOTHERSSUBJECT", MATHSOTHERSSUBJECT.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@RNMATOTH", RNMATOTH.Value.Trim());
                     cmd.Parameters.AddWithValue("@MOPMATOTH", MOPMATOTH.SelectedValue.Trim());
                     cmd.Parameters.AddWithValue("@YOPMATOTH", YOPMATOTH.Value.Trim());
                     cmd.Parameters.AddWithValue("@MAXMARKSMATOTH", MAXMARKSMATOTH.SelectedValue.Trim());
-                    cmd.Parameters.AddWithValue("@OBTMARKSMATOTH", OBTMARKSMATOTH.Value.Trim());
+                    cmd.Parameters.AddWithValue("@OBTMARKSMATOTH", Convert.ToDouble(OBTMARKSMATOTH.Value.Trim()));
 
                  
                     
@@ -1634,8 +1674,9 @@ namespace MBBS_BDS_WEBSITE
             }
             catch (Exception ex)
             {
-                Response.Write("<script>alert('" + ex.Message + "')</script>");
+                Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
+
         }
 
 

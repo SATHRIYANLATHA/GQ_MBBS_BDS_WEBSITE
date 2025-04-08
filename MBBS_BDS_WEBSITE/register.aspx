@@ -46,28 +46,31 @@
                      this.value = this.value.substring(0, 14); // Limit to 14 characters
                  }
              });
-         });
-
-        $(function () {
-            $("#<%= txtDOB.ClientID %>").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                dateFormat: 'dd/mm/yy',
-                maxDate: 0, // Disable future dates
-                yearRange: '1970:' + new Date().getFullYear().toString(),
-                onSelect: function (dateText, inst) {
-                    // Additional logic when a date is selected
-                    if ($("#<%= txtDOB.ClientID %>").val() !== "") {
-                        fnSetBorder("<%= txtDOB.ClientID %>", 0);
-                    }
-                }
-            });
         });
+
+
+            $(function () {
+                $("#<%= txtDOB.ClientID %>").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'dd/mm/yy',
+            maxDate: 0, // Disable future dates
+            yearRange: '1970:' + new Date().getFullYear().toString(),
+            onSelect: function (dateText, inst) {
+                // Additional logic when a date is selected
+                if ($("#<%= txtDOB.ClientID %>").val() !== "") {
+                    fnSetBorder("<%= txtDOB.ClientID %>", 0);
+                }
+            }
+        });
+    });
+        
 
         // Example function to set border (customize as needed)
         function fnSetBorder(elementId, borderStyle) {
             document.getElementById(elementId).style.border = borderStyle === 0 ? "1px solid #ccc" : "2px solid red";
         }
+
 
 
 
@@ -294,7 +297,7 @@
 
 
                                 <h6 style="color: darkblue">Date Of Birth</h6>
-                                <asp:TextBox ID="txtDOB" runat="server" placeholder="Pick the Date"  Style="width: 70%;" class="custom-textbox mb-2" required="required"  ></asp:TextBox>
+                                <asp:TextBox ID="txtDOB" runat="server" placeholder="Pick the Date"  Style="width: 70%;" class="custom-textbox mb-2" required="required"  onkeypress="return false;" onkeydown="return false;"></asp:TextBox>
                                
 
 

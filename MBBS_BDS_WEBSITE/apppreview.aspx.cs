@@ -104,6 +104,8 @@ namespace MBBS_BDS_WEBSITE
                     Response.Redirect("error.aspx");
                 }
 
+               
+
             }
             
         }
@@ -624,6 +626,15 @@ namespace MBBS_BDS_WEBSITE
                             maxphy.InnerHtml = dr["MaxMarkPHY"].ToString().Trim().ToUpper();
                             obtphy.InnerHtml = dr["OBTMARKSPHY"].ToString().Trim().ToUpper();
 
+                            double dchk;
+                            int ichk;
+                            dchk = Convert.ToDouble(dr["OBTMARKSPHY"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                obtphy.InnerHtml = Convert.ToInt32(dr["OBTMARKSPHY"]).ToString();
+                            else
+                                obtphy.InnerHtml = Convert.ToDecimal(dr["OBTMARKSPHY"]).ToString();
+
                             // Chemistry
                             che.InnerHtml = dr["CHEMISTRYSUBJECT"].ToString().Trim().ToUpper();
                             rnche.InnerHtml = dr["RNCHE"].ToString().Trim().ToUpper();
@@ -631,6 +642,13 @@ namespace MBBS_BDS_WEBSITE
                             yopche.InnerHtml = dr["YOPCHE"].ToString().Trim().ToUpper();
                             maxche.InnerHtml = dr["MaxMarkCHE"].ToString().Trim().ToUpper();
                             obtche.InnerHtml = dr["OBTMARKSCHE"].ToString().Trim().ToUpper();
+
+                            dchk = Convert.ToDouble(dr["OBTMARKSCHE"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                obtche.InnerHtml = Convert.ToInt32(dr["OBTMARKSCHE"]).ToString();
+                            else
+                                obtche.InnerHtml = Convert.ToDecimal(dr["OBTMARKSCHE"]).ToString();
 
                             // Botany
                             bot.InnerHtml = dr["BOTANYSUBJECT"].ToString().Trim().ToUpper();
@@ -640,6 +658,13 @@ namespace MBBS_BDS_WEBSITE
                             maxbot.InnerHtml = dr["MaxMarkBOT"].ToString().Trim().ToUpper();
                             obtbot.InnerHtml = dr["OBTMARKSBOT"].ToString().Trim().ToUpper();
 
+                            dchk = Convert.ToDouble(dr["OBTMARKSBOT"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                obtbot.InnerHtml = Convert.ToInt32(dr["OBTMARKSBOT"]).ToString();
+                            else
+                                obtbot.InnerHtml = Convert.ToDecimal(dr["OBTMARKSBOT"]).ToString();
+
                             // Zoology
                             zoo.InnerHtml = dr["ZOOLOGYSUBJECT"].ToString().Trim().ToUpper();
                             rnzoo.InnerHtml = dr["RNZOO"].ToString().Trim().ToUpper();
@@ -647,6 +672,13 @@ namespace MBBS_BDS_WEBSITE
                             yopzoo.InnerHtml = dr["YOPZOO"].ToString().Trim().ToUpper();
                             maxzoo.InnerHtml = dr["MaxMarkZOO"].ToString().Trim().ToUpper();
                             obtzoo.InnerHtml = dr["OBTMARKSZOO"].ToString().Trim().ToUpper();
+
+                            dchk = Convert.ToDouble(dr["OBTMARKSZOO"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                obtzoo.InnerHtml = Convert.ToInt32(dr["OBTMARKSZOO"]).ToString();
+                            else
+                                obtzoo.InnerHtml = Convert.ToDecimal(dr["OBTMARKSZOO"]).ToString();
 
                             // Biology
                             bio.InnerHtml = dr["BIOLOGYSUBJECT"].ToString().Trim().ToUpper();
@@ -656,6 +688,13 @@ namespace MBBS_BDS_WEBSITE
                             maxbio.InnerHtml = dr["MaxMarkBIO"].ToString().Trim().ToUpper();
                             obtbio.InnerHtml = dr["OBTMARKSBIO"].ToString().Trim().ToUpper();
 
+                            dchk = Convert.ToDouble(dr["OBTMARKSBIO"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                obtbio.InnerHtml = Convert.ToInt32(dr["OBTMARKSBIO"]).ToString();
+                            else
+                                obtbio.InnerHtml = Convert.ToDecimal(dr["OBTMARKSBIO"]).ToString();
+
                             // Maths/Others
                             matoth.InnerHtml = dr["MATHSOTHERSSUBJECT"].ToString().Trim().ToUpper();
                             rnmatoth.InnerHtml = dr["RNMATOTH"].ToString().Trim().ToUpper();
@@ -663,6 +702,13 @@ namespace MBBS_BDS_WEBSITE
                             yopmatoth.InnerHtml = dr["YOPMATOTH"].ToString().Trim().ToUpper();
                             maxmatoth.InnerHtml = dr["MaxMarkMATOTH"].ToString().Trim().ToUpper();
                             obtmatoth.InnerHtml = dr["OBTMARKSMATOTH"].ToString().Trim().ToUpper();
+
+                            dchk = Convert.ToDouble(dr["OBTMARKSMATOTH"]);
+                            ichk = Convert.ToInt32(dchk);
+                            if (ichk == dchk)
+                                obtmatoth.InnerHtml = Convert.ToInt32(dr["OBTMARKSMATOTH"]).ToString();
+                            else
+                                obtmatoth.InnerHtml = Convert.ToDecimal(dr["OBTMARKSMATOTH"]).ToString();
                         }
                     }
                     else

@@ -284,7 +284,14 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload1.HasFile)
                 {
@@ -501,7 +508,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload2.HasFile)
                 {
@@ -716,7 +729,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload3.HasFile)
                 {
@@ -933,7 +952,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload4.HasFile)
                 {
@@ -1142,7 +1167,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload5.HasFile)
                 {
@@ -1341,7 +1372,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-                
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload6.HasFile)
                 {
@@ -1554,6 +1591,12 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
 
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload18.HasFile)
@@ -1768,7 +1811,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload7.HasFile)
                 {
@@ -1980,7 +2029,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-             
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload8.HasFile)
                 {
@@ -2195,7 +2250,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-              
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload9.HasFile)
                 {
@@ -2410,7 +2471,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-                
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload10.HasFile)
                 {
@@ -2624,7 +2691,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload11.HasFile)
                 {
@@ -2837,7 +2910,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-              
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload12.HasFile)
                 {
@@ -3053,7 +3132,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload13.HasFile)
                 {
@@ -3269,7 +3354,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-                
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload14.HasFile)
                 {
@@ -3483,7 +3574,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload15.HasFile)
                 {
@@ -3699,7 +3796,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-               
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload16.HasFile)
                 {
@@ -3917,7 +4020,13 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 string loginId = Session["LoginId"] as string;
-              
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
+
 
                 if (!string.IsNullOrEmpty(loginId) && FileUpload17.HasFile)
                 {

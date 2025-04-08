@@ -1,5 +1,88 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="AppSubmit.aspx.cs" Inherits="MBBS_BDS_WEBSITE.AppSubmit" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+    <script>
+        function confirmSubmission() {
+            // Ask for confirmation only once
+            if (!confirm("Are you sure you want to proceed to submission? You won’t be able to make changes afterward.")) {
+                return false;
+            }
+
+            // Disable future confirmation and proceed to download PDF
+            var submitBtn = document.getElementById('<%= SUBMIT.ClientID %>');
+    submitBtn.setAttribute("onclick", ""); // Remove any onclick event
+    submitBtn.onclick = null;
+
+    dummyMAINdownloadAppPrintAsPDF();
+    return false; // Prevent default button action
+}
+
+function dummyMAINdownloadAppPrintAsPDF() {
+    var iframe = document.createElement('iframe');
+    iframe.style.position = 'absolute';
+    iframe.style.left = '-9999px';
+    iframe.src = 'pdfdownload.aspx';
+    document.body.appendChild(iframe);
+
+    iframe.onload = function () {
+        var iframeDocument = iframe.contentWindow.document;
+        var content1 = iframeDocument.querySelector('.content1');
+        var content2 = iframeDocument.querySelector('.content2');
+        var spanElement = iframeDocument.querySelector('#prino'); // Application Number Element
+
+        if (content1 && content2 && spanElement) {
+            var appNumber = spanElement.innerHTML.trim(); // ✅ Extract Application Number
+            var fileName = appNumber + "_Application.pdf"; // ✅ Dynamic File Name
+
+            html2canvas(content1, { useCORS: true, scale: 3 }).then(canvas1 => {
+                const imgData1 = canvas1.toDataURL("image/png");
+                const pdf = new jspdf.jsPDF("p", "mm", "a4");
+                pdf.addImage(imgData1, "PNG", 0, 5, 210, 280);
+
+                setTimeout(() => {
+                    html2canvas(content2, { useCORS: true, scale: 3 }).then(canvas2 => {
+                        const imgData2 = canvas2.toDataURL("image/png");
+                        pdf.addPage();
+                        pdf.addImage(imgData2, "PNG", 0, 5, 210, 280);
+
+                        var pdfBlob = pdf.output("blob");  // Convert PDF to Blob
+
+                        // ✅ Upload PDF to backend with Application Number
+                        var formData = new FormData();
+                        formData.append("pdfFile", pdfBlob, fileName);
+                        formData.append("appNumber", appNumber); // ✅ Send Application Number
+
+                        fetch("pdfdownload.aspx", {
+                            method: "POST",
+                            body: formData
+                        })
+                        .then(response => response.text())
+                        .then(result => {
+                            console.log(result);
+                            pdf.save(fileName); // ✅ Save as {ApplicationNumber}_Application.pdf
+
+                            // ✅ Trigger submit button AFTER PDF is processed
+                            setTimeout(() => {
+                                var submitBtn = document.getElementById('<%= SUBMIT.ClientID %>');
+                                submitBtn.setAttribute("onclick", ""); // Remove onclick attribute
+                                submitBtn.onclick = null; // Ensure no JS events
+
+                                submitBtn.click(); // ✅ Perform final submission
+                            }, 1000); // Small delay to allow PDF saving
+                        })
+                            .catch(error => console.error("Upload error:", error));
+
+                        document.body.removeChild(iframe);
+                    });
+                }, 500);
+            });
+                }
+            };
+        }
+
+
+    </script>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
@@ -41,14 +124,15 @@
 
 
                    <div class="d-flex justify-content-center align-items-center mb-3" style="background-color: #dcebfb; box-sizing: border-box; border-radius: 5px;">
-    <asp:Button 
-        ID="SUBMIT" 
-        runat="server" 
-        class="btn btn-primary mt-1 mb-1" 
-        Text="SUBMIT" 
-        OnClick="SUBMIT_CLICK" 
-        OnClientClick="return confirm('Are you sure you want to proceed to  submission ? You won’t be able to make changes afterward.');">
-    </asp:Button>
+  <asp:Button 
+    ID="SUBMIT" 
+    runat="server" 
+    class="btn btn-primary mt-1 mb-1" 
+    Text="SUBMIT" 
+    OnClick="SUBMIT_CLICK"
+    OnClientClick="return confirmSubmission();">
+</asp:Button>
+
 </div>
 
 

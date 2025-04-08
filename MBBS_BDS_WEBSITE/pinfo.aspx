@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="pinfo.aspx.cs" Inherits="MBBS_BDS_WEBSITE.pinfo" MaintainScrollPositionOnPostback="true" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="pinfo.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.pinfo" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -185,7 +185,7 @@
 
                    <div class="ms-4">
                        <h6 style="color: #172e81; margin-bottom: 4px;" class="pt-3">ISSUED DATE</h6>
-                       <asp:TextBox ID="txtDate" runat="server" placeholder=" Pick the Date"  style="width:60%;" class="custom-textbox mb-2"  required="required" ></asp:TextBox>
+                       <asp:TextBox ID="txtDate" runat="server" placeholder=" Pick the Date"  style="width:60%;" class="custom-textbox mb-2"  required="required"  onkeypress="return false;" onkeydown="return false;"></asp:TextBox>
                    </div>
 
                </div>
