@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MBBS.master.cs" Inherits="MBBS_BDS_WEBSITE.MBBS"  %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MBBS.master.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.MBBS"  %>
 
 <!DOCTYPE html>
 

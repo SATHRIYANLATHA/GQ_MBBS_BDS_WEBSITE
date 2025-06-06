@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class upload : System.Web.UI.Page
     {
@@ -4162,6 +4162,13 @@ namespace MBBS_BDS_WEBSITE
 
         protected void btnSaveContinue_Click(object sender, EventArgs e)
         {
+
+            if (Session["LoginId"] == null)
+            {
+                Response.Redirect("error.aspx");
+                return;
+            }
+
             // Check if R4 is displayed on the page by inspecting its style attribute
             bool isR4Visible = R4.Attributes["style"] != null && !R4.Attributes["style"].Contains("display:none");
             bool isR5Visible = R5.Attributes["style"] != null && !R5.Attributes["style"].Contains("display:none");

@@ -14,7 +14,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using ZXing;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class pdfdownload : System.Web.UI.Page
     {
@@ -26,6 +26,7 @@ namespace MBBS_BDS_WEBSITE
             String loginId = Session["LoginId"] as string;
 
             load_session_one(loginId);
+            load_session_two(loginId);
           
 
             loadapplicationnumber(loginId);
@@ -261,6 +262,49 @@ namespace MBBS_BDS_WEBSITE
         }
 
 
+        protected void load_session_two(string loginId)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(strcon))
+                {
+                    string query = "SELECT * FROM PersonalInformation WHERE LoginId=@LoginId";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@LoginId", loginId);
+
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+
+
+
+                            if ((dr["Nationality"].ToString().Trim()) == "1") // checking if INDIAN
+                            {
+                                Session["Indian"] = true;
+                            }
+                            else
+                            {
+                                Session["Indian"] = false;
+                            }
+
+
+
+
+                        }
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script> alert('" + ex.Message + "') </script>");
+            }
+        }
 
         protected void loadapplicationnumber(string loginId)
         {
@@ -833,7 +877,16 @@ namespace MBBS_BDS_WEBSITE
                             pri29.InnerHtml = dr["NativeDistrictName"].ToString().Trim().ToUpper();
                             pri30.InnerHtml = dr["NativeStateName"].ToString().Trim().ToUpper();
                             pri31.InnerHtml = dr["IdentificationMarks"].ToString().Trim().ToUpper();
-                            pri32.InnerHtml = dr["AadharNumber"].ToString().Trim().ToUpper();
+
+                            if (Session["Indian"] != null && (bool)Session["Indian"] == true)
+                            {
+                                pri32.InnerHtml = dr["AadharNumber"].ToString().Trim().ToUpper();
+                            }
+                            else
+                            {
+                                pri32.InnerHtml = "-- NA --";
+                            }
+
                             pri33.InnerHtml = dr["EmailId"].ToString().Trim().ToUpper();
                             pri34.InnerHtml = dr["PhoneNumber"].ToString().Trim().ToUpper();
                         }

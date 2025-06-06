@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class AppSubmit : System.Web.UI.Page
     {
@@ -25,6 +25,13 @@ namespace MBBS_BDS_WEBSITE
 
         protected void SUBMIT_CLICK(object sender, EventArgs e)
         {
+
+            if (Session["LoginId"] == null)
+            {
+                Response.Redirect("error.aspx");
+                return;
+            }
+
             Session["ApplicationSubmit"] = true;
             setuserstatus();
 

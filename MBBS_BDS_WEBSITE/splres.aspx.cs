@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class splres : System.Web.UI.Page
     {
@@ -36,7 +36,12 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
-              
+
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {

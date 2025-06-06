@@ -1,4 +1,4 @@
-﻿<%@ Page Title=""  EnableEventValidation="false" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="sos.aspx.cs" Inherits="MBBS_BDS_WEBSITE.sos" MaintainScrollPositionOnPostback="true" %>
+﻿<%@ Page Title=""  EnableEventValidation="false" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="sos.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.sos" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     <style>
@@ -679,10 +679,10 @@ input[type="number"] {
 
         function checkmarksPhysics() {
             var dropdown = document.getElementById('<%= MAXMARKSPHY.ClientID %>');
-    var maxmark = parseInt(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
+            var maxmark = parseFloat(dropdown.options[dropdown.selectedIndex].text, 10); // Get text, not value
 
             var obtmarkInput = document.getElementById('<%= OBTMARKSPHY.ClientID %>');
-            var obtmark = parseInt(obtmarkInput.value, 10);
+            var obtmark = parseFloat(obtmarkInput.value, 10);
 
             if (!isNaN(maxmark) && !isNaN(obtmark) && obtmark > maxmark) { // Change to ">"
                 obtmarkInput.value = ""; // Clear input field

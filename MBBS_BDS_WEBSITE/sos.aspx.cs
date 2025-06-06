@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class sos : System.Web.UI.Page
     {
@@ -78,6 +78,16 @@ namespace MBBS_BDS_WEBSITE
                             if (ddlNumberOfAttempts.Items.FindByValue(dr["NumberOfHSCAttempt"].ToString().Trim()) != null)
                             {
                                 ddlNumberOfAttempts.SelectedValue = dr["NumberOfHSCAttempt"].ToString().Trim();
+                            }
+
+                            if (govtschooloptions.Items.FindByValue(dr["GovtSchool"].ToString().Trim()) != null)
+                            {
+                                govtschooloptions.SelectedValue = dr["GovtSchool"].ToString().Trim();
+                            }
+
+                            if (rteoptions.Items.FindByValue(dr["RTE"].ToString().Trim()) != null)
+                            {
+                                rteoptions.SelectedValue = dr["RTE"].ToString().Trim();
                             }
 
 
@@ -267,236 +277,6 @@ namespace MBBS_BDS_WEBSITE
                 Response.Write("<script> alert('" + ex.Message + "') </script>");
             }
         }
-
-
-        //protected void loadphysicschemistry(string loginId)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection con = new SqlConnection(strcon))
-        //        {
-        //            string query = "SELECT * FROM PhysicsChemistry WHERE LoginId=@LoginId";
-        //            SqlCommand cmd = new SqlCommand(query, con);
-        //            cmd.Parameters.AddWithValue("@LoginId", loginId);
-
-        //            con.Open();
-        //            SqlDataReader dr = cmd.ExecuteReader();
-
-        //            if (dr.HasRows)
-        //            {
-        //                while (dr.Read())
-        //                {
-
-        //                    // PHYSICS .......
-
-        //                    PHYSICSSUBJECT.InnerHtml = dr["PHYSICSSUBJECT"].ToString().Trim();
-
-        //                    RNPHY.Value = dr["RNPHY"].ToString().Trim();
-
-        //                    if (MOPPHY.Items.FindByValue(dr["MOPPHY"].ToString().Trim()) != null)
-        //                    {
-        //                        MOPPHY.SelectedValue = dr["MOPPHY"].ToString().Trim();
-        //                    }
-
-        //                    YOPPHY.Value = dr["YOPPHY"].ToString().Trim();
-
-        //                    if (MAXMARKSPHY.Items.FindByValue(dr["MAXMARKSPHY"].ToString().Trim()) != null)
-        //                    {
-        //                        MAXMARKSPHY.SelectedValue = dr["MAXMARKSPHY"].ToString().Trim();
-        //                    }
-
-        //                    OBTMARKSPHY.Value = dr["OBTMARKSPHY"].ToString().Trim();
-
-
-        //                    // CHEMISTRY.......
-
-        //                    CHEMISTRYSUBJECT.InnerHtml = dr["CHEMISTRYSUBJECT"].ToString().Trim();
-
-        //                    RNCHE.Value = dr["RNCHE"].ToString().Trim();
-
-        //                    if (MOPCHE.Items.FindByValue(dr["MOPCHE"].ToString().Trim()) != null)
-        //                    {
-        //                        MOPCHE.SelectedValue = dr["MOPCHE"].ToString().Trim();
-        //                    }
-
-        //                    YOPCHE.Value = dr["YOPCHE"].ToString().Trim();
-
-        //                    if (MAXMARKSCHE.Items.FindByValue(dr["MAXMARKSCHE"].ToString().Trim()) != null)
-        //                    {
-        //                        MAXMARKSCHE.SelectedValue = dr["MAXMARKSCHE"].ToString().Trim();
-        //                    }
-
-        //                    OBTMARKSCHE.Value = dr["OBTMARKSCHE"].ToString().Trim();
-
-
-        //                }
-        //            }
-
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
-        //    }
-        //}
-
-        //protected void loadbotanyzoology(string loginId)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection con = new SqlConnection(strcon))
-        //        {
-        //            string query = "SELECT * FROM BotanyZoology WHERE LoginId=@LoginId";
-        //            SqlCommand cmd = new SqlCommand(query, con);
-        //            cmd.Parameters.AddWithValue("@LoginId", loginId);
-
-        //            con.Open();
-        //            SqlDataReader dr = cmd.ExecuteReader();
-
-        //            if (dr.HasRows)
-        //            {
-        //                while (dr.Read())
-        //                {
-
-        //                    checkbox1.Checked = Convert.ToBoolean(dr["CHECKBOX1"]);
-
-        //                    // PHYSICS .......
-
-
-        //                    BOTANYSUBJECT.InnerHtml = dr["BOTANYSUBJECT"].ToString().Trim();
-
-        //                    RNBOT.Value = dr["RNBOT"].ToString().Trim();
-
-        //                    if (MOPBOT.Items.FindByValue(dr["MOPBOT"].ToString().Trim()) != null)
-        //                    {
-        //                        MOPBOT.SelectedValue = dr["MOPBOT"].ToString().Trim();
-        //                    }
-
-        //                    YOPBOT.Value = dr["YOPBOT"].ToString().Trim();
-
-        //                    if (MAXMARKSBOT.Items.FindByValue(dr["MAXMARKSBOT"].ToString().Trim()) != null)
-        //                    {
-        //                        MAXMARKSBOT.SelectedValue = dr["MAXMARKSBOT"].ToString().Trim();
-        //                    }
-
-        //                    OBTMARKSBOT.Value = dr["OBTMARKSBOT"].ToString().Trim();
-
-
-
-
-        //                    // CHEMISTRY.......
-
-        //                    ZOOLOGYSUBJECT.InnerHtml = dr["ZOOLOGYSUBJECT"].ToString().Trim();
-
-        //                    RNZOO.Value = dr["RNZOO"].ToString().Trim();
-
-        //                    if (MOPZOO.Items.FindByValue(dr["MOPZOO"].ToString().Trim()) != null)
-        //                    {
-        //                        MOPZOO.SelectedValue = dr["MOPZOO"].ToString().Trim();
-        //                    }
-
-        //                    YOPZOO.Value = dr["YOPZOO"].ToString().Trim();
-
-        //                    if (MAXMARKSZOO.Items.FindByValue(dr["MAXMARKSZOO"].ToString().Trim()) != null)
-        //                    {
-        //                        MAXMARKSZOO.SelectedValue = dr["MAXMARKSZOO"].ToString().Trim();
-        //                    }
-
-        //                    OBTMARKSZOO.Value = dr["OBTMARKSZOO"].ToString().Trim();
-
-
-        //                }
-        //            }
-
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
-        //    }
-        //}
-
-        //protected void loadbiologymathsothers(string loginId)
-        //{
-        //    try
-        //    {
-        //        using (SqlConnection con = new SqlConnection(strcon))
-        //        {
-        //            string query = "SELECT * FROM BiologyMathsOthers WHERE LoginId=@LoginId";
-        //            SqlCommand cmd = new SqlCommand(query, con);
-        //            cmd.Parameters.AddWithValue("@LoginId", loginId);
-
-        //            con.Open();
-        //            SqlDataReader dr = cmd.ExecuteReader();
-
-        //            if (dr.HasRows)
-        //            {
-        //                while (dr.Read())
-        //                {
-
-        //                    checkbox2.Checked = Convert.ToBoolean(dr["CHECKBOX2"]);
-
-        //                    // PHYSICS .......
-
-
-        //                    BIOLOGYSUBJECT.InnerHtml = dr["BIOLOGYSUBJECT"].ToString().Trim();
-
-        //                    RNBIO.Value = dr["RNBIO"].ToString().Trim();
-
-        //                    if (MOPBIO.Items.FindByValue(dr["MOPBIO"].ToString().Trim()) != null)
-        //                    {
-        //                        MOPBIO.SelectedValue = dr["MOPBIO"].ToString().Trim();
-        //                    }
-
-        //                    YOPBIO.Value = dr["YOPBIO"].ToString().Trim();
-
-        //                    if (MAXMARKSBIO.Items.FindByValue(dr["MAXMARKSBIO"].ToString().Trim()) != null)
-        //                    {
-        //                        MAXMARKSBIO.SelectedValue = dr["MAXMARKSBIO"].ToString().Trim();
-        //                    }
-
-        //                    OBTMARKSBIO.Value = dr["OBTMARKSBIO"].ToString().Trim();
-
-
-
-
-        //                    // CHEMISTRY.......
-
-        //                    if (MATHSOTHERSSUBJECT.Items.FindByValue(dr["MATHSOTHERSSUBJECT"].ToString().Trim()) != null)
-        //                    {
-        //                        MATHSOTHERSSUBJECT.SelectedValue = dr["MATHSOTHERSSUBJECT"].ToString().Trim();
-        //                    }
-
-        //                    RNMATOTH.Value = dr["RNMATOTH"].ToString().Trim();
-
-        //                    if (MOPMATOTH.Items.FindByValue(dr["MOPMATOTH"].ToString().Trim()) != null)
-        //                    {
-        //                        MOPMATOTH.SelectedValue = dr["MOPMATOTH"].ToString().Trim();
-        //                    }
-
-        //                    YOPMATOTH.Value = dr["YOPMATOTH"].ToString().Trim();
-
-        //                    if (MAXMARKSMATOTH.Items.FindByValue(dr["MAXMARKSMATOTH"].ToString().Trim()) != null)
-        //                    {
-        //                        MAXMARKSMATOTH.SelectedValue = dr["MAXMARKSMATOTH"].ToString().Trim();
-        //                    }
-
-        //                    OBTMARKSMATOTH.Value = dr["OBTMARKSMATOTH"].ToString().Trim();
-
-
-        //                }
-        //            }
-
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Response.Write("<script> alert('" + ex.Message + "') </script>");
-        //    }
-        //}
 
 
         protected void loadStudentMarkDetails(string loginId)
@@ -714,6 +494,13 @@ namespace MBBS_BDS_WEBSITE
 
         protected void btnSaveContinue_Click(object sender, EventArgs e)
         {
+
+            if (Session["LoginId"] == null)
+            {
+                Response.Redirect("error.aspx");
+                return;
+            }
+
             OtherDetails();
             StudyDetails();
 

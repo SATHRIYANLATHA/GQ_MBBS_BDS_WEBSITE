@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace MBBS_BDS_WEBSITE
+namespace mbbs_MBBS_BDS_WEBSITE
 {
     public partial class addinfo : System.Web.UI.Page
     {
@@ -16,6 +16,20 @@ namespace MBBS_BDS_WEBSITE
         {
             if (!IsPostBack)
             {
+                load_session_one();
+
+                if (Session["Indian"] != null && (bool)Session["Indian"] == true)
+                {
+                    aadhar.Visible = true;
+                    AADHARNO.Enabled = true;
+
+                }
+                else
+                {
+                    aadhar.Visible = false; ;
+                    AADHARNO.Enabled = false;
+                }
+
                 BindDistrictDropDown();
                 BindStateDropDown(); // dropdown for states ...
                 BindAnnualIncomeDropDown(); // dropdown for annual income ...
@@ -33,6 +47,45 @@ namespace MBBS_BDS_WEBSITE
 
         }
 
+        protected void load_session_one()
+        {
+            try
+            {
+                string loginId = Session["LoginId"] as string;
+
+                using (SqlConnection con = new SqlConnection(strcon))
+                {
+                    string query = "SELECT * FROM PersonalInformation WHERE LoginId=@LoginId";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@LoginId", loginId);
+
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+
+                            if ((dr["Nationality"].ToString().Trim()) == "1") // checking if INDIAN
+                            {
+                                Session["Indian"] = true;
+                            }
+                            else
+                            {
+                                Session["Indian"] = false;
+                            }
+
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("<script> alert('" + ex.Message + "') </script>");
+            }
+        }
         protected void loaduserdetails(string loginId)
         {
             try
@@ -82,7 +135,19 @@ namespace MBBS_BDS_WEBSITE
 
                             IDENTMARKS.InnerText = dr["IdentificationMarks"].ToString().Trim();
 
-                            AADHARNO.Value = dr["AadharNumber"].ToString().Trim();
+                            if (Session["Indian"] != null && (bool)Session["Indian"] == true)
+                            {
+                                aadhar.Visible = true;
+                                AADHARNO.Enabled = true;
+
+                            }
+                            else
+                            {
+                                aadhar.Visible = false; ;
+                                AADHARNO.Enabled = false;
+                            }
+
+                            AADHARNO.Text = dr["AadharNumber"].ToString().Trim();
 
                             EMAILID.Value = dr["EmailId"].ToString().Trim();
 
@@ -108,8 +173,12 @@ namespace MBBS_BDS_WEBSITE
             try
             {
                 String LoginId = Session["LoginId"] as string;
-             
 
+                if (Session["LoginId"] == null)
+                {
+                    Response.Redirect("error.aspx");
+                    return;
+                }
 
                 using (SqlConnection con = new SqlConnection(strcon))
                 {
@@ -150,7 +219,18 @@ namespace MBBS_BDS_WEBSITE
                     cmd.Parameters.AddWithValue("@NativeDistrict", ddlNativeDistrict.SelectedValue.Trim());
 
                     cmd.Parameters.AddWithValue("@IdentificationMarks", IDENTMARKS.InnerText.Trim());
-                    cmd.Parameters.AddWithValue("@AadharNumber", AADHARNO.Value.Trim());
+
+                    if (Session["Indian"] != null && (bool)Session["Indian"] == true)
+                    {
+                        AADHARNO.Text = AADHARNO.Text.Trim();
+                    }
+                    else
+                    {
+                        AADHARNO.Text = "";
+                    }
+
+                    cmd.Parameters.AddWithValue("@AadharNumber", AADHARNO.Text.Trim());
+
                     cmd.Parameters.AddWithValue("@EmailId", EMAILID.Value.Trim());
                     cmd.Parameters.AddWithValue("@PhoneNumber", PHONENO.Value.Trim());
                     cmd.Parameters.AddWithValue("@AddressForCorrespondence", Text1.InnerText.Trim());

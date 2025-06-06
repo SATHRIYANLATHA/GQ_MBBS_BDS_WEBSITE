@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MBBSBDS.Master" AutoEventWireup="true" CodeBehind="addinfo.aspx.cs" Inherits="MBBS_BDS_WEBSITE.addinfo" MaintainScrollPositionOnPostback="true" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/mbbs/MBBSBDS.Master" AutoEventWireup="true" CodeFile="addinfo.aspx.cs" Inherits="mbbs_MBBS_BDS_WEBSITE.addinfo" MaintainScrollPositionOnPostback="true" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 
     
@@ -144,7 +144,7 @@
                </div>
 
 
-               <div class="row">
+               <div class="row" id="aadhar" runat="server">
 
                    <div class="col-5">
 
@@ -154,7 +154,7 @@
 
                    <div class="col-7 mt-3">
 
-                       <input id="AADHARNO" runat="server" style="width: 250px; height: 28px"  class="custom-textbox" required="required"/>
+                      <asp:TextBox ID="AADHARNO" runat="server" style="height: 28px"   class="custom-textbox" required="required"/>
 
 
                    </div>
